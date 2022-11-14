@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="..">
+      <UniqueIdentifier>{61705900-4DFC-870B-B6AA-880BA255880B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\Tigraf-ConsoleApp">
+      <UniqueIdentifier>{EED940D1-DA68-CA9A-8387-DE956FF5DA40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\Tigraf-Engine">
+      <UniqueIdentifier>{B0A74D31-9CA0-6C83-C5D2-5108B12A4C8F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\Tigraf-Engine\vendor">
+      <UniqueIdentifier>{0DB861B4-79EF-A94B-82F9-0D6FEEAFD044}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\Tigraf-Engine\vendor\spdlog">
+      <UniqueIdentifier>{A557F063-917D-BACA-7AC3-3F966688DF96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\Tigraf-GUI">
+      <UniqueIdentifier>{1FD4D051-8B94-4C88-54CF-9505C04E9164}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Tigraf-ConsoleApp\premake5.lua">
+      <Filter>..\Tigraf-ConsoleApp</Filter>
+    </None>
+    <None Include="..\..\Tigraf-Engine\premake5.lua">
+      <Filter>..\Tigraf-Engine</Filter>
+    </None>
+    <None Include="..\..\Tigraf-Engine\vendor\spdlog\premake5.lua">
+      <Filter>..\Tigraf-Engine\vendor\spdlog</Filter>
+    </None>
+    <None Include="..\..\Tigraf-GUI\premake5.lua">
+      <Filter>..\Tigraf-GUI</Filter>
+    </None>
+    <None Include="..\..\premake5.lua">
+      <Filter>..</Filter>
+    </None>
+    <None Include="premake5.lua" />
+  </ItemGroup>
+</Project>
