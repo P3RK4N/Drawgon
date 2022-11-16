@@ -1,0 +1,3 @@
+[submodule "Tigraf-Engine/vendor/glfw"]
+	path = Tigraf-Engine/vendor/glfw
+	url = https://github.com/glfw/glfw

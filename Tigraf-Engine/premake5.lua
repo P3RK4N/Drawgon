@@ -7,8 +7,8 @@ project "Tigraf-Engine"
    targetdir("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
    objdir("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
 
-   pcheader "PCH.h"
-   pcsource "src/PCH.cpp"
+   pchheader ("PCH.h")
+   pchsource ("src/PCH.cpp")
 
    files
    {
@@ -16,22 +16,28 @@ project "Tigraf-Engine"
       "src/**.cpp",
 
    }
-      
+   
    defines
    {
    }
-
+   
    includedirs
    {
       "src",
       Includes["Tigraf-GUI"],
-      Includes["spdlog"]
+      Includes["spdlog"],
+      Includes["glfw"],
+      Includes["glad"]
    }
-
+   
    links
    {
-      "Tigraf-GUI"
+      "Tigraf-GUI",
+      "glfw",
+      "glad",
+      "opengl32.lib"
    }
+
 
    filter "system:windows"
       systemversion "latest"

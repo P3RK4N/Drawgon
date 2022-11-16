@@ -44,6 +44,15 @@
 #define BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1) 
 
 
+#define DEL(ptr) if(ptr) delete ptr;
+
+#define defaultConstructor(CLASS)								\
+	private:													\
+		CLASS() = default;										\
+		CLASS(const CLASS&) = default;							\
+		CLASS& operator=(const CLASS&) = default;	
+
+
 namespace Tigraf
 {
 	template<typename T>

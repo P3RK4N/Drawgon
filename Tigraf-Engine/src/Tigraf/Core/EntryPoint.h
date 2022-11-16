@@ -12,9 +12,10 @@ int main(int argc, char** argv)
 	Tigraf::Log::init();
 	CORE_INFO("Tiny Graphic Framework!");
 
-	auto app = new Tigraf::Application(Tigraf::ApplicationSpecification{ "Tiny Graphic FrameWork", std::filesystem::current_path(), { argc, argv } });
+	auto app = new Tigraf::Application(Tigraf::ApplicationSpecification{ "TIny GRAphic Framework", std::filesystem::current_path(), { argc, argv } });
 	TIGRAF_ASSERT(app, "App creation was unsuccessful");
 
+	app->init();
 	app->run();
 
 	delete app;

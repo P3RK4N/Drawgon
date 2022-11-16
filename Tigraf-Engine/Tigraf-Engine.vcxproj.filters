@@ -7,12 +7,29 @@
     <Filter Include="Tigraf\Core">
       <UniqueIdentifier>{FA64C585-661A-3E7B-EF0E-38525BC3347F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tigraf\Event">
+      <UniqueIdentifier>{33D6993E-1F39-29E3-C8BE-6199B400F565}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tigraf\Input">
+      <UniqueIdentifier>{E104DE3E-CD67-6DE3-76ED-A599622F3966}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tigraf\Window">
+      <UniqueIdentifier>{09FEEA3A-75BE-6671-3EF9-AFEEAA78AB4D}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\PCH.h" />
+    <ClInclude Include="src\Tigraf.h" />
+    <ClInclude Include="src\Tigraf\Core\Application.h">
+      <Filter>Tigraf\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\Tigraf\Core\Assert.h">
       <Filter>Tigraf\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Tigraf\Core\Core.h">
+      <Filter>Tigraf\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tigraf\Core\EntryPoint.h">
       <Filter>Tigraf\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Tigraf\Core\Log.h">
@@ -21,16 +38,35 @@
     <ClInclude Include="src\Tigraf\Core\PlatformDetection.h">
       <Filter>Tigraf\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Tigraf.h" />
-    <ClInclude Include="src\Tigraf\Core\EntryPoint.h" />
-    <ClInclude Include="src\Tigraf\Core\Application.h" />
-    <ClInclude Include="src\PCH.h" />
+    <ClInclude Include="src\Tigraf\Event\Event.h">
+      <Filter>Tigraf\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tigraf\Input\Keycodes.h">
+      <Filter>Tigraf\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tigraf\Input\glfwInput.h">
+      <Filter>Tigraf\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tigraf\Window\Window.h">
+      <Filter>Tigraf\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tigraf\Window\glfwWindow.h">
+      <Filter>Tigraf\Window</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\PCH.cpp" />
+    <ClCompile Include="src\Tigraf\Core\Application.cpp">
+      <Filter>Tigraf\Core</Filter>
+    </ClCompile>
     <ClCompile Include="src\Tigraf\Core\Log.cpp">
       <Filter>Tigraf\Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\Tigraf\Core\Application.cpp" />
-    <ClCompile Include="src\PCH.cpp" />
+    <ClCompile Include="src\Tigraf\Window\Window.cpp">
+      <Filter>Tigraf\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tigraf\Window\glfwWindow.cpp">
+      <Filter>Tigraf\Window</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
