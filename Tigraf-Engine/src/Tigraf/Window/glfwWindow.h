@@ -1,6 +1,10 @@
 #pragma once
 #include "Window.h"
 
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
+#include <glad/glad.h>
+
 namespace Tigraf
 {
 	class glfwWindow : public Window
@@ -14,7 +18,7 @@ namespace Tigraf
 
 		virtual void setVsync(bool vsyncEnabled) override { Window::setVsync(vsyncEnabled); glfwSwapInterval(vsyncEnabled); }
 
-		virtual void onUpdate() override { glfwSwapBuffers(m_WindowHandle); glfwPollEvents(); }
+		virtual void onUpdate(TimeStep ts) override;
 
 	protected:
 		GLFWwindow* m_WindowHandle = nullptr;

@@ -77,7 +77,7 @@
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>TIGRAF_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;..\Tigraf-GUI\src;vendor\spdlog\include;vendor\glfw\include;vendor\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;..\Tigraf-GUI\src;vendor\spdlog\include;vendor\glfw\include;vendor\glad\include;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -99,7 +99,7 @@
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>TIGRAF_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;..\Tigraf-GUI\src;vendor\spdlog\include;vendor\glfw\include;vendor\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;..\Tigraf-GUI\src;vendor\spdlog\include;vendor\glfw\include;vendor\glad\include;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -124,7 +124,7 @@
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>TIGRAF_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;..\Tigraf-GUI\src;vendor\spdlog\include;vendor\glfw\include;vendor\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;..\Tigraf-GUI\src;vendor\spdlog\include;vendor\glfw\include;vendor\glad\include;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -150,11 +150,21 @@
     <ClInclude Include="src\Tigraf\Core\Assert.h" />
     <ClInclude Include="src\Tigraf\Core\Core.h" />
     <ClInclude Include="src\Tigraf\Core\EntryPoint.h" />
+    <ClInclude Include="src\Tigraf\Core\Layer.h" />
     <ClInclude Include="src\Tigraf\Core\Log.h" />
     <ClInclude Include="src\Tigraf\Core\PlatformDetection.h" />
+    <ClInclude Include="src\Tigraf\Core\Timer.h" />
     <ClInclude Include="src\Tigraf\Event\Event.h" />
     <ClInclude Include="src\Tigraf\Input\Keycodes.h" />
     <ClInclude Include="src\Tigraf\Input\glfwInput.h" />
+    <ClInclude Include="src\Tigraf\Renderer\Buffers\Buffer.h" />
+    <ClInclude Include="src\Tigraf\Renderer\Buffers\OpenGLBuffer.h" />
+    <ClInclude Include="src\Tigraf\Renderer\GraphicsContext.h" />
+    <ClInclude Include="src\Tigraf\Renderer\OpenGLRendererAPI.h" />
+    <ClInclude Include="src\Tigraf\Renderer\Renderer.h" />
+    <ClInclude Include="src\Tigraf\Renderer\RendererAPI.h" />
+    <ClInclude Include="src\Tigraf\Renderer\Shaders\glslShader.h" />
+    <ClInclude Include="src\Tigraf\Renderer\Shaders\Shader.h" />
     <ClInclude Include="src\Tigraf\Window\Window.h" />
     <ClInclude Include="src\Tigraf\Window\glfwWindow.h" />
   </ItemGroup>
@@ -164,6 +174,11 @@
     </ClCompile>
     <ClCompile Include="src\Tigraf\Core\Application.cpp" />
     <ClCompile Include="src\Tigraf\Core\Log.cpp" />
+    <ClCompile Include="src\Tigraf\Renderer\Buffers\Buffer.cpp" />
+    <ClCompile Include="src\Tigraf\Renderer\Buffers\OpenGLBuffer.cpp" />
+    <ClCompile Include="src\Tigraf\Renderer\OpenGLRendererAPI.cpp" />
+    <ClCompile Include="src\Tigraf\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\Tigraf\Renderer\Shaders\glslShader.cpp" />
     <ClCompile Include="src\Tigraf\Window\Window.cpp" />
     <ClCompile Include="src\Tigraf\Window\glfwWindow.cpp" />
   </ItemGroup>

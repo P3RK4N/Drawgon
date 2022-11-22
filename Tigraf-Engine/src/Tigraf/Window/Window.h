@@ -1,15 +1,14 @@
 #pragma once
 #include "Tigraf/Core/Core.h"
 #include "Tigraf/Event/Event.h"
-
-#define GLFW_INCLUDE_NONE
-#include <GLFW/glfw3.h>
-#include <glad/glad.h>
+#include "Tigraf/Renderer/GraphicsContext.h"
 
 #include <string>
 
 namespace Tigraf
 {
+	struct TimeStep;
+
 	class Window
 	{
 	public:
@@ -22,7 +21,7 @@ namespace Tigraf
 		bool isVsyncEnabled() { return m_WindowData.m_Vsync;}
 		virtual void setVsync(bool enableVsync) { m_WindowData.m_Vsync = enableVsync; }
 
-		virtual void onUpdate() {}
+		virtual void onUpdate(TimeStep ts) = 0;
 
 	public:
 		static Scope<Window> createWindow
@@ -43,6 +42,7 @@ namespace Tigraf
 		};
 
 		WindowData m_WindowData{};
+		GraphicsContext m_GraphicsContext{};
 
 		virtual void setEventCallbacks() {}
 	};

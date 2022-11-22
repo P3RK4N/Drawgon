@@ -22,6 +22,8 @@ namespace Tigraf
 
 }
 
+#ifdef TIGRAF_DEBUG
+
 // Core log macros
 #define CORE_TRACE(...)		::Tigraf::Log::getCoreLogger()->trace(__VA_ARGS__)
 #define CORE_INFO(...)		::Tigraf::Log::getCoreLogger()->info(__VA_ARGS__)
@@ -35,3 +37,21 @@ namespace Tigraf
 #define WARN(...)		::Tigraf::Log::getClientLogger()->warn(__VA_ARGS__)
 #define ERROR(...)		::Tigraf::Log::getClientLogger()->error(__VA_ARGS__)
 #define FATAL(...)		::Tigraf::Log::getClientLogger()->fatal(__VA_ARGS__)
+
+#else 
+
+// Core log macros
+#define CORE_TRACE(...)	
+#define CORE_INFO(...)	
+#define CORE_WARN(...)	
+#define CORE_ERROR(...)	
+#define CORE_FATAL(...)	
+
+// Client log macros
+#define TRACE(...)		
+#define INFO(...)		
+#define WARN(...)		
+#define ERROR(...)		
+#define FATAL(...)		
+
+#endif

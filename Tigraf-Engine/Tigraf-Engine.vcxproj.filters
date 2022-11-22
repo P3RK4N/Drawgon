@@ -13,6 +13,9 @@
     <Filter Include="Tigraf\Input">
       <UniqueIdentifier>{E104DE3E-CD67-6DE3-76ED-A599622F3966}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tigraf\Renderer">
+      <UniqueIdentifier>{48056BD0-B490-D894-BDA1-5B8929AC3495}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Tigraf\Window">
       <UniqueIdentifier>{09FEEA3A-75BE-6671-3EF9-AFEEAA78AB4D}</UniqueIdentifier>
     </Filter>
@@ -47,12 +50,30 @@
     <ClInclude Include="src\Tigraf\Input\glfwInput.h">
       <Filter>Tigraf\Input</Filter>
     </ClInclude>
+    <ClInclude Include="src\Tigraf\Renderer\GraphicsContext.h">
+      <Filter>Tigraf\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tigraf\Renderer\OpenGLRendererAPI.h">
+      <Filter>Tigraf\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tigraf\Renderer\Renderer.h">
+      <Filter>Tigraf\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tigraf\Renderer\RendererAPI.h">
+      <Filter>Tigraf\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Tigraf\Window\Window.h">
       <Filter>Tigraf\Window</Filter>
     </ClInclude>
     <ClInclude Include="src\Tigraf\Window\glfwWindow.h">
       <Filter>Tigraf\Window</Filter>
     </ClInclude>
+    <ClInclude Include="src\Tigraf\Core\Timer.h" />
+    <ClInclude Include="src\Tigraf\Renderer\Buffers\Buffer.h" />
+    <ClInclude Include="src\Tigraf\Renderer\Buffers\OpenGLBuffer.h" />
+    <ClInclude Include="src\Tigraf\Renderer\Shaders\Shader.h" />
+    <ClInclude Include="src\Tigraf\Renderer\Shaders\glslShader.h" />
+    <ClInclude Include="src\Tigraf\Core\Layer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\PCH.cpp" />
@@ -62,11 +83,20 @@
     <ClCompile Include="src\Tigraf\Core\Log.cpp">
       <Filter>Tigraf\Core</Filter>
     </ClCompile>
+    <ClCompile Include="src\Tigraf\Renderer\OpenGLRendererAPI.cpp">
+      <Filter>Tigraf\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tigraf\Renderer\Renderer.cpp">
+      <Filter>Tigraf\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\Tigraf\Window\Window.cpp">
       <Filter>Tigraf\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\Tigraf\Window\glfwWindow.cpp">
       <Filter>Tigraf\Window</Filter>
     </ClCompile>
+    <ClCompile Include="src\Tigraf\Renderer\Buffers\Buffer.cpp" />
+    <ClCompile Include="src\Tigraf\Renderer\Buffers\OpenGLBuffer.cpp" />
+    <ClCompile Include="src\Tigraf\Renderer\Shaders\glslShader.cpp" />
   </ItemGroup>
 </Project>

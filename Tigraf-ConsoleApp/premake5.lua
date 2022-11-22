@@ -20,6 +20,7 @@ project "Tigraf-ConsoleApp"
       Includes["spdlog"],
       Includes["glfw"],
       Includes["glad"],
+      Includes["glm"]
    }
 
    links

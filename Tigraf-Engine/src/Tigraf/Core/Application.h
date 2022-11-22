@@ -1,6 +1,13 @@
 #pragma once
 #include "Tigraf/Window/Window.h"
+#include "Tigraf/Core/Layer.h"
 #include "Tigraf/Event/Event.h"
+#include "Tigraf/Core/Timer.h"
+#include "Tigraf/Renderer/Renderer.h"
+
+#include "Tigraf/Renderer/Buffers/Buffer.h"
+#include "Tigraf/Renderer/Shaders/glslShader.h"
+
 
 namespace Tigraf
 {
@@ -17,19 +24,28 @@ namespace Tigraf
 		CommandLineArgs args{};
 	};
 
-
-
 	class Application
 	{
 	public:
 		Application(ApplicationSpecification spec);
 		virtual ~Application();
 
-		void init();
 		void run();
+
+		void init();
+		void onUpdate();
+		void onDraw();
+		void shutdown();
 
 		std::string getName() { return m_ApplicationSpecification.name; }
 		std::filesystem::path getWorkingDirectory() { return m_ApplicationSpecification.workingDirectory; }
+		Scope<Window>& getWindow() { return m_Window; }
+
+		void pushLayer(Layer* layer) { m_Layers.push_back(layer); }
+		void popLayer() { delete m_Layers.back(); m_Layers.pop_back(); }
+
+		std::vector<Layer*>& getLayers() { return m_Layers; }
+		void setLayers(const std::vector<Layer*>& layers) { m_Layers = layers; }
 
 	public:
 		static Application* s_Instance;
@@ -44,10 +60,8 @@ namespace Tigraf
 		ApplicationSpecification m_ApplicationSpecification{};
 		bool m_Running = true;
 
+		std::vector<Layer*> m_Layers{};
 		Scope<Window> m_Window = nullptr;
-
-
-	private:
-
+		Scope<Timer> m_Timer = nullptr;
 	};
 }

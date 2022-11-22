@@ -4,10 +4,12 @@
 #include "Tigraf/Core/Log.h"
 #include "Tigraf/Core/Core.h"
 #include "Tigraf/Core/Assert.h"
+#include "Tigraf/Core/Timer.h"
 
 //STL
 #include <string>
 #include <iostream>
+#include <fstream>
 #include <memory>
 #include <vector>
 #include <unordered_map>
@@ -17,6 +19,6 @@
 //Platform
 #ifdef TIGRAF_WINDOWS
 
-#include <windows.h>
+//#include <windows.h>
 
 #endif

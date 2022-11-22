@@ -3,9 +3,12 @@
 
 namespace Tigraf
 {
+	static int status = 0;
+
 	glfwWindow::glfwWindow(int width, int height, const char* name, bool vsyncEnabled, std::function<void(Event&)> eventCallback)
 	{
-		TIGRAF_ASSERT(glfwInit(), "GLFW library couldn't be initialized!");
+		status = glfwInit();
+		TIGRAF_ASSERT(status, "GLFW library couldn't be initialized!");
 		glfwSetErrorCallback(glfwWindow::onError);
 
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -14,7 +17,22 @@ namespace Tigraf
 		GLFWwindow* window = glfwCreateWindow(width, height, name, NULL, NULL);
 		TIGRAF_ASSERT(window, "Window creation failed!");
 
-		glfwMakeContextCurrent(window);
+		m_GraphicsContext.init = [window]()
+		{
+			glfwMakeContextCurrent(window);
+			status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+			TIGRAF_ASSERT(status, "Could not initialize graphics context!");
+
+			CORE_INFO("  Vendor: {0}", glGetString(GL_VENDOR));
+			CORE_INFO("  Renderer: {0}", glGetString(GL_RENDERER));
+			CORE_INFO("  Version: {0}", glGetString(GL_VERSION));
+		};
+		m_GraphicsContext.swapBuffers = [window]()
+		{
+			glfwSwapBuffers(window);
+		};
+
+		m_GraphicsContext.init();
 		glfwSwapInterval(vsyncEnabled);
 
 		this->m_WindowHandle = window;
@@ -43,6 +61,26 @@ namespace Tigraf
 	void glfwWindow::onError(int error, const char* description)
 	{
 		fprintf(stderr, "Error: %s\n", description);
+	}
+
+	void glfwWindow::onUpdate(TimeStep ts)
+	{
+		static float timer = 0.0f;
+		static float frames = 0;
+
+		timer += ts;
+		frames += 1;
+
+		if(timer > 1.0f)
+		{
+			std::string title = std::format("Tigraf - {}FPS / {}ms", frames, 1.0f/frames);
+			timer -= 1.0f;
+			frames = 0;
+			glfwSetWindowTitle(m_WindowHandle, title.c_str());
+		}
+
+		m_GraphicsContext.swapBuffers(); 
+		glfwPollEvents();
 	}
 
 	void glfwWindow::setEventCallbacks()

@@ -1,8 +1,6 @@
 #include "PCH.h"
 #include "Application.h"
 
-#include "Tigraf/Window/Window.h"
-
 namespace Tigraf
 {
 	#define BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
@@ -18,39 +16,83 @@ namespace Tigraf
 
 	Application::~Application()
 	{
-		CORE_INFO("Shutting down");
 		s_Instance = nullptr;
-		m_Window.reset();
-	}
 
-	void Application::init()
-	{
-		m_Window = Window::createWindow(1280, 720, "Tigraf", true, BIND_EVENT_FN(Application::onEvent));
+		for(Layer* layer : m_Layers) delete layer;
 	}
 
 	void Application::run()
 	{
-		const auto& [x, y] = m_Window->getSize();
-		glViewport(0, 0, x, y);
-		gladLoadGL();
-		while(m_Running) 
+		init();
+
+		while(m_Running)
 		{
-			glClear(GL_COLOR_BUFFER_BIT);		
-			m_Window->onUpdate();
+			onUpdate();
+			onDraw();
 		}
+
+		shutdown();
+	}
+
+	void Application::init()
+	{
+		CORE_TRACE(getWorkingDirectory());
+
+		m_Window = Window::createWindow(1280, 720, "Tigraf", true, BIND_EVENT_FN(Application::onEvent)); //Handles Window, Events and Graphics Context
+		m_Timer = createScope<glfwTimer>();
+		
+		Renderer::init();
+		for(Layer* layer : m_Layers) layer->init();
+	}
+
+	void Application::shutdown()
+	{
+		CORE_INFO("Shutting down");
+
+		Renderer::shutdown();
+		for(Layer* layer : m_Layers) layer->shutdown();
+
+		delete this;
+	}
+
+	void Application::onUpdate()
+	{
+		//CORE_TRACE("Application::onUpdate");
+
+		TimeStep ts = m_Timer->advance();
+
+		m_Window->onUpdate(ts);
+
+		for(Layer* layer : m_Layers) layer->onUpdate(ts);
+	}
+
+	void Application::onDraw()
+	{
+		//CORE_TRACE("Application::onDraw");
+		Renderer::s_RendererAPI->clear();
+
+		for(Layer* layer : m_Layers) layer->onDraw();
 	}
 
 	void Application::onEvent(Event& event)
 	{
+		//CORE_TRACE("Application::onEvent");
 		DISPATCH(EVENT_TYPE::RESIZE, event, Application::onResize);
 		DISPATCH(EVENT_TYPE::CLOSE, event, Application::onClose);
 		DISPATCH(EVENT_TYPE::KEY_PRESS, event, Application::onKey);
+
+		for(Layer* layer : m_Layers) layer->onEvent(event);
 	}
 
 	bool Application::onResize(void* eventData)
 	{
 		ResizeData* data = (ResizeData*)eventData;
 		CORE_TRACE(*data);
+
+		Renderer::s_RendererAPI->setViewport(0, 0, data->width, data->height);
+		onDraw();
+		m_Window->onUpdate({});
+
 		return false;
 	}
 
@@ -58,7 +100,7 @@ namespace Tigraf
 	{
 		CORE_TRACE("CloseEvent");
 		m_Running = false;
-		return false;
+		return true;
 	}
 
 	bool Application::onKey(void* eventData)

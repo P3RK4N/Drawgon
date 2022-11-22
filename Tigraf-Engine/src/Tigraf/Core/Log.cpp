@@ -1,4 +1,4 @@
-//#include "PCH.h"
+#include "PCH.h"
 #include "Log.h"
 
 #include <spdlog/sinks/stdout_color_sinks.h>

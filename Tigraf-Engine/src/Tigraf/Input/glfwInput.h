@@ -7,8 +7,8 @@ namespace Tigraf
 {
 	class glfwInput
 	{
-		bool isKeyPressed(int keycode) { return glfwGetKey((GLFWwindow*)Application::s_Instance, keycode) == GLFW_PRESS; }
-		bool isKeyReleased(int keycode) { return glfwGetKey((GLFWwindow*)Application::s_Instance, keycode) == GLFW_RELEASE; }
-		bool isKeyHeld(int keycode) { return glfwGetKey((GLFWwindow*)Application::s_Instance, keycode) == GLFW_REPEAT; }
+		bool isKeyPressed(int keycode)	{	return glfwGetKey((GLFWwindow*)Application::s_Instance->getWindow()->getWindowHandle(), keycode) == GLFW_PRESS;		}
+		bool isKeyReleased(int keycode)	{	return glfwGetKey((GLFWwindow*)Application::s_Instance->getWindow()->getWindowHandle(), keycode) == GLFW_RELEASE;	}
+		bool isKeyHeld(int keycode)		{	return glfwGetKey((GLFWwindow*)Application::s_Instance->getWindow()->getWindowHandle(), keycode) == GLFW_REPEAT;	}
 	};
 }

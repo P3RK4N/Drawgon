@@ -14,7 +14,6 @@ project "Tigraf-Engine"
    {
       "src/**.h",
       "src/**.cpp",
-
    }
    
    defines
@@ -27,7 +26,8 @@ project "Tigraf-Engine"
       Includes["Tigraf-GUI"],
       Includes["spdlog"],
       Includes["glfw"],
-      Includes["glad"]
+      Includes["glad"],
+      Includes["glm"],
    }
    
    links
