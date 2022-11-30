@@ -18,7 +18,7 @@ namespace Tigraf
 
 		virtual void setVsync(bool vsyncEnabled) override { Window::setVsync(vsyncEnabled); glfwSwapInterval(vsyncEnabled); }
 
-		virtual void onUpdate(TimeStep ts) override;
+		virtual void onUpdate(const TimeStep& ts) override;
 
 	protected:
 		GLFWwindow* m_WindowHandle = nullptr;

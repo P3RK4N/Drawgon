@@ -3,7 +3,8 @@
 
 namespace Tigraf
 {
-#define DISPATCH(TYPE, EVENT, FUNC) if(EVENT.m_Type == TYPE ? FUNC(EVENT.m_Data) : false) return
+#define DISPATCH(TYPE, EVENT, FUNC) if(EVENT.m_Type == TYPE && FUNC(EVENT.m_Data)) return true
+
 #define EVENT(NAME) bool NAME(void* eventData)
 
 	enum class EVENT_TYPE : int

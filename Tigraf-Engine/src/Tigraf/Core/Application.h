@@ -35,6 +35,7 @@ namespace Tigraf
 		void init();
 		void onUpdate();
 		void onDraw();
+		bool onEvent(Event& event);
 		void shutdown();
 
 		std::string getName() { return m_ApplicationSpecification.name; }
@@ -51,7 +52,6 @@ namespace Tigraf
 		static Application* s_Instance;
 
 	protected:
-		void onEvent(Event& event);
 		EVENT(onResize);
 		EVENT(onClose);
 		EVENT(onKey);

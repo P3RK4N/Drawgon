@@ -155,16 +155,19 @@
     <ClInclude Include="src\Tigraf\Core\PlatformDetection.h" />
     <ClInclude Include="src\Tigraf\Core\Timer.h" />
     <ClInclude Include="src\Tigraf\Event\Event.h" />
+    <ClInclude Include="src\Tigraf\Input\Input.h" />
     <ClInclude Include="src\Tigraf\Input\Keycodes.h" />
     <ClInclude Include="src\Tigraf\Input\glfwInput.h" />
     <ClInclude Include="src\Tigraf\Renderer\Buffers\Buffer.h" />
     <ClInclude Include="src\Tigraf\Renderer\Buffers\OpenGLBuffer.h" />
+    <ClInclude Include="src\Tigraf\Renderer\Camera\Camera.h" />
+    <ClInclude Include="src\Tigraf\Renderer\Camera\EditorCamera.h" />
     <ClInclude Include="src\Tigraf\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Tigraf\Renderer\OpenGLRendererAPI.h" />
     <ClInclude Include="src\Tigraf\Renderer\Renderer.h" />
     <ClInclude Include="src\Tigraf\Renderer\RendererAPI.h" />
-    <ClInclude Include="src\Tigraf\Renderer\Shaders\glslShader.h" />
     <ClInclude Include="src\Tigraf\Renderer\Shaders\Shader.h" />
+    <ClInclude Include="src\Tigraf\Renderer\Shaders\glslShader.h" />
     <ClInclude Include="src\Tigraf\Window\Window.h" />
     <ClInclude Include="src\Tigraf\Window\glfwWindow.h" />
   </ItemGroup>
@@ -176,6 +179,8 @@
     <ClCompile Include="src\Tigraf\Core\Log.cpp" />
     <ClCompile Include="src\Tigraf\Renderer\Buffers\Buffer.cpp" />
     <ClCompile Include="src\Tigraf\Renderer\Buffers\OpenGLBuffer.cpp" />
+    <ClCompile Include="src\Tigraf\Renderer\Camera\Camera.cpp" />
+    <ClCompile Include="src\Tigraf\Renderer\Camera\EditorCamera.cpp" />
     <ClCompile Include="src\Tigraf\Renderer\OpenGLRendererAPI.cpp" />
     <ClCompile Include="src\Tigraf\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Tigraf\Renderer\Shaders\glslShader.cpp" />

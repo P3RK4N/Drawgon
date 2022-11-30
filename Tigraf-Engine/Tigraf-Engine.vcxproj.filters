@@ -16,6 +16,12 @@
     <Filter Include="Tigraf\Renderer">
       <UniqueIdentifier>{48056BD0-B490-D894-BDA1-5B8929AC3495}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tigraf\Renderer\Buffers">
+      <UniqueIdentifier>{C48C948D-30C4-DC24-39CE-4048A584031E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tigraf\Renderer\Shaders">
+      <UniqueIdentifier>{21F2838B-8D29-CC22-9633-304602EAF21B}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Tigraf\Window">
       <UniqueIdentifier>{09FEEA3A-75BE-6671-3EF9-AFEEAA78AB4D}</UniqueIdentifier>
     </Filter>
@@ -35,10 +41,16 @@
     <ClInclude Include="src\Tigraf\Core\EntryPoint.h">
       <Filter>Tigraf\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Tigraf\Core\Layer.h">
+      <Filter>Tigraf\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\Tigraf\Core\Log.h">
       <Filter>Tigraf\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Tigraf\Core\PlatformDetection.h">
+      <Filter>Tigraf\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tigraf\Core\Timer.h">
       <Filter>Tigraf\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Tigraf\Event\Event.h">
@@ -49,6 +61,12 @@
     </ClInclude>
     <ClInclude Include="src\Tigraf\Input\glfwInput.h">
       <Filter>Tigraf\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tigraf\Renderer\Buffers\Buffer.h">
+      <Filter>Tigraf\Renderer\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tigraf\Renderer\Buffers\OpenGLBuffer.h">
+      <Filter>Tigraf\Renderer\Buffers</Filter>
     </ClInclude>
     <ClInclude Include="src\Tigraf\Renderer\GraphicsContext.h">
       <Filter>Tigraf\Renderer</Filter>
@@ -62,18 +80,21 @@
     <ClInclude Include="src\Tigraf\Renderer\RendererAPI.h">
       <Filter>Tigraf\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Tigraf\Renderer\Shaders\Shader.h">
+      <Filter>Tigraf\Renderer\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tigraf\Renderer\Shaders\glslShader.h">
+      <Filter>Tigraf\Renderer\Shaders</Filter>
+    </ClInclude>
     <ClInclude Include="src\Tigraf\Window\Window.h">
       <Filter>Tigraf\Window</Filter>
     </ClInclude>
     <ClInclude Include="src\Tigraf\Window\glfwWindow.h">
       <Filter>Tigraf\Window</Filter>
     </ClInclude>
-    <ClInclude Include="src\Tigraf\Core\Timer.h" />
-    <ClInclude Include="src\Tigraf\Renderer\Buffers\Buffer.h" />
-    <ClInclude Include="src\Tigraf\Renderer\Buffers\OpenGLBuffer.h" />
-    <ClInclude Include="src\Tigraf\Renderer\Shaders\Shader.h" />
-    <ClInclude Include="src\Tigraf\Renderer\Shaders\glslShader.h" />
-    <ClInclude Include="src\Tigraf\Core\Layer.h" />
+    <ClInclude Include="src\Tigraf\Renderer\Camera\Camera.h" />
+    <ClInclude Include="src\Tigraf\Renderer\Camera\EditorCamera.h" />
+    <ClInclude Include="src\Tigraf\Input\Input.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\PCH.cpp" />
@@ -83,11 +104,20 @@
     <ClCompile Include="src\Tigraf\Core\Log.cpp">
       <Filter>Tigraf\Core</Filter>
     </ClCompile>
+    <ClCompile Include="src\Tigraf\Renderer\Buffers\Buffer.cpp">
+      <Filter>Tigraf\Renderer\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tigraf\Renderer\Buffers\OpenGLBuffer.cpp">
+      <Filter>Tigraf\Renderer\Buffers</Filter>
+    </ClCompile>
     <ClCompile Include="src\Tigraf\Renderer\OpenGLRendererAPI.cpp">
       <Filter>Tigraf\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Tigraf\Renderer\Renderer.cpp">
       <Filter>Tigraf\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tigraf\Renderer\Shaders\glslShader.cpp">
+      <Filter>Tigraf\Renderer\Shaders</Filter>
     </ClCompile>
     <ClCompile Include="src\Tigraf\Window\Window.cpp">
       <Filter>Tigraf\Window</Filter>
@@ -95,8 +125,7 @@
     <ClCompile Include="src\Tigraf\Window\glfwWindow.cpp">
       <Filter>Tigraf\Window</Filter>
     </ClCompile>
-    <ClCompile Include="src\Tigraf\Renderer\Buffers\Buffer.cpp" />
-    <ClCompile Include="src\Tigraf\Renderer\Buffers\OpenGLBuffer.cpp" />
-    <ClCompile Include="src\Tigraf\Renderer\Shaders\glslShader.cpp" />
+    <ClCompile Include="src\Tigraf\Renderer\Camera\EditorCamera.cpp" />
+    <ClCompile Include="src\Tigraf\Renderer\Camera\Camera.cpp" />
   </ItemGroup>
 </Project>

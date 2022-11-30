@@ -74,14 +74,14 @@ namespace Tigraf
 		for(Layer* layer : m_Layers) layer->onDraw();
 	}
 
-	void Application::onEvent(Event& event)
+	bool Application::onEvent(Event& event)
 	{
 		//CORE_TRACE("Application::onEvent");
 		DISPATCH(EVENT_TYPE::RESIZE, event, Application::onResize);
 		DISPATCH(EVENT_TYPE::CLOSE, event, Application::onClose);
 		DISPATCH(EVENT_TYPE::KEY_PRESS, event, Application::onKey);
 
-		for(Layer* layer : m_Layers) layer->onEvent(event);
+		for(Layer* layer : m_Layers) if(layer->onEvent(event)) break;
 	}
 
 	bool Application::onResize(void* eventData)

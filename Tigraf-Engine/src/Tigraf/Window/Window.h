@@ -21,7 +21,7 @@ namespace Tigraf
 		bool isVsyncEnabled() { return m_WindowData.m_Vsync;}
 		virtual void setVsync(bool enableVsync) { m_WindowData.m_Vsync = enableVsync; }
 
-		virtual void onUpdate(TimeStep ts) = 0;
+		virtual void onUpdate(const TimeStep& ts) = 0;
 
 	public:
 		static Scope<Window> createWindow

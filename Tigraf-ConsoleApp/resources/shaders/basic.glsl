@@ -1,15 +1,17 @@
 $VertexShader
 #version 460 core
 
-layout (location = 0) in vec3 ObjectPositionCS;
+layout (location = 0) in vec3 ObjectPosition;
 layout (location = 1) in vec3 Color;
+
+uniform mat4 VP;
 
 out vec4 bCol;
 
 void main()
 {
-	gl_Position = vec4(ObjectPositionCS, 1.0);
-   bCol = vec4(Color,1.0);
+	gl_Position = VP * vec4(ObjectPosition, 1.0);
+	bCol = vec4(Color,1.0);
 }
 
 $PixelShader

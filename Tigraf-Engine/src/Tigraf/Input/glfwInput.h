@@ -1,14 +1,36 @@
 #pragma once
-#include <GLFW/glfw3.h>
-
 #include "Tigraf/Core/Application.h"
+#include "Keycodes.h"
+
+#include <GLFW/glfw3.h>
 
 namespace Tigraf
 {
 	class glfwInput
 	{
-		bool isKeyPressed(int keycode)	{	return glfwGetKey((GLFWwindow*)Application::s_Instance->getWindow()->getWindowHandle(), keycode) == GLFW_PRESS;		}
-		bool isKeyReleased(int keycode)	{	return glfwGetKey((GLFWwindow*)Application::s_Instance->getWindow()->getWindowHandle(), keycode) == GLFW_RELEASE;	}
-		bool isKeyHeld(int keycode)		{	return glfwGetKey((GLFWwindow*)Application::s_Instance->getWindow()->getWindowHandle(), keycode) == GLFW_REPEAT;	}
+	public:
+		static const bool isKeyDown(int keycode) 
+		{	
+			return glfwGetKey((GLFWwindow*)Application::s_Instance->getWindow()->getWindowHandle(), keycode) == GLFW_PRESS;		
+		}
+
+		static const bool isKeyUp(int keycode)
+		{	
+			return glfwGetKey((GLFWwindow*)Application::s_Instance->getWindow()->getWindowHandle(), keycode) == GLFW_RELEASE;	
+		}
+
+		static const bool isButtonDown(int keycode)
+		{
+			return glfwGetMouseButton((GLFWwindow*)Application::s_Instance->getWindow()->getWindowHandle(), keycode) == GLFW_PRESS;	
+		}
+
+		static const std::pair<int, int> getCursorPos()
+		{
+			double x, y;
+			glfwGetCursorPos((GLFWwindow*)Application::s_Instance->getWindow()->getWindowHandle(), &x, &y);
+
+			return { x, y };
+		}
+
 	};
 }

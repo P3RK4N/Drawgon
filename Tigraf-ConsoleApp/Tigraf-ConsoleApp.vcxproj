@@ -135,6 +135,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Layers\AppLayer.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="src\Layers\AppLayer.cpp" />
     <ClCompile Include="src\Tigraf-ConsoleApp.cpp" />
   </ItemGroup>
@@ -144,10 +147,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Layers\AppLayer.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="cpp.hint" />
+    <None Include="resources\shaders\floor.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

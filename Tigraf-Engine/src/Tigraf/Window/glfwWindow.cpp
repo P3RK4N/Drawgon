@@ -63,7 +63,7 @@ namespace Tigraf
 		fprintf(stderr, "Error: %s\n", description);
 	}
 
-	void glfwWindow::onUpdate(TimeStep ts)
+	void glfwWindow::onUpdate(const TimeStep& ts)
 	{
 		static float timer = 0.0f;
 		static float frames = 0;
