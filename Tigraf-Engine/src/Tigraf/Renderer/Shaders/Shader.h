@@ -1,6 +1,9 @@
 #pragma once
 #include <glm/glm.hpp>
 
+#include "Tigraf/Renderer/Textures/Texture.h"
+#include "Tigraf/Renderer/Buffers/Buffer.h"
+
 namespace Tigraf
 {
 	class Shader
@@ -22,6 +25,9 @@ namespace Tigraf
 
 		virtual void setMat3(const glm::mat3& mat, const char* name) = 0;
 		virtual void setMat4(const glm::mat4& mat, const char* name) = 0;
+
+		//virtual void setTexture2D(const Ref<Texture2D>& texture) = 0;
+		//virtual void setUniformBuffer(const Ref<UniformBuffer>& uniformBuffer, int bindPos) = 0;
 	};
 
 }

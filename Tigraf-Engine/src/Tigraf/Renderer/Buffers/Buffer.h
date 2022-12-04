@@ -39,7 +39,7 @@ namespace Tigraf
 		const uint32_t getVertexCount() const { return m_VertexCount; }
 
 	public:
-		static Ref<VertexBuffer> create(uint32_t vertexCount, uint32_t vertexSize, void* data, uint32_t flags);
+		static Ref<VertexBuffer> create(uint32_t vertexCount, uint32_t vertexSize, void* data, uint32_t storageFlags);
 
 	protected:
 		uint32_t m_VertexSize = 0;
@@ -56,14 +56,24 @@ namespace Tigraf
 		const uint32_t getIndicesCount() const { return m_IndicesCount; }
 
 	public:
-		static Ref<IndexBuffer> create(const std::vector<uint32_t>& indices, uint32_t flags);
+		static Ref<IndexBuffer> create(const std::vector<uint32_t>& indices, uint32_t storageFlags);
 
 	protected:
 		uint32_t m_IndicesCount = 0;
 	};
 
-	//class ConstantBuffer
-	//{
-	//
-	//};
+	class UniformBuffer
+	{
+	public:
+		virtual ~UniformBuffer() {}
+
+		virtual void updateBuffer(void* subData, uint32_t byteSize, uint32_t byteOffset) {}
+		virtual void bind(int bindIndex) {}
+
+	public:
+		static Ref<UniformBuffer> create(void* data, uint32_t byteSize, uint32_t storageFlags);
+
+	protected:
+		uint32_t m_ByteSize = 0;
+	};
 }

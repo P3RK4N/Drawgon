@@ -28,6 +28,7 @@ project "Tigraf-Engine"
       Includes["glfw"],
       Includes["glad"],
       Includes["glm"],
+      Includes["stb"]
    }
    
    links

@@ -23,9 +23,32 @@ namespace Tigraf
 			status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 			TIGRAF_ASSERT(status, "Could not initialize graphics context!");
 
-			CORE_INFO("  Vendor: {0}", glGetString(GL_VENDOR));
-			CORE_INFO("  Renderer: {0}", glGetString(GL_RENDERER));
-			CORE_INFO("  Version: {0}", glGetString(GL_VERSION));
+			//-------------
+			CORE_INFO("GRAPHICS CONTEXT");
+			CORE_INFO("\tVendor: {0}", glGetString(GL_VENDOR));
+			CORE_INFO("\tRenderer: {0}", glGetString(GL_RENDERER));
+			CORE_INFO("\tVersion: {0}\n", glGetString(GL_VERSION));
+			//-------------
+
+			//------------------------
+			CORE_INFO("UNIFORM BUFFERS:");
+			
+			glGetIntegerv(GL_MAX_UNIFORM_BLOCK_SIZE, &status);
+			CORE_INFO("\tMAX UNIFORM BLOCK SIZE: {0}", status);
+
+			glGetIntegerv(GL_MAX_COMBINED_UNIFORM_BLOCKS, &status);
+			CORE_INFO("\tMAX COMBINED UNIFORM BLOCKS: {0}\n", status);
+			//-------------------------
+
+			//-------------------------
+			CORE_INFO("TEXTURES:");
+
+			glGetIntegerv(GL_MAX_TEXTURE_SIZE, &status);
+			CORE_INFO("\tMAX TEXTURE SIZE: {0}x{0}", status);
+
+			glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &status);
+			CORE_INFO("\tMAX COMBINED TEXTURE IMAGE UNITS: {0}\n", status);
+			//--------------------------
 		};
 		m_GraphicsContext.swapBuffers = [window]()
 		{

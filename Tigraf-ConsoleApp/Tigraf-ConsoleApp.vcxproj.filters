@@ -17,6 +17,6 @@
     <ClCompile Include="src\Tigraf-ConsoleApp.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="resources\shaders\floor.glsl" />
+    <None Include="resources\shaders\cubemap.glsl" />
   </ItemGroup>
 </Project>

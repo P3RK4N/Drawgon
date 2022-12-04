@@ -18,6 +18,7 @@ project "Tigraf-ConsoleApp"
       Includes["Tigraf-Engine"],
       Includes["Tigraf-GUI"],
       Includes["spdlog"],
+      Includes["stb"],
       Includes["glfw"],
       Includes["glad"],
       Includes["glm"]

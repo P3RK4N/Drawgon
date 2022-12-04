@@ -19,8 +19,14 @@
     <Filter Include="Tigraf\Renderer\Buffers">
       <UniqueIdentifier>{C48C948D-30C4-DC24-39CE-4048A584031E}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tigraf\Renderer\Camera">
+      <UniqueIdentifier>{C0D80A4B-ACD2-339D-953F-CAAD81D89909}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Tigraf\Renderer\Shaders">
       <UniqueIdentifier>{21F2838B-8D29-CC22-9633-304602EAF21B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tigraf\Renderer\Textures">
+      <UniqueIdentifier>{1B482638-076D-75B8-30B8-5A481C3C74D6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Tigraf\Window">
       <UniqueIdentifier>{09FEEA3A-75BE-6671-3EF9-AFEEAA78AB4D}</UniqueIdentifier>
@@ -56,6 +62,9 @@
     <ClInclude Include="src\Tigraf\Event\Event.h">
       <Filter>Tigraf\Event</Filter>
     </ClInclude>
+    <ClInclude Include="src\Tigraf\Input\Input.h">
+      <Filter>Tigraf\Input</Filter>
+    </ClInclude>
     <ClInclude Include="src\Tigraf\Input\Keycodes.h">
       <Filter>Tigraf\Input</Filter>
     </ClInclude>
@@ -67,6 +76,12 @@
     </ClInclude>
     <ClInclude Include="src\Tigraf\Renderer\Buffers\OpenGLBuffer.h">
       <Filter>Tigraf\Renderer\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tigraf\Renderer\Camera\Camera.h">
+      <Filter>Tigraf\Renderer\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tigraf\Renderer\Camera\EditorCamera.h">
+      <Filter>Tigraf\Renderer\Camera</Filter>
     </ClInclude>
     <ClInclude Include="src\Tigraf\Renderer\GraphicsContext.h">
       <Filter>Tigraf\Renderer</Filter>
@@ -86,15 +101,18 @@
     <ClInclude Include="src\Tigraf\Renderer\Shaders\glslShader.h">
       <Filter>Tigraf\Renderer\Shaders</Filter>
     </ClInclude>
+    <ClInclude Include="src\Tigraf\Renderer\Textures\OpenGLTexture.h">
+      <Filter>Tigraf\Renderer\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tigraf\Renderer\Textures\Texture.h">
+      <Filter>Tigraf\Renderer\Textures</Filter>
+    </ClInclude>
     <ClInclude Include="src\Tigraf\Window\Window.h">
       <Filter>Tigraf\Window</Filter>
     </ClInclude>
     <ClInclude Include="src\Tigraf\Window\glfwWindow.h">
       <Filter>Tigraf\Window</Filter>
     </ClInclude>
-    <ClInclude Include="src\Tigraf\Renderer\Camera\Camera.h" />
-    <ClInclude Include="src\Tigraf\Renderer\Camera\EditorCamera.h" />
-    <ClInclude Include="src\Tigraf\Input\Input.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\PCH.cpp" />
@@ -110,6 +128,12 @@
     <ClCompile Include="src\Tigraf\Renderer\Buffers\OpenGLBuffer.cpp">
       <Filter>Tigraf\Renderer\Buffers</Filter>
     </ClCompile>
+    <ClCompile Include="src\Tigraf\Renderer\Camera\Camera.cpp">
+      <Filter>Tigraf\Renderer\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tigraf\Renderer\Camera\EditorCamera.cpp">
+      <Filter>Tigraf\Renderer\Camera</Filter>
+    </ClCompile>
     <ClCompile Include="src\Tigraf\Renderer\OpenGLRendererAPI.cpp">
       <Filter>Tigraf\Renderer</Filter>
     </ClCompile>
@@ -119,13 +143,17 @@
     <ClCompile Include="src\Tigraf\Renderer\Shaders\glslShader.cpp">
       <Filter>Tigraf\Renderer\Shaders</Filter>
     </ClCompile>
+    <ClCompile Include="src\Tigraf\Renderer\Textures\OpenGLTexture.cpp">
+      <Filter>Tigraf\Renderer\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tigraf\Renderer\Textures\Texture.cpp">
+      <Filter>Tigraf\Renderer\Textures</Filter>
+    </ClCompile>
     <ClCompile Include="src\Tigraf\Window\Window.cpp">
       <Filter>Tigraf\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\Tigraf\Window\glfwWindow.cpp">
       <Filter>Tigraf\Window</Filter>
     </ClCompile>
-    <ClCompile Include="src\Tigraf\Renderer\Camera\EditorCamera.cpp" />
-    <ClCompile Include="src\Tigraf\Renderer\Camera\Camera.cpp" />
   </ItemGroup>
 </Project>

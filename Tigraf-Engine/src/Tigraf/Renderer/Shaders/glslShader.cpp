@@ -1,6 +1,8 @@
 #include "PCH.h"
 #include "glslShader.h"
 
+#include "Tigraf/Renderer/Buffers/OpenGLBuffer.h"
+
 #include <glm/gtc/type_ptr.hpp>
 
 namespace Tigraf
@@ -129,6 +131,5 @@ namespace Tigraf
 		GLuint varID = glGetUniformLocation(m_ShaderID, name);
 		glProgramUniformMatrix4fv(m_ShaderID, varID, 1, false, glm::value_ptr(mat));
 	}
-
 
 }

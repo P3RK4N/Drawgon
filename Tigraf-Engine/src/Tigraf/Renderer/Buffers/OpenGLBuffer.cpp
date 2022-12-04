@@ -62,4 +62,26 @@ namespace Tigraf
 		glDeleteBuffers(1, &m_IndexBufferID);
 	}
 
+	OpenGLUniformBuffer::OpenGLUniformBuffer(void* data, uint32_t byteSize, GLuint storageFlags)
+	{
+		glCreateBuffers(1, &m_UniformBufferID);
+		glNamedBufferStorage(m_UniformBufferID, byteSize, data, storageFlags);
+		m_ByteSize = byteSize;
+	}
+
+	OpenGLUniformBuffer::~OpenGLUniformBuffer()
+	{
+		glDeleteBuffers(1, &m_UniformBufferID);
+	}
+
+	void OpenGLUniformBuffer::updateBuffer(void* subData, uint32_t byteSize, uint32_t byteOffset)
+	{
+		glBufferSubData(m_UniformBufferID, byteOffset, byteSize, subData);
+	}
+
+	void OpenGLUniformBuffer::bind(int bindIndex)
+	{
+		glBindBufferBase(GL_UNIFORM_BUFFER, bindIndex, m_UniformBufferID);
+	}
+
 }

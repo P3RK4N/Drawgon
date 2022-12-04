@@ -86,4 +86,19 @@ namespace Tigraf
 	protected:
 		GLuint m_IndexBufferID = 0;
 	};
+
+	class OpenGLUniformBuffer : public UniformBuffer
+	{
+	public:
+		OpenGLUniformBuffer(void* data, uint32_t byteSize, GLuint storageFlags);
+		virtual ~OpenGLUniformBuffer();
+
+		virtual void updateBuffer(void* subData, uint32_t byteSize, uint32_t byteOffset) override;
+		virtual void bind(int bindIndex) override;
+
+		uint32_t getUniformBufferID() { return m_UniformBufferID; }
+
+	protected:
+		GLuint m_UniformBufferID = 0;
+	};
 }
