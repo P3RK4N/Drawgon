@@ -1,6 +1,8 @@
 #include "PCH.h"
 #include "OpenGLRendererAPI.h"
 
+#include "Tigraf/Renderer/Buffers/OpenGLBuffer.h"
+
 namespace Tigraf
 {
 	void OpenGLRendererAPI::init()
@@ -8,8 +10,11 @@ namespace Tigraf
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
 		glClearColor(0.2f, 0.6f, 0.8f, 1.0f);
+
+		initGlobalUniformBuffers();
 	}
 
 	void OpenGLRendererAPI::clear()
@@ -41,5 +46,22 @@ namespace Tigraf
 		TIGRAF_ASSERT(vertexBuffer->getIndexBuffer() != nullptr, "Index Buffer must be set before drawing indexed!");
 
 		glDrawElements(GL_TRIANGLES, vertexBuffer->getIndexBuffer()->getIndicesCount(), GL_UNSIGNED_INT, nullptr);
+	}
+
+	void OpenGLRendererAPI::initGlobalUniformBuffers()
+	{
+		UniformBuffer::s_TextureBuffer = UniformBuffer::create
+		(
+			NULL, 
+			TEXTURE_HANDLE_OFFSET * (TEXTURE_2D_COUNT + TEXTURE_3D_COUNT + TEXTURE_CUBE_COUNT),
+			//TODO(P3RK4N): Generalize bit flags
+			GL_DYNAMIC_STORAGE_BIT
+		);
+
+		GLuint textureBufferID = reinterpret_cast<OpenGLUniformBuffer*>(UniformBuffer::s_TextureBuffer.get())->getUniformBufferID();
+		glBindBufferBase(GL_UNIFORM_BUFFER, 0, textureBufferID);
+
+
+		//TODO(P3RK4N): Make same for 2 other static uniform buffers;
 	}
 }

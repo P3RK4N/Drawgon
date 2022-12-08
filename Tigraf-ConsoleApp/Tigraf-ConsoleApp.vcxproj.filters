@@ -18,5 +18,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\cubemap.glsl" />
+    <None Include="resources\shaders\framebuffer.glsl" />
   </ItemGroup>
 </Project>

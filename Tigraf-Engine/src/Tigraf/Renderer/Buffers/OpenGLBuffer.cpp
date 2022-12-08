@@ -62,11 +62,11 @@ namespace Tigraf
 		glDeleteBuffers(1, &m_IndexBufferID);
 	}
 
-	OpenGLUniformBuffer::OpenGLUniformBuffer(void* data, uint32_t byteSize, GLuint storageFlags)
+	OpenGLUniformBuffer::OpenGLUniformBuffer(void* data, uint32_t sizeInBytes, GLuint storageFlags)
 	{
 		glCreateBuffers(1, &m_UniformBufferID);
-		glNamedBufferStorage(m_UniformBufferID, byteSize, data, storageFlags);
-		m_ByteSize = byteSize;
+		glNamedBufferStorage(m_UniformBufferID, sizeInBytes, data, storageFlags);
+		m_SizeInBytes = sizeInBytes;
 	}
 
 	OpenGLUniformBuffer::~OpenGLUniformBuffer()
@@ -74,14 +74,24 @@ namespace Tigraf
 		glDeleteBuffers(1, &m_UniformBufferID);
 	}
 
-	void OpenGLUniformBuffer::updateBuffer(void* subData, uint32_t byteSize, uint32_t byteOffset)
+	void OpenGLUniformBuffer::updateBuffer(void* subData, uint32_t sizeInBytes, uint32_t byteOffset)
 	{
-		glBufferSubData(m_UniformBufferID, byteOffset, byteSize, subData);
+		glNamedBufferSubData(m_UniformBufferID, byteOffset, sizeInBytes, subData);
 	}
 
-	void OpenGLUniformBuffer::bind(int bindIndex)
+	void OpenGLUniformBuffer::bind(uint16_t bindIndex)
 	{
+		TIGRAF_ASSERT(UniformBuffer::s_CurrentBuffers.find(bindIndex) != UniformBuffer::s_CurrentBuffers.end(), "Index is already taken!");
 		glBindBufferBase(GL_UNIFORM_BUFFER, bindIndex, m_UniformBufferID);
+		UniformBuffer::s_CurrentBuffers.insert(bindIndex);
+		m_BindIndex = bindIndex;
 	}
 
+	void OpenGLUniformBuffer::unbind()
+	{
+		TIGRAF_ASSERT(m_BindIndex != -1, "This buffer is already unbound!");
+		glBindBufferBase(GL_UNIFORM_BUFFER, m_BindIndex, 0);
+		UniformBuffer::s_CurrentBuffers.erase(m_BindIndex);
+		m_BindIndex = -1;
+	}
 }

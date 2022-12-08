@@ -113,6 +113,9 @@
     <ClInclude Include="src\Tigraf\Window\glfwWindow.h">
       <Filter>Tigraf\Window</Filter>
     </ClInclude>
+    <ClInclude Include="src\Tigraf\Renderer\Framebuffers\Framebuffer.h" />
+    <ClInclude Include="src\Tigraf\Renderer\Framebuffers\OpenGLFramebuffer.h" />
+    <ClInclude Include="src\Tigraf\Renderer\Buffers\UniformBufferDefines.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\PCH.cpp" />
@@ -155,5 +158,7 @@
     <ClCompile Include="src\Tigraf\Window\glfwWindow.cpp">
       <Filter>Tigraf\Window</Filter>
     </ClCompile>
+    <ClCompile Include="src\Tigraf\Renderer\Framebuffers\Framebuffer.cpp" />
+    <ClCompile Include="src\Tigraf\Renderer\Framebuffers\OpenGLFramebuffer.cpp" />
   </ItemGroup>
 </Project>

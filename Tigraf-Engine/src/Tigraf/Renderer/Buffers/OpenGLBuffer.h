@@ -93,8 +93,9 @@ namespace Tigraf
 		OpenGLUniformBuffer(void* data, uint32_t byteSize, GLuint storageFlags);
 		virtual ~OpenGLUniformBuffer();
 
-		virtual void updateBuffer(void* subData, uint32_t byteSize, uint32_t byteOffset) override;
-		virtual void bind(int bindIndex) override;
+		virtual void updateBuffer(void* subData, uint32_t sizeInBytes, uint32_t byteOffset) override;
+		virtual void bind(uint16_t bindIndex) override;
+		virtual void unbind() override;
 
 		uint32_t getUniformBufferID() { return m_UniformBufferID; }
 

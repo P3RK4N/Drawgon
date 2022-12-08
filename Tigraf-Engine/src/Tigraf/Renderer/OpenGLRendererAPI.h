@@ -22,6 +22,6 @@ namespace Tigraf
 		virtual void drawIndexed(const Ref<VertexBuffer>& vertexBuffer);
 
 	private:
-
+		void initGlobalUniformBuffers();
 	};
 }

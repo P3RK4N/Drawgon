@@ -16,7 +16,7 @@ namespace Tigraf
 		glm::vec3 pos{ 0, 0, 0 };
 	};
 
-	struct CubeMapVertex
+	struct TextureVertex
 	{
 		glm::vec3 pos{ 0, 0, 0 };
 		glm::vec2 uv{ 0, 0 };
@@ -47,7 +47,7 @@ namespace Tigraf
 		m_FloorShader = createRef<glslShader>("resources\\shaders\\floor.glsl");
 
 		//CUBE
-		std::vector<CubeMapVertex> cubemapVertices;
+		std::vector<TextureVertex> cubemapVertices;
 		cubemapVertices.push_back({ { -100,-100,-100  }	, { 0.0f,	1.0f/3.0f }	});		//0		
 		cubemapVertices.push_back({ { -100, 100, -100 }	, { 0.0f,	2.0f/3.0f }	});		//2		
 		cubemapVertices.push_back({ { -100,-100,  100 }	, { 0.25f,	1.0f/3.0f }	});		//1		
@@ -104,22 +104,47 @@ namespace Tigraf
 
 		m_CubeShader = createRef<glslShader>("resources\\shaders\\cubemap.glsl");
 
+		//FRAMEBUFFER FRAME
+		std::vector<TextureVertex> frameVertices =
+		{
+			{{ -0.5f, -0.5f, 0 }, { 0.0f, 0.0f }},
+			{{ 0.5f, -0.5f, 0 }, { 1.0f, 0.0f }},
+			{{ -0.5f, 0.5f, 0 }, { 0.0f, 1.0f }},
+			{{ 0.5f, 0.5f, 0 }, { 1.0f, 1.0f }}
+		};
+		std::vector<uint32_t> frameIndices =
+		{
+			0,2,1, 2,3,1
+		};
+
+		m_FramebufferFrame = VertexBuffer::create(frameVertices.size(), sizeof(frameVertices[0]), frameVertices.data(), 0);
+		Ref<IndexBuffer> framebufferIB = IndexBuffer::create(frameIndices, 0);
+		
+		m_FramebufferFrame->setIndexBuffer(framebufferIB);
+		m_FramebufferFrame->pushVertexAttribute(VertexAttributeType::FLOAT3);
+		m_FramebufferFrame->pushVertexAttribute(VertexAttributeType::FLOAT2);
+
+		m_FramebufferShader = createRef<glslShader>("resources\\shaders\\framebuffer.glsl");
+		
 		//EDITOR_CAMERA
 		auto[x, y] = Application::s_Instance->getWindow()->getSize();
 		m_EditorCamera = createRef<EditorCamera>(1.0f * x / y, 0.1f, 300.0f);
 
 		//TEXTURES
 		m_GigachadTexture = Texture2D::create("resources\\textures\\Gigachad.png");
-		m_CubemapTexture = Texture2D::create("resources\\textures\\cubemap.png");
+		m_CubemapTexture = TextureCube::create("resources\\textures\\cubemaps\\skybox\\skybox", "jpg");
 
-		//UNIFORM BUFFER
-		TextureBufferElement bufferElements[] =
-		{
-			{ m_CubemapTexture->getTextureHandle(), 0 },
-			{ m_GigachadTexture->getTextureHandle(), 0 }
-		};
-		m_TextureBuffer = UniformBuffer::create(&bufferElements, sizeof(bufferElements), GL_DYNAMIC_STORAGE_BIT);
-		m_TextureBuffer->bind(0);
+		//FRAMEBUFFER
+		auto [width, height] = Application::s_Instance->getWindow()->getSize();
+		m_Framebuffer = Framebuffer::create(width, height);
+		m_Framebuffer->attachColorTexture(TextureFormat::RGBA);
+		m_Framebuffer->attachDepthStencilTexture(TextureFormat::DepthStencil);
+		m_Framebuffer->invalidate();
+
+		//GLOBAL UNIFORM BUFFER
+		SET_TEXTURE_HANDLE(m_CubemapTexture->getTextureHandle(), TEXTURE_CUBE_0);
+		SET_TEXTURE_HANDLE(m_Framebuffer->getColorTexture(0)->getTextureHandle(), TEXTURE_2D_0);
+		SET_TEXTURE_HANDLE(m_GigachadTexture->getTextureHandle(), TEXTURE_2D_1);
 	}
 
 	void AppLayer::onUpdate(const TimeStep& ts)
@@ -135,14 +160,30 @@ namespace Tigraf
 
 	void AppLayer::onDraw()
 	{
+		m_Framebuffer->bind();
+
+		m_CubeShader->setMat4(m_EditorCamera->getViewProjection() * m_CubeTransform, "MVP");
+		m_CubeShader->bind();
+		Renderer::s_RendererAPI->draw(m_Cube);
+
 		m_FloorShader->setMat4(m_EditorCamera->getViewProjection(), "VP");
 		m_FloorShader->setMat4(m_FloorTransform, "M");
 		m_FloorShader->bind();
 		Renderer::s_RendererAPI->drawIndexed(m_Floor);
 
+		m_Framebuffer->unbind();
+
 		m_CubeShader->setMat4(m_EditorCamera->getViewProjection() * m_CubeTransform, "MVP");
 		m_CubeShader->bind();
 		Renderer::s_RendererAPI->draw(m_Cube);
+
+		m_FloorShader->setMat4(m_EditorCamera->getViewProjection(), "VP");
+		m_FloorShader->setMat4(m_FloorTransform, "M");
+		m_FloorShader->bind();
+		Renderer::s_RendererAPI->drawIndexed(m_Floor);
+
+		m_FramebufferShader->bind();
+		Renderer::s_RendererAPI->drawIndexed(m_FramebufferFrame);
 	}
 
 	void AppLayer::shutdown()
@@ -159,8 +200,11 @@ namespace Tigraf
 	{
 		ResizeData* data = (ResizeData*)eventData; 
 
-		m_EditorCamera->setAspectRatio(1.0f * data->width / data->height);
-		m_EditorCamera->recalculateViewProjection();
+		if(data->width && data->height)
+		{
+			m_EditorCamera->setAspectRatio(1.0f * data->width / data->height);
+			m_EditorCamera->recalculateViewProjection();
+		}
 
 		return false; 
 	}

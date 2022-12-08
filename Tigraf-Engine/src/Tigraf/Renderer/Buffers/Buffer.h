@@ -1,11 +1,26 @@
 #pragma once
+#include "UniformBufferDefines.h"
+
 #include <cstdint>
+#include <unordered_set>
 
 namespace Tigraf
 {
 #define isINT(VertexAttributeType)		(uint32_t)VertexAttributeType < 10U
-#define isFLOAT(VertexAttributeType)	(uint32_t)VertexAttributeType < 20U && (uint32_t)VertexAttributeType >= 10
+#define isFLOAT(VertexAttributeType)	(uint32_t)VertexAttributeType < 20U && (uint32_t)VertexAttributeType >= 10U
 #define isDOUBLE(VertexAttributeType)	(uint32_t)VertexAttributeType >= 20U
+
+/**
+* Sets texture to index location in UNIFORM_TEXTURE_BUFFER
+*/
+#define SET_TEXTURE_HANDLE(textureHandle, textureIndex)											\
+	{																							\
+		uint8_t textureHandleWrapper[16];														\
+		uint64_t handle = textureHandle;														\
+		memcpy(textureHandleWrapper, &handle, 8);												\
+		UniformBuffer::s_TextureBuffer->updateBuffer(textureHandleWrapper, 16, textureIndex);	\
+	}
+
 
 	enum class VertexAttributeType : uint16_t
 	{
@@ -68,12 +83,21 @@ namespace Tigraf
 		virtual ~UniformBuffer() {}
 
 		virtual void updateBuffer(void* subData, uint32_t byteSize, uint32_t byteOffset) {}
-		virtual void bind(int bindIndex) {}
+		const uint16_t getBindIndex() { return m_BindIndex; }
+
+		virtual void bind(uint16_t bindIndex) = 0;
+		virtual void unbind() = 0;
 
 	public:
-		static Ref<UniformBuffer> create(void* data, uint32_t byteSize, uint32_t storageFlags);
+		static Ref<UniformBuffer> create(void* data, uint32_t sizeInBytes, uint32_t storageFlags);
+
+		static std::unordered_set<uint16_t> s_CurrentBuffers;
+		static Ref<UniformBuffer> s_TextureBuffer;
+		static Ref<UniformBuffer> s_PerFrameBuffer;
+		static Ref<UniformBuffer> s_PerModelBuffer;
 
 	protected:
-		uint32_t m_ByteSize = 0;
+		uint32_t m_SizeInBytes = 0;
+		uint16_t m_BindIndex = -1;
 	};
 }

@@ -2,6 +2,7 @@
 #include "Tigraf/Core/Application.h"
 #include "Tigraf/Renderer/Camera/EditorCamera.h"
 #include "Tigraf/Renderer/Textures/Texture.h"
+#include "Tigraf/Renderer/Framebuffers/Framebuffer.h"
 
 namespace Tigraf
 {
@@ -27,8 +28,11 @@ namespace Tigraf
 
 		Ref<Camera> m_EditorCamera = nullptr;
 
-		Ref<UniformBuffer> m_TextureBuffer = nullptr;
 		Ref<Texture2D> m_GigachadTexture = nullptr;
-		Ref<Texture2D> m_CubemapTexture = nullptr;
+		Ref<TextureCube> m_CubemapTexture = nullptr;
+
+		Ref<Framebuffer> m_Framebuffer = nullptr;
+		Ref<VertexBuffer> m_FramebufferFrame = nullptr;
+		Ref<glslShader> m_FramebufferShader = nullptr;
 	};
 }

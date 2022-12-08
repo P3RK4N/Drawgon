@@ -160,8 +160,11 @@
     <ClInclude Include="src\Tigraf\Input\glfwInput.h" />
     <ClInclude Include="src\Tigraf\Renderer\Buffers\Buffer.h" />
     <ClInclude Include="src\Tigraf\Renderer\Buffers\OpenGLBuffer.h" />
+    <ClInclude Include="src\Tigraf\Renderer\Buffers\UniformBufferDefines.h" />
     <ClInclude Include="src\Tigraf\Renderer\Camera\Camera.h" />
     <ClInclude Include="src\Tigraf\Renderer\Camera\EditorCamera.h" />
+    <ClInclude Include="src\Tigraf\Renderer\Framebuffers\Framebuffer.h" />
+    <ClInclude Include="src\Tigraf\Renderer\Framebuffers\OpenGLFramebuffer.h" />
     <ClInclude Include="src\Tigraf\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Tigraf\Renderer\OpenGLRendererAPI.h" />
     <ClInclude Include="src\Tigraf\Renderer\Renderer.h" />
@@ -183,6 +186,8 @@
     <ClCompile Include="src\Tigraf\Renderer\Buffers\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Tigraf\Renderer\Camera\Camera.cpp" />
     <ClCompile Include="src\Tigraf\Renderer\Camera\EditorCamera.cpp" />
+    <ClCompile Include="src\Tigraf\Renderer\Framebuffers\Framebuffer.cpp" />
+    <ClCompile Include="src\Tigraf\Renderer\Framebuffers\OpenGLFramebuffer.cpp" />
     <ClCompile Include="src\Tigraf\Renderer\OpenGLRendererAPI.cpp" />
     <ClCompile Include="src\Tigraf\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Tigraf\Renderer\Shaders\glslShader.cpp" />
