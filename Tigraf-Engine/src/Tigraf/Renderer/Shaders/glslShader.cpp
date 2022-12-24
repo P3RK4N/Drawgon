@@ -16,7 +16,7 @@ namespace Tigraf
 
 #define GET_SHADER_TYPE(ShaderText) NameToShaderType[ShaderText.substr(0, ShaderText.size()-1)]
 
-	glslShader::glslShader(std::filesystem::path path)
+	glslShader::glslShader(const std::filesystem::path& path)
 	{
 		std::ifstream shaderFile(path);
 		TIGRAF_ASSERT(shaderFile.is_open(), "Shader file could not be opened!");
@@ -67,7 +67,7 @@ namespace Tigraf
 		glDeleteProgram(m_ShaderID);
 	}
 
-	void glslShader::bind()
+	void glslShader::use()
 	{
 		glUseProgram(m_ShaderID);
 	}
@@ -131,5 +131,4 @@ namespace Tigraf
 		GLuint varID = glGetUniformLocation(m_ShaderID, name);
 		glProgramUniformMatrix4fv(m_ShaderID, varID, 1, false, glm::value_ptr(mat));
 	}
-
 }

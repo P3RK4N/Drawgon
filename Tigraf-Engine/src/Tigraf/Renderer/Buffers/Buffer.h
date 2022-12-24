@@ -21,6 +21,16 @@ namespace Tigraf
 		UniformBuffer::s_TextureBuffer->updateBuffer(textureHandleWrapper, 16, textureIndex);	\
 	}
 
+/**
+* Updates per frame buffer with given data,size and offset
+*/
+#define UPDATE_PER_FRAME_BUFFER(data, byteSize, byteOffset)	UniformBuffer::s_PerFrameBuffer->updateBuffer((void*)&(data), byteSize, byteOffset)
+
+/**
+* Updates per model buffer with given data,size and offset
+*/
+#define UPDATE_PER_MODEL_BUFFER(data, byteSize, byteOffset)	UniformBuffer::s_PerModelBuffer->updateBuffer((void*)&(data), byteSize, byteOffset)
+
 
 	enum class VertexAttributeType : uint16_t
 	{

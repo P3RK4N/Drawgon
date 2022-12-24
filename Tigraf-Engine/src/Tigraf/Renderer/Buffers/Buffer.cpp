@@ -22,7 +22,6 @@ namespace Tigraf
 
 	std::unordered_set<uint16_t> UniformBuffer::s_CurrentBuffers = { 0, 1, 2 };
 
-	//TODO(P3RK4N): Implement in rendererAPI
 	Ref<UniformBuffer> UniformBuffer::s_TextureBuffer = nullptr;
 	Ref<UniformBuffer> UniformBuffer::s_PerFrameBuffer = nullptr;
 	Ref<UniformBuffer> UniformBuffer::s_PerModelBuffer = nullptr;

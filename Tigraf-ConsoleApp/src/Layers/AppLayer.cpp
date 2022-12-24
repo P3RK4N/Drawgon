@@ -2,9 +2,26 @@
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/transform.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace Tigraf
 {
+	struct PerFrameData
+	{
+		glm::mat4 CameraViewProjection{};
+		glm::vec3 CameraWorldPosition{};
+	};
+
+	struct PerModelData
+	{
+		glm::mat4 M{};
+		glm::mat4 MVP{};
+	};
+
+	PerFrameData frameData{};
+	PerModelData modelData{};
+
 	struct ColoredVertex
 	{
 		glm::vec3 pos{ 0,0,0 };
@@ -22,117 +39,31 @@ namespace Tigraf
 		glm::vec2 uv{ 0, 0 };
 	};
 
-	struct TextureBufferElement
-	{
-		uint64_t textureHandle = 0;
-		uint64_t padding = 0;
-	};
-
 	void AppLayer::init()
 	{
+		//FRAMEBUFFER FRAME
+		glm::mat4 transform =  glm::scale(glm::vec3(2.0f, 2.0f, 2.0f));
+		m_FramebufferFrameMesh = MeshPrimitives::Plane(transform);
+		m_FramebufferFrameMesh->setShader(Shader::create("resources\\shaders\\FramebufferShader.glsl"));
+
 		//FLOOR
-		std::vector<Vertex> floorVertices;
-		floorVertices.push_back({{ -1000, 0, -1000 }});
-		floorVertices.push_back({{ 1000, 0, -1000 }});
-		floorVertices.push_back({{ -1000, 0, 1000 }});
-		floorVertices.push_back({{ 1000, 0, 1000 }});
-		std::vector<uint32_t> floorIndices = { 0,2,1, 2,3,1 };
-
-		m_Floor = VertexBuffer::create(floorVertices.size(), sizeof(floorVertices[0]), floorVertices.data(), GL_DYNAMIC_STORAGE_BIT);
-		Ref<IndexBuffer> floorIB = IndexBuffer::create(floorIndices, GL_DYNAMIC_STORAGE_BIT);
-
-		m_Floor->pushVertexAttribute(VertexAttributeType::FLOAT3);
-		m_Floor->setIndexBuffer(floorIB);
-
-		m_FloorShader = createRef<glslShader>("resources\\shaders\\floor.glsl");
+		transform = glm::scale(glm::vec3(100.0f, 100.0f, 100.0f)) * glm::mat4(1.0f);
+		m_FloorMesh = MeshPrimitives::Plane(transform);
+		m_FloorMesh->setShader(Shader::create("resources\\shaders\\GridShader.glsl"));
 
 		//CUBE
-		std::vector<TextureVertex> cubemapVertices;
-		cubemapVertices.push_back({ { -100,-100,-100  }	, { 0.0f,	1.0f/3.0f }	});		//0		
-		cubemapVertices.push_back({ { -100, 100, -100 }	, { 0.0f,	2.0f/3.0f }	});		//2		
-		cubemapVertices.push_back({ { -100,-100,  100 }	, { 0.25f,	1.0f/3.0f }	});		//1		
+		m_CubemapMesh = MeshPrimitives::Cube(transform);
+		m_CubemapMesh->setShader(Shader::create("resources\\shaders\\CubemapShader.glsl"));
 
-		cubemapVertices.push_back({ { -100, 100, -100 }	, { 0.0f,	2.0f/3.0f }	});		//2		
-		cubemapVertices.push_back({ { -100, 100,  100 }	, { 0.25f,	2.0f/3.0f }	});		//3		
-		cubemapVertices.push_back({ { -100,-100,  100 }	, { 0.25f,	1.0f/3.0f }	});		//1		
-
-		cubemapVertices.push_back({ { -100,-100,  100 }	, { 0.25f,	1.0f/3.0f }	});		//1		
-		cubemapVertices.push_back({ { -100, 100,  100 }	, { 0.25f,	2.0f/3.0f }	});		//3		
-		cubemapVertices.push_back({ {  100, -100, 100 }	, { 0.5f,	1.0f/3.0f }	});		//5		
-
-		cubemapVertices.push_back({ { -100, 100,  100 }	, { 0.25f,	2.0f/3.0f }	});		//3		
-		cubemapVertices.push_back({ {  100,	100,  100 }	, { 0.5f,	2.0f/3.0f }	});		//7
-		cubemapVertices.push_back({ {  100, -100, 100 }	, { 0.5f,	1.0f/3.0f }	});		//5		
-
-		cubemapVertices.push_back({ { -100,-100,-100  }	, { 0.25f,	0.0f }	});			//0		
-		cubemapVertices.push_back({ { -100,-100,  100 }	, { 0.25f,	1.0f/3.0f }	});		//1
-		cubemapVertices.push_back({ {  100, -100,-100 }	, { 0.5f,	0.0f }	});			//4		
-
-		cubemapVertices.push_back({ { -100,-100,  100 }	, { 0.25f,	1.0f/3.0f }	});		//1
-		cubemapVertices.push_back({ {  100, -100, 100 }	, { 0.5f,	1.0f/3.0f }	});		//5		
-		cubemapVertices.push_back({ {  100, -100,-100 }	, { 0.5f,	0.0f }	});			//4		
-
-		cubemapVertices.push_back({ { -100, 100,  100 }	, { 0.25f,	2.0f/3.0f }	});		//3		
-		cubemapVertices.push_back({ { -100, 100, -100 }	, { 0.25f,	1.0f }	});			//2		
-		cubemapVertices.push_back({ {  100,	100,  100 }	, { 0.5f,	2.0f/3.0f }	});		//7
-
-		cubemapVertices.push_back({ { -100, 100, -100 }	, { 0.25f,	1.0f }	});			//2		
-		cubemapVertices.push_back({ {  100,	100, -100 }	, { 0.5f,	1.0f }	});			//6		
-		cubemapVertices.push_back({ {  100,	100,  100 }	, { 0.5f,	2.0f/3.0f }	});		//7
-
-		cubemapVertices.push_back({ {  100, -100, 100 }	, { 0.5f,	1.0f/3.0f }	});		//5		
-		cubemapVertices.push_back({ {  100,	100,  100 }	, { 0.5f,	2.0f/3.0f }	});		//7
-		cubemapVertices.push_back({ {  100, -100,-100 }	, { 0.75f,	1.0f/3.0f }	});		//4		
-
-		cubemapVertices.push_back({ {  100,	100,  100 }	, { 0.5f,	2.0f/3.0f }	});		//7
-		cubemapVertices.push_back({ {  100,	100, -100 }	, { 0.75f,	2.0f/3.0f }	});		//6		
-		cubemapVertices.push_back({ {  100, -100,-100 }	, { 0.75f,	1.0f/3.0f }	});		//4		
-
-		cubemapVertices.push_back({ {  100, -100,-100 }	, { 0.75f,	1.0f/3.0f }	});		//4		
-		cubemapVertices.push_back({ {  100,	100, -100 }	, { 0.75f,	2.0f/3.0f }	});		//6	
-		cubemapVertices.push_back({ { -100,-100,-100  }	, { 1.00f,	1.0f/3.0f }	});		//0		
-
-		cubemapVertices.push_back({ {  100,	100, -100 }	, { 0.75f,	2.0f/3.0f }	});		//6	
-		cubemapVertices.push_back({ { -100, 100, -100 }	, { 1.00f,	2.0f/3.0f }	});		//2		
-		cubemapVertices.push_back({ { -100,-100,-100  }	, { 1.00f,	1.0f/3.0f }	});		//0		
-
-
-		m_Cube = VertexBuffer::create(cubemapVertices.size(), sizeof(cubemapVertices[0]), cubemapVertices.data(), 0);
-
-		m_Cube->pushVertexAttribute(VertexAttributeType::FLOAT3);
-		m_Cube->pushVertexAttribute(VertexAttributeType::FLOAT2);
-
-		m_CubeShader = createRef<glslShader>("resources\\shaders\\cubemap.glsl");
-
-		//FRAMEBUFFER FRAME
-		std::vector<TextureVertex> frameVertices =
-		{
-			{{ -0.5f, -0.5f, 0 }, { 0.0f, 0.0f }},
-			{{ 0.5f, -0.5f, 0 }, { 1.0f, 0.0f }},
-			{{ -0.5f, 0.5f, 0 }, { 0.0f, 1.0f }},
-			{{ 0.5f, 0.5f, 0 }, { 1.0f, 1.0f }}
-		};
-		std::vector<uint32_t> frameIndices =
-		{
-			0,2,1, 2,3,1
-		};
-
-		m_FramebufferFrame = VertexBuffer::create(frameVertices.size(), sizeof(frameVertices[0]), frameVertices.data(), 0);
-		Ref<IndexBuffer> framebufferIB = IndexBuffer::create(frameIndices, 0);
-		
-		m_FramebufferFrame->setIndexBuffer(framebufferIB);
-		m_FramebufferFrame->pushVertexAttribute(VertexAttributeType::FLOAT3);
-		m_FramebufferFrame->pushVertexAttribute(VertexAttributeType::FLOAT2);
-
-		m_FramebufferShader = createRef<glslShader>("resources\\shaders\\framebuffer.glsl");
-		
 		//EDITOR_CAMERA
 		auto[x, y] = Application::s_Instance->getWindow()->getSize();
 		m_EditorCamera = createRef<EditorCamera>(1.0f * x / y, 0.1f, 300.0f);
 
 		//TEXTURES
 		m_GigachadTexture = Texture2D::create("resources\\textures\\Gigachad.png");
+		SET_TEXTURE_HANDLE(m_GigachadTexture->getTextureHandle(), TEXTURE_2D_1);
 		m_CubemapTexture = TextureCube::create("resources\\textures\\cubemaps\\skybox\\skybox", "jpg");
+		SET_TEXTURE_HANDLE(m_CubemapTexture->getTextureHandle(), TEXTURE_CUBE_0);
 
 		//FRAMEBUFFER
 		auto [width, height] = Application::s_Instance->getWindow()->getSize();
@@ -140,50 +71,35 @@ namespace Tigraf
 		m_Framebuffer->attachColorTexture(TextureFormat::RGBA);
 		m_Framebuffer->attachDepthStencilTexture(TextureFormat::DepthStencil);
 		m_Framebuffer->invalidate();
-
-		//GLOBAL UNIFORM BUFFER
-		SET_TEXTURE_HANDLE(m_CubemapTexture->getTextureHandle(), TEXTURE_CUBE_0);
 		SET_TEXTURE_HANDLE(m_Framebuffer->getColorTexture(0)->getTextureHandle(), TEXTURE_2D_0);
-		SET_TEXTURE_HANDLE(m_GigachadTexture->getTextureHandle(), TEXTURE_2D_1);
 	}
 
 	void AppLayer::onUpdate(const TimeStep& ts)
 	{
 		m_EditorCamera->onUpdate(ts);
 
-		glm::vec3 camPos = m_EditorCamera->getPosition();
-		m_CubeTransform = glm::translate(camPos);
-
-		camPos.y = 0.0f;
-		m_FloorTransform = glm::translate(camPos);
+		auto [w, h] = Application::s_Instance->getWindow()->getSize();
+		if(w != m_Framebuffer->getWidth() || h != m_Framebuffer->getHeight())
+		{
+			m_Framebuffer->resize(w, h);
+			SET_TEXTURE_HANDLE(m_Framebuffer->getColorTexture(0)->getTextureHandle(), TEXTURE_2D_0);
+		}
 	}
 
 	void AppLayer::onDraw()
 	{
+		frameData.CameraWorldPosition = m_EditorCamera->getPosition();
+		frameData.CameraViewProjection = m_EditorCamera->getViewProjection();
+		UPDATE_PER_FRAME_BUFFER(frameData, sizeof(PerFrameData), 0);
+
 		m_Framebuffer->bind();
-
-		m_CubeShader->setMat4(m_EditorCamera->getViewProjection() * m_CubeTransform, "MVP");
-		m_CubeShader->bind();
-		Renderer::s_RendererAPI->draw(m_Cube);
-
-		m_FloorShader->setMat4(m_EditorCamera->getViewProjection(), "VP");
-		m_FloorShader->setMat4(m_FloorTransform, "M");
-		m_FloorShader->bind();
-		Renderer::s_RendererAPI->drawIndexed(m_Floor);
-
+		{
+			m_CubemapMesh->drawIndexed();
+			m_FloorMesh->drawIndexed();
+		}
 		m_Framebuffer->unbind();
 
-		m_CubeShader->setMat4(m_EditorCamera->getViewProjection() * m_CubeTransform, "MVP");
-		m_CubeShader->bind();
-		Renderer::s_RendererAPI->draw(m_Cube);
-
-		m_FloorShader->setMat4(m_EditorCamera->getViewProjection(), "VP");
-		m_FloorShader->setMat4(m_FloorTransform, "M");
-		m_FloorShader->bind();
-		Renderer::s_RendererAPI->drawIndexed(m_Floor);
-
-		m_FramebufferShader->bind();
-		Renderer::s_RendererAPI->drawIndexed(m_FramebufferFrame);
+		m_FramebufferFrameMesh->drawIndexed();
 	}
 
 	void AppLayer::shutdown()
@@ -200,11 +116,8 @@ namespace Tigraf
 	{
 		ResizeData* data = (ResizeData*)eventData; 
 
-		if(data->width && data->height)
-		{
-			m_EditorCamera->setAspectRatio(1.0f * data->width / data->height);
-			m_EditorCamera->recalculateViewProjection();
-		}
+		m_EditorCamera->setAspectRatio(1.0f * data->width / data->height);
+		m_EditorCamera->recalculateViewProjection();
 
 		return false; 
 	}

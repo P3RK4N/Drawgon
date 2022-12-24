@@ -9,10 +9,10 @@ namespace Tigraf
 	class glslShader : public Shader
 	{
 	public:
-		glslShader(std::filesystem::path path);
+		glslShader(const std::filesystem::path& path);
 		virtual ~glslShader();
 
-		void bind();
+		virtual void use() override;
 
 	public:
 		virtual void setFloat(float value, const char* name) override;				

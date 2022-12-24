@@ -29,6 +29,9 @@ namespace Tigraf
 		const Ref<Texture2D>& getColorTexture(uint32_t textureIndex) { TIGRAF_ASSERT(textureIndex < m_ColorTextures.size(), "Invalid index!"); return m_ColorTextures[textureIndex]; }
 		const Ref<Texture2D>& getDepthStencilTexture() { TIGRAF_ASSERT(m_DepthStencilTexture, "DepthStencil not attached!"); return m_DepthStencilTexture; }
 
+		const float getWidth() { return m_Width; }
+		const float getHeight() { return m_Height; }
+
 	public:
 		static Ref<Framebuffer> create(uint32_t width, uint32_t height);
 

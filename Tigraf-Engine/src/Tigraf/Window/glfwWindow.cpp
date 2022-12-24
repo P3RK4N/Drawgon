@@ -92,7 +92,7 @@ namespace Tigraf
 		static float frames = 0;
 
 		timer += ts;
-		frames += 1;
+		frames += (bool)(ts > 0.0f);
 
 		if(timer > 1.0f)
 		{

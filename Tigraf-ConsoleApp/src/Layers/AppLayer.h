@@ -3,6 +3,8 @@
 #include "Tigraf/Renderer/Camera/EditorCamera.h"
 #include "Tigraf/Renderer/Textures/Texture.h"
 #include "Tigraf/Renderer/Framebuffers/Framebuffer.h"
+#include "Tigraf/Renderer/Mesh/Mesh.h"
+#include "Tigraf/Renderer/Mesh/MeshPrimitives.h"
 
 namespace Tigraf
 {
@@ -18,21 +20,14 @@ namespace Tigraf
 		EVENT(onResize);
 
 	private:
-		Ref<VertexBuffer> m_Floor = nullptr;
-		Ref<glslShader> m_FloorShader = nullptr;
-		glm::mat4 m_FloorTransform{};
-
-		Ref<VertexBuffer> m_Cube = nullptr;
-		Ref<glslShader> m_CubeShader = nullptr;
-		glm::mat4 m_CubeTransform{};
-
+		Ref<Framebuffer> m_Framebuffer = nullptr;
 		Ref<Camera> m_EditorCamera = nullptr;
 
 		Ref<Texture2D> m_GigachadTexture = nullptr;
 		Ref<TextureCube> m_CubemapTexture = nullptr;
 
-		Ref<Framebuffer> m_Framebuffer = nullptr;
-		Ref<VertexBuffer> m_FramebufferFrame = nullptr;
-		Ref<glslShader> m_FramebufferShader = nullptr;
+		Ref<Mesh> m_FloorMesh = nullptr;
+		Ref<Mesh> m_CubemapMesh = nullptr;
+		Ref<Mesh> m_FramebufferFrameMesh = nullptr;
 	};
 }

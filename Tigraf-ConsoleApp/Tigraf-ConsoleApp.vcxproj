@@ -147,8 +147,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="resources\shaders\cubemap.glsl" />
-    <None Include="resources\shaders\framebuffer.glsl" />
+    <None Include="resources\shaders\CubemapShader.glsl" />
+    <None Include="resources\shaders\FramebufferShader.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="resources\shaders\PrimitiveShader.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

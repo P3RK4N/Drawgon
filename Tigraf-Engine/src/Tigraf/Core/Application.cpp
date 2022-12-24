@@ -89,11 +89,16 @@ namespace Tigraf
 		ResizeData* data = (ResizeData*)eventData;
 		CORE_TRACE(*data);
 
-		Renderer::s_RendererAPI->setViewport(0, 0, data->width, data->height);
-		onDraw();
-		m_Window->onUpdate({});
+		m_Minimized = !(data->width && data->height);
 
-		return false;
+		if(!m_Minimized)
+		{
+			Renderer::s_RendererAPI->setViewport(0, 0, data->width, data->height);
+			onDraw();
+		}
+
+		m_Window->onUpdate({});
+		return m_Minimized;
 	}
 
 	bool Application::onClose(void* eventData)

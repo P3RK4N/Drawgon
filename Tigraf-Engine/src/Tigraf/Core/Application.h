@@ -6,7 +6,7 @@
 #include "Tigraf/Renderer/Renderer.h"
 
 #include "Tigraf/Renderer/Buffers/Buffer.h"
-#include "Tigraf/Renderer/Shaders/glslShader.h"
+#include "Tigraf/Renderer/Shaders/Shader.h"
 
 
 namespace Tigraf
@@ -59,6 +59,7 @@ namespace Tigraf
 	protected:
 		ApplicationSpecification m_ApplicationSpecification{};
 		bool m_Running = true;
+		bool m_Minimized = false;
 
 		std::vector<Layer*> m_Layers{};
 		Scope<Window> m_Window = nullptr;

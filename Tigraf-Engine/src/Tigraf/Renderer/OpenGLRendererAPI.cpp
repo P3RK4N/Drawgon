@@ -2,6 +2,8 @@
 #include "OpenGLRendererAPI.h"
 
 #include "Tigraf/Renderer/Buffers/OpenGLBuffer.h"
+#include "Tigraf/Renderer/Mesh/MeshPrimitives.h"
+#include "Tigraf/Renderer/Shaders/Shader.h"
 
 namespace Tigraf
 {
@@ -9,12 +11,16 @@ namespace Tigraf
 	{
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 		glEnable(GL_DEPTH_TEST);
+
 		glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
 		glClearColor(0.2f, 0.6f, 0.8f, 1.0f);
 
 		initGlobalUniformBuffers();
+
+		MeshPrimitives::s_PrimitiveShader = Shader::create("resources\\shaders\\PrimitiveShader.glsl");
 	}
 
 	void OpenGLRendererAPI::clear()
@@ -58,10 +64,29 @@ namespace Tigraf
 			GL_DYNAMIC_STORAGE_BIT
 		);
 
+		UniformBuffer::s_PerFrameBuffer = UniformBuffer::create
+		(
+			NULL,
+			PER_FRAME_UNIFORM_BUFFER_SIZE,
+			GL_DYNAMIC_STORAGE_BIT
+		);
+
+		UniformBuffer::s_PerModelBuffer = UniformBuffer::create
+		(
+			NULL,
+			PER_MODEL_UNIFORM_BUFFER_SIZE,
+			GL_DYNAMIC_STORAGE_BIT
+		);
+
+		
 		GLuint textureBufferID = reinterpret_cast<OpenGLUniformBuffer*>(UniformBuffer::s_TextureBuffer.get())->getUniformBufferID();
-		glBindBufferBase(GL_UNIFORM_BUFFER, 0, textureBufferID);
+		glBindBufferBase(GL_UNIFORM_BUFFER, TEXTURE_UNIFORM_BUFFER, textureBufferID);
 
+		textureBufferID = reinterpret_cast<OpenGLUniformBuffer*>(UniformBuffer::s_PerFrameBuffer.get())->getUniformBufferID();
+		glBindBufferBase(GL_UNIFORM_BUFFER, PER_FRAME_UNIFORM_BUFFER, textureBufferID);
 
-		//TODO(P3RK4N): Make same for 2 other static uniform buffers;
+		textureBufferID = reinterpret_cast<OpenGLUniformBuffer*>(UniformBuffer::s_PerModelBuffer.get())->getUniformBufferID();
+		glBindBufferBase(GL_UNIFORM_BUFFER, PER_MODEL_UNIFORM_BUFFER, textureBufferID);
+
 	}
 }

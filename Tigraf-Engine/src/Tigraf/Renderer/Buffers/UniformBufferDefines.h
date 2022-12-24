@@ -68,11 +68,13 @@ layout(std140, binding = 0) uniform TextureBuffer
 Buffer for storing data that changes once per frame.
 */
 #define PER_FRAME_UNIFORM_BUFFER 1
+#define PER_FRAME_UNIFORM_BUFFER_SIZE 1000
 
 /**
 Buffer for storing data that changes with each model.
 */
 #define PER_MODEL_UNIFORM_BUFFER 2
+#define PER_MODEL_UNIFORM_BUFFER_SIZE 1000
 
 
 #define UNIFORM_BUFFER_3	3

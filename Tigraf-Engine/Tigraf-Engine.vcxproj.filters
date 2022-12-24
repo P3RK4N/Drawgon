@@ -116,6 +116,8 @@
     <ClInclude Include="src\Tigraf\Renderer\Framebuffers\Framebuffer.h" />
     <ClInclude Include="src\Tigraf\Renderer\Framebuffers\OpenGLFramebuffer.h" />
     <ClInclude Include="src\Tigraf\Renderer\Buffers\UniformBufferDefines.h" />
+    <ClInclude Include="src\Tigraf\Renderer\Mesh\Mesh.h" />
+    <ClInclude Include="src\Tigraf\Renderer\Mesh\MeshPrimitives.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\PCH.cpp" />
@@ -160,5 +162,8 @@
     </ClCompile>
     <ClCompile Include="src\Tigraf\Renderer\Framebuffers\Framebuffer.cpp" />
     <ClCompile Include="src\Tigraf\Renderer\Framebuffers\OpenGLFramebuffer.cpp" />
+    <ClCompile Include="src\Tigraf\Renderer\Mesh\Mesh.cpp" />
+    <ClCompile Include="src\Tigraf\Renderer\Shaders\Shader.cpp" />
+    <ClCompile Include="src\Tigraf\Renderer\Mesh\MeshPrimitives.cpp" />
   </ItemGroup>
 </Project>

@@ -4,17 +4,27 @@ $VertexShader
 
 layout (location = 0) in vec3 ObjectPositionVS;
 
-uniform mat4 VP;
-uniform mat4 M;
+layout(std140, binding = 1) uniform PerFrameBuffer
+{
+	mat4 VP;
+	vec3 CameraWorldPosition;
+};
+
+layout(std140, binding = 2) uniform PerModelBuffer
+{
+	mat4 M;
+	mat4 MVP;
+};
 
 out vec4 WorldPositionPS;
 out vec3 ObjectPositionPS;
 
 void main()
 {
-	WorldPositionPS = M * vec4(ObjectPositionVS, 1.0);
+	WorldPositionPS = vec4(ObjectPositionVS, 0.0) + vec4(CameraWorldPosition.x, 0.0, CameraWorldPosition.z, 1.0);
 	ObjectPositionPS = ObjectPositionVS;
-	gl_Position = VP * M * vec4(ObjectPositionVS, 1.0);
+
+	gl_Position = VP * WorldPositionPS;
 }
 
 
@@ -44,5 +54,6 @@ void main()
 
 	float dist = length(ObjectPositionPS) / 20;
 	float opacity = mix(1.0, 0.0, dist*dist);
+
 	FragColor = vec4(val, val, val, opacity);
 }

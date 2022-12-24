@@ -2,14 +2,13 @@ $VertexShader
 #version 460 core
 
 layout (location = 0) in vec3 ClipPositionVS;
-layout(location = 1) in vec2 TextureCoordinatesVS;
 
 out vec2 TextureCoordinatesPS;
 
 void main()
 {
-	TextureCoordinatesPS = TextureCoordinatesVS;
-	gl_Position = vec4(ClipPositionVS, 1.0);
+	TextureCoordinatesPS = ClipPositionVS.xz / 2.0 + vec2(0.5,0.5);
+	gl_Position = vec4(ClipPositionVS.xz, 0.0, 1.0);
 }
 
 $PixelShader

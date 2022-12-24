@@ -10,9 +10,13 @@ namespace Tigraf
 	{
 	public:
 		Shader() {}
-		~Shader() {}
+		virtual ~Shader() {}
+
+		static Ref<Shader> create(const std::filesystem::path& shaderPath);
 
 	public:
+		virtual void use() = 0;
+
 		virtual void setFloat(float value, const char* name) = 0;			
 		virtual void setFloat2(const glm::vec2& vector, const char* name) = 0;
 		virtual void setFloat3(const glm::vec3& vector, const char* name) = 0;
@@ -25,9 +29,6 @@ namespace Tigraf
 
 		virtual void setMat3(const glm::mat3& mat, const char* name) = 0;
 		virtual void setMat4(const glm::mat4& mat, const char* name) = 0;
-
-		//virtual void setTexture2D(const Ref<Texture2D>& texture) = 0;
-		//virtual void setUniformBuffer(const Ref<UniformBuffer>& uniformBuffer, int bindPos) = 0;
 	};
 
 }
