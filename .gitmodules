@@ -1,6 +1,0 @@
-[submodule "Tigraf-Engine/vendor/glfw"]
-	path = Tigraf-Engine/vendor/glfw
-	url = https://github.com/glfw/glfw
-[submodule "Tigraf-Engine/vendor/glm"]
-	path = Tigraf-Engine/vendor/glm
-	url = https://github.com/g-truc/glm

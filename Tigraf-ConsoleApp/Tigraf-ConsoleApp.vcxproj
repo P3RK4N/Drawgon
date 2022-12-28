@@ -146,10 +146,6 @@
       <Project>{25625077-9122-CCAD-5A5D-152BC6DC108A}</Project>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="resources\shaders\ComputeShader.glsl" />
-    <None Include="resources\shaders\GUI_Shader.glsl" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

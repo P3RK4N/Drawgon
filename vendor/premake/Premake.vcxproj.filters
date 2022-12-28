@@ -19,9 +19,6 @@
     <Filter Include="..\Tigraf-Engine\vendor\glfw">
       <UniqueIdentifier>{EC9B14F0-D856-049C-810E-7DE66DA84E2C}</UniqueIdentifier>
     </Filter>
-    <Filter Include="..\Tigraf-Engine\vendor\spdlog">
-      <UniqueIdentifier>{A557F063-917D-BACA-7AC3-3F966688DF96}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Tigraf-ConsoleApp\premake5.lua">
@@ -35,9 +32,6 @@
     </None>
     <None Include="..\..\Tigraf-Engine\vendor\glfw\premake5.lua">
       <Filter>..\Tigraf-Engine\vendor\glfw</Filter>
-    </None>
-    <None Include="..\..\Tigraf-Engine\vendor\spdlog\premake5.lua">
-      <Filter>..\Tigraf-Engine\vendor\spdlog</Filter>
     </None>
     <None Include="..\..\premake5.lua">
       <Filter>..</Filter>

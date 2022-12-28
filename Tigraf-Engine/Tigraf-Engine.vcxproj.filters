@@ -10,6 +10,9 @@
     <Filter Include="Tigraf\Event">
       <UniqueIdentifier>{33D6993E-1F39-29E3-C8BE-6199B400F565}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tigraf\GUI">
+      <UniqueIdentifier>{76B3B08F-626B-F2DC-CB72-CB38B7498DCD}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Tigraf\Input">
       <UniqueIdentifier>{E104DE3E-CD67-6DE3-76ED-A599622F3966}</UniqueIdentifier>
     </Filter>
@@ -68,6 +71,15 @@
     <ClInclude Include="src\Tigraf\Event\Event.h">
       <Filter>Tigraf\Event</Filter>
     </ClInclude>
+    <ClInclude Include="src\Tigraf\GUI\Frame.h">
+      <Filter>Tigraf\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tigraf\GUI\GUI_Element.h">
+      <Filter>Tigraf\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tigraf\GUI\Panel.h">
+      <Filter>Tigraf\GUI</Filter>
+    </ClInclude>
     <ClInclude Include="src\Tigraf\Input\Input.h">
       <Filter>Tigraf\Input</Filter>
     </ClInclude>
@@ -81,6 +93,9 @@
       <Filter>Tigraf\Renderer\Buffers</Filter>
     </ClInclude>
     <ClInclude Include="src\Tigraf\Renderer\Buffers\OpenGLBuffer.h">
+      <Filter>Tigraf\Renderer\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tigraf\Renderer\Buffers\RWBufferDefines.h">
       <Filter>Tigraf\Renderer\Buffers</Filter>
     </ClInclude>
     <ClInclude Include="src\Tigraf\Renderer\Buffers\UniformBufferDefines.h">
@@ -116,7 +131,13 @@
     <ClInclude Include="src\Tigraf\Renderer\RendererAPI.h">
       <Filter>Tigraf\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Tigraf\Renderer\Shaders\ComputeShader.h">
+      <Filter>Tigraf\Renderer\Shaders</Filter>
+    </ClInclude>
     <ClInclude Include="src\Tigraf\Renderer\Shaders\Shader.h">
+      <Filter>Tigraf\Renderer\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tigraf\Renderer\Shaders\glslComputeShader.h">
       <Filter>Tigraf\Renderer\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="src\Tigraf\Renderer\Shaders\glslShader.h">
@@ -134,12 +155,6 @@
     <ClInclude Include="src\Tigraf\Window\glfwWindow.h">
       <Filter>Tigraf\Window</Filter>
     </ClInclude>
-    <ClInclude Include="src\Tigraf\GUI\Frame.h" />
-    <ClInclude Include="src\Tigraf\GUI\Panel.h" />
-    <ClInclude Include="src\Tigraf\GUI\GUI_Element.h" />
-    <ClInclude Include="src\Tigraf\Renderer\Buffers\RWBufferDefines.h" />
-    <ClInclude Include="src\Tigraf\Renderer\Shaders\ComputeShader.h" />
-    <ClInclude Include="src\Tigraf\Renderer\Shaders\glslComputeShader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\PCH.cpp" />
@@ -148,6 +163,12 @@
     </ClCompile>
     <ClCompile Include="src\Tigraf\Core\Log.cpp">
       <Filter>Tigraf\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tigraf\GUI\Frame.cpp">
+      <Filter>Tigraf\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tigraf\GUI\GUI_Element.cpp">
+      <Filter>Tigraf\GUI</Filter>
     </ClCompile>
     <ClCompile Include="src\Tigraf\Renderer\Buffers\Buffer.cpp">
       <Filter>Tigraf\Renderer\Buffers</Filter>
@@ -179,7 +200,13 @@
     <ClCompile Include="src\Tigraf\Renderer\Renderer.cpp">
       <Filter>Tigraf\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Tigraf\Renderer\Shaders\ComputeShader.cpp">
+      <Filter>Tigraf\Renderer\Shaders</Filter>
+    </ClCompile>
     <ClCompile Include="src\Tigraf\Renderer\Shaders\Shader.cpp">
+      <Filter>Tigraf\Renderer\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tigraf\Renderer\Shaders\glslComputeShader.cpp">
       <Filter>Tigraf\Renderer\Shaders</Filter>
     </ClCompile>
     <ClCompile Include="src\Tigraf\Renderer\Shaders\glslShader.cpp">
@@ -197,9 +224,5 @@
     <ClCompile Include="src\Tigraf\Window\glfwWindow.cpp">
       <Filter>Tigraf\Window</Filter>
     </ClCompile>
-    <ClCompile Include="src\Tigraf\GUI\GUI_Element.cpp" />
-    <ClCompile Include="src\Tigraf\GUI\Frame.cpp" />
-    <ClCompile Include="src\Tigraf\Renderer\Shaders\ComputeShader.cpp" />
-    <ClCompile Include="src\Tigraf\Renderer\Shaders\glslComputeShader.cpp" />
   </ItemGroup>
 </Project>

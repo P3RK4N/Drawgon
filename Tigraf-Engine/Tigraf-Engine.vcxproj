@@ -176,8 +176,8 @@
     <ClInclude Include="src\Tigraf\Renderer\Renderer.h" />
     <ClInclude Include="src\Tigraf\Renderer\RendererAPI.h" />
     <ClInclude Include="src\Tigraf\Renderer\Shaders\ComputeShader.h" />
-    <ClInclude Include="src\Tigraf\Renderer\Shaders\glslComputeShader.h" />
     <ClInclude Include="src\Tigraf\Renderer\Shaders\Shader.h" />
+    <ClInclude Include="src\Tigraf\Renderer\Shaders\glslComputeShader.h" />
     <ClInclude Include="src\Tigraf\Renderer\Shaders\glslShader.h" />
     <ClInclude Include="src\Tigraf\Renderer\Textures\OpenGLTexture.h" />
     <ClInclude Include="src\Tigraf\Renderer\Textures\Texture.h" />
@@ -203,8 +203,8 @@
     <ClCompile Include="src\Tigraf\Renderer\OpenGLRendererAPI.cpp" />
     <ClCompile Include="src\Tigraf\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Tigraf\Renderer\Shaders\ComputeShader.cpp" />
-    <ClCompile Include="src\Tigraf\Renderer\Shaders\glslComputeShader.cpp" />
     <ClCompile Include="src\Tigraf\Renderer\Shaders\Shader.cpp" />
+    <ClCompile Include="src\Tigraf\Renderer\Shaders\glslComputeShader.cpp" />
     <ClCompile Include="src\Tigraf\Renderer\Shaders\glslShader.cpp" />
     <ClCompile Include="src\Tigraf\Renderer\Textures\OpenGLTexture.cpp" />
     <ClCompile Include="src\Tigraf\Renderer\Textures\Texture.cpp" />

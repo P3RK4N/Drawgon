@@ -81,7 +81,6 @@
     <None Include="..\..\Tigraf-Engine\premake5.lua" />
     <None Include="..\..\Tigraf-Engine\vendor\glad\premake5.lua" />
     <None Include="..\..\Tigraf-Engine\vendor\glfw\premake5.lua" />
-    <None Include="..\..\Tigraf-Engine\vendor\spdlog\premake5.lua" />
     <None Include="..\..\premake5.lua" />
     <None Include="premake5.lua" />
   </ItemGroup>
