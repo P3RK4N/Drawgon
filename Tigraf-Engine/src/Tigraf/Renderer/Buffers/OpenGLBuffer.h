@@ -102,4 +102,20 @@ namespace Tigraf
 	protected:
 		GLuint m_UniformBufferID = 0;
 	};
+
+	class OpenGLRWBuffer : public RWBuffer
+	{
+	public:
+		OpenGLRWBuffer(void* data, uint32_t sizeInBytes, GLuint storageFlags);
+		virtual ~OpenGLRWBuffer();
+
+		virtual void updateBuffer(void* subData, uint32_t sizeInBytes, uint32_t byteOffset) override;
+		virtual void bind(uint16_t bindIndex) override;
+		virtual void unbind() override;
+
+		uint32_t getRWBufferID() { return m_RWBufferID; }
+
+	protected:
+		GLuint m_RWBufferID = 0;
+	};
 }

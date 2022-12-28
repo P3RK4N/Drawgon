@@ -1,18 +1,17 @@
 #pragma once
-#include "Shader.h"
+#include "ComputeShader.h"
 
 #include <glad/glad.h>
 #include <filesystem>
 
 namespace Tigraf
 {
-	class glslShader : public Shader
+	class glslComputeShader : public ComputeShader
 	{
 	public:
-		glslShader(const std::filesystem::path& path);
-		virtual ~glslShader();
+		glslComputeShader(const std::filesystem::path& path);
+		virtual ~glslComputeShader();
 
-		virtual void use() override;
 		virtual void dispatch(int x, int y, int z) override;
 
 	public:

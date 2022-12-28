@@ -19,6 +19,5 @@ group ""
 
 group "Core"
    include "Tigraf-ConsoleApp"
-   include "Tigraf-GUI"
    include "Tigraf-Engine"
 group ""

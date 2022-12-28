@@ -23,7 +23,6 @@ project "Tigraf-Engine"
    includedirs
    {
       "src",
-      Includes["Tigraf-GUI"],
       Includes["spdlog"],
       Includes["glfw"],
       Includes["glad"],
@@ -33,7 +32,6 @@ project "Tigraf-Engine"
    
    links
    {
-      "Tigraf-GUI",
       "glfw",
       "glad",
       "opengl32.lib"

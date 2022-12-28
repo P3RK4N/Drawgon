@@ -1,5 +1,6 @@
 #pragma once
 #include "UniformBufferDefines.h"
+#include "RWBufferDefines.h"
 
 #include <cstdint>
 #include <unordered_set>
@@ -101,10 +102,31 @@ namespace Tigraf
 	public:
 		static Ref<UniformBuffer> create(void* data, uint32_t sizeInBytes, uint32_t storageFlags);
 
-		static std::unordered_set<uint16_t> s_CurrentBuffers;
+		static std::unordered_set<uint16_t> s_CurrentUniformBuffers;
 		static Ref<UniformBuffer> s_TextureBuffer;
 		static Ref<UniformBuffer> s_PerFrameBuffer;
 		static Ref<UniformBuffer> s_PerModelBuffer;
+
+	protected:
+		uint32_t m_SizeInBytes = 0;
+		uint16_t m_BindIndex = -1;
+	};
+
+	class RWBuffer
+	{
+	public:
+		virtual ~RWBuffer() {}
+
+		virtual void updateBuffer(void* subData, uint32_t byteSize, uint32_t byteOffset) {}
+		const uint16_t getBindIndex() { return m_BindIndex; }
+
+		virtual void bind(uint16_t bindIndex) = 0;
+		virtual void unbind() = 0;
+
+	public:
+		static Ref<RWBuffer> create(void* data, uint32_t sizeInBytes, uint32_t storageFlags);
+
+		static std::unordered_set<uint16_t> s_CurrentRWBuffers;
 
 	protected:
 		uint32_t m_SizeInBytes = 0;

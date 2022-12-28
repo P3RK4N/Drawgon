@@ -11,33 +11,14 @@ namespace Tigraf
 	{
 		glm::mat4 CameraViewProjection{};
 		glm::vec3 CameraWorldPosition{};
-	};
+		float TotalTime;
+	} frameData{};
 
 	struct PerModelData
 	{
 		glm::mat4 M{};
 		glm::mat4 MVP{};
-	};
-
-	PerFrameData frameData{};
-	PerModelData modelData{};
-
-	struct ColoredVertex
-	{
-		glm::vec3 pos{ 0,0,0 };
-		glm::vec3 col{ 0,0,0 };
-	};
-
-	struct Vertex
-	{
-		glm::vec3 pos{ 0, 0, 0 };
-	};
-
-	struct TextureVertex
-	{
-		glm::vec3 pos{ 0, 0, 0 };
-		glm::vec2 uv{ 0, 0 };
-	};
+	} modelData{};
 
 	void AppLayer::init()
 	{
@@ -55,6 +36,10 @@ namespace Tigraf
 		m_CubemapMesh = MeshPrimitives::Cube(transform);
 		m_CubemapMesh->setShader(Shader::create("resources\\shaders\\CubemapShader.glsl"));
 
+		//Plane2D
+		m_Plane2DMesh = MeshPrimitives::Plane2D();
+		m_Plane2DMesh->setShader(Shader::create("resources\\shaders\\GUI_Shader.glsl"));
+
 		//EDITOR_CAMERA
 		auto[x, y] = Application::s_Instance->getWindow()->getSize();
 		m_EditorCamera = createRef<EditorCamera>(1.0f * x / y, 0.1f, 300.0f);
@@ -65,11 +50,42 @@ namespace Tigraf
 		m_CubemapTexture = TextureCube::create("resources\\textures\\cubemaps\\skybox\\skybox", "jpg");
 		SET_TEXTURE_HANDLE(m_CubemapTexture->getTextureHandle(), TEXTURE_CUBE_0);
 
+		//RWBUFFER
+		glm::vec4 Color = { 1.0f, 0.2f, 0.2f, 1.0f };
+
+		m_RWBuffer = RWBuffer::create(nullptr, sizeof(glm::vec4), GL_DYNAMIC_STORAGE_BIT);
+		m_RWBuffer->bind(RW_BUFFER_0);
+		m_RWBuffer->updateBuffer(&Color, 16, 0);
+
+		//RWTEXTURE
+		struct COLOR
+		{
+			uint8_t r, g, b, a;
+		};
+
+		std::vector<COLOR> colorBuffer;
+		colorBuffer.reserve(100 * 100);
+		for(int i = 0; i < 100*100; i++)
+		{
+			colorBuffer.emplace_back(0xFF,0xF0,0,0xFF);
+		}
+
+		m_RWTexture = RWTexture2D::create(TextureFormat::RGBA8, 100, 100, colorBuffer.data());
+		struct Handle
+		{
+			uint64_t handle;
+			uint64_t padding;
+		} handle{ m_RWTexture->getTextureHandle(), 0 };
+		m_ImageBuffer = UniformBuffer::create(&handle, sizeof(handle), 0);
+		m_ImageBuffer->bind(UNIFORM_BUFFER_3);
+
+		m_ComputeShader = Shader::create("resources\\shaders\\ComputeShader.glsl");
+
 		//FRAMEBUFFER
 		auto [width, height] = Application::s_Instance->getWindow()->getSize();
 		m_Framebuffer = Framebuffer::create(width, height);
-		m_Framebuffer->attachColorTexture(TextureFormat::RGBA);
-		m_Framebuffer->attachDepthStencilTexture(TextureFormat::DepthStencil);
+		m_Framebuffer->attachColorTexture(TextureFormat::RGBA8);
+		m_Framebuffer->attachDepthStencilTexture(TextureFormat::DEPTH24STENCIL8);
 		m_Framebuffer->invalidate();
 		SET_TEXTURE_HANDLE(m_Framebuffer->getColorTexture(0)->getTextureHandle(), TEXTURE_2D_0);
 	}
@@ -84,14 +100,18 @@ namespace Tigraf
 			m_Framebuffer->resize(w, h);
 			SET_TEXTURE_HANDLE(m_Framebuffer->getColorTexture(0)->getTextureHandle(), TEXTURE_2D_0);
 		}
+
+		m_ComputeShader->dispatch(16, 16, 1);
+		glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT | GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
+
+		frameData.CameraWorldPosition = m_EditorCamera->getPosition();
+		frameData.CameraViewProjection = m_EditorCamera->getViewProjection();
+		frameData.TotalTime = ts.m_TotalTime;
+		UPDATE_PER_FRAME_BUFFER(frameData, sizeof(PerFrameData), 0);
 	}
 
 	void AppLayer::onDraw()
 	{
-		frameData.CameraWorldPosition = m_EditorCamera->getPosition();
-		frameData.CameraViewProjection = m_EditorCamera->getViewProjection();
-		UPDATE_PER_FRAME_BUFFER(frameData, sizeof(PerFrameData), 0);
-
 		m_Framebuffer->bind();
 		{
 			m_CubemapMesh->drawIndexed();
@@ -99,6 +119,8 @@ namespace Tigraf
 		}
 		m_Framebuffer->unbind();
 
+		
+		m_Plane2DMesh->drawIndexed();
 		m_FramebufferFrameMesh->drawIndexed();
 	}
 

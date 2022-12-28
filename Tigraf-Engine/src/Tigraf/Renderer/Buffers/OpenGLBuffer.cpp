@@ -81,9 +81,9 @@ namespace Tigraf
 
 	void OpenGLUniformBuffer::bind(uint16_t bindIndex)
 	{
-		TIGRAF_ASSERT(UniformBuffer::s_CurrentBuffers.find(bindIndex) != UniformBuffer::s_CurrentBuffers.end(), "Index is already taken!");
+		TIGRAF_ASSERT(UniformBuffer::s_CurrentUniformBuffers.find(bindIndex) == UniformBuffer::s_CurrentUniformBuffers.end(), "Index is already taken!");
 		glBindBufferBase(GL_UNIFORM_BUFFER, bindIndex, m_UniformBufferID);
-		UniformBuffer::s_CurrentBuffers.insert(bindIndex);
+		UniformBuffer::s_CurrentUniformBuffers.insert(bindIndex);
 		m_BindIndex = bindIndex;
 	}
 
@@ -91,7 +91,42 @@ namespace Tigraf
 	{
 		TIGRAF_ASSERT(m_BindIndex != -1, "This buffer is already unbound!");
 		glBindBufferBase(GL_UNIFORM_BUFFER, m_BindIndex, 0);
-		UniformBuffer::s_CurrentBuffers.erase(m_BindIndex);
+		UniformBuffer::s_CurrentUniformBuffers.erase(m_BindIndex);
 		m_BindIndex = -1;
 	}
+
+	
+	OpenGLRWBuffer::OpenGLRWBuffer(void* data, uint32_t sizeInBytes, GLuint storageFlags)
+	{
+		glCreateBuffers(1, &m_RWBufferID);
+		glNamedBufferStorage(m_RWBufferID, sizeInBytes, data, storageFlags);
+		m_SizeInBytes = sizeInBytes;
+	}
+
+	OpenGLRWBuffer::~OpenGLRWBuffer()
+	{
+		glDeleteBuffers(1, &m_RWBufferID);
+	}
+
+	void OpenGLRWBuffer::updateBuffer(void* subData, uint32_t sizeInBytes, uint32_t byteOffset)
+	{
+		glNamedBufferSubData(m_RWBufferID, byteOffset, sizeInBytes, subData);
+	}
+
+	void OpenGLRWBuffer::bind(uint16_t bindIndex)
+	{
+		TIGRAF_ASSERT(RWBuffer::s_CurrentRWBuffers.find(bindIndex) == RWBuffer::s_CurrentRWBuffers.end(), "Index is already taken!");
+		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindIndex, m_RWBufferID);
+		RWBuffer::s_CurrentRWBuffers.insert(bindIndex);
+		m_BindIndex = bindIndex;
+	}
+
+	void OpenGLRWBuffer::unbind()
+	{
+		TIGRAF_ASSERT(m_BindIndex != -1, "This buffer is already unbound!");
+		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, m_BindIndex, 0);
+		RWBuffer::s_CurrentRWBuffers.erase(m_BindIndex);
+		m_BindIndex = -1;
+	}
+
 }

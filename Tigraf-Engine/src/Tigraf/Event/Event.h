@@ -10,6 +10,7 @@ namespace Tigraf
 	enum class EVENT_TYPE : int
 	{
 		RESIZE,
+		CURSOR_MOVE,
 		MINIMIZE,
 		CLOSE,
 		KEY_PRESS,
@@ -44,8 +45,18 @@ namespace Tigraf
 		const std::string ToString() const { return std::format("KeyEvent({0})", keycode); }
 	};
 
+	struct CursorData
+	{
+		CursorData(int xPos, int yPos) : xPos(xPos), yPos(yPos) {}
+		int xPos = 0;
+		int yPos = 0;
+
+		const std::string ToString() const { return std::format("CursorEvent({0},{1})", xPos, yPos); }
+	};
+
 #define CAST_STREAM(DATA) inline std::ostream& operator<<(std::ostream& os, const DATA& d) { return os << d.ToString(); }
 
 	CAST_STREAM(ResizeData)
 	CAST_STREAM(KeyData)
+	CAST_STREAM(CursorData)
 }

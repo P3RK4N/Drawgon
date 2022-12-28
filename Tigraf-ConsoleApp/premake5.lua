@@ -16,7 +16,6 @@ project "Tigraf-ConsoleApp"
    includedirs
    {
       Includes["Tigraf-Engine"],
-      Includes["Tigraf-GUI"],
       Includes["spdlog"],
       Includes["stb"],
       Includes["glfw"],

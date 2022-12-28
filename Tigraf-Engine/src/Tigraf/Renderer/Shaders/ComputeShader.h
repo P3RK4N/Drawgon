@@ -6,16 +6,15 @@
 
 namespace Tigraf
 {
-	class Shader
+	class ComputeShader
 	{
 	public:
-		Shader() {}
-		virtual ~Shader() {}
+		ComputeShader() {}
+		virtual ~ComputeShader() {}
 
-		static Ref<Shader> create(const std::filesystem::path& shaderPath);
+		static Ref<ComputeShader> create(const std::filesystem::path& shaderPath);
 
 	public:
-		virtual void use() = 0;
 		virtual void dispatch(int x, int y, int z) = 0;
 
 		virtual void setFloat(float value, const char* name) = 0;			

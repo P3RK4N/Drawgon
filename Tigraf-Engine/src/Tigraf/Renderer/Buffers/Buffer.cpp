@@ -20,9 +20,16 @@ namespace Tigraf
 		return createRef<OpenGLUniformBuffer>(data, byteSize, storageFlags);
 	}
 
-	std::unordered_set<uint16_t> UniformBuffer::s_CurrentBuffers = { 0, 1, 2 };
+	std::unordered_set<uint16_t> UniformBuffer::s_CurrentUniformBuffers = { 0, 1, 2 };
 
 	Ref<UniformBuffer> UniformBuffer::s_TextureBuffer = nullptr;
 	Ref<UniformBuffer> UniformBuffer::s_PerFrameBuffer = nullptr;
 	Ref<UniformBuffer> UniformBuffer::s_PerModelBuffer = nullptr;
+
+	std::unordered_set<uint16_t> RWBuffer::s_CurrentRWBuffers = {};
+
+	Ref<RWBuffer> RWBuffer::create(void* data, uint32_t sizeInBytes, uint32_t storageFlags)
+	{
+		return createRef<OpenGLRWBuffer>(data, sizeInBytes, storageFlags);
+	}
 }

@@ -146,5 +146,13 @@ namespace Tigraf
 			WindowData* wd = (WindowData*)glfwGetWindowUserPointer(window);
 			wd->m_EventCallback(e);
 		});
+
+		glfwSetCursorPosCallback(m_WindowHandle, [](GLFWwindow* window, double xPos, double yPos)
+		{
+			CursorData data{ (int)xPos, (int)yPos };
+			Event e{ EVENT_TYPE::CURSOR_MOVE, (void*)&data };
+			WindowData* wd = (WindowData*)glfwGetWindowUserPointer(window);
+			wd->m_EventCallback(e);
+		});
 	}
 }

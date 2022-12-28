@@ -5,13 +5,22 @@
 #include "Tigraf/Renderer/Buffers/Buffer.h"
 #include "Tigraf/Renderer/Shaders/Shader.h"
 
-//#include <glm/gtc/matrix_transform.hpp>
-
 namespace Tigraf
 {
 	struct PrimitiveVertex
 	{
 		glm::vec3 Position;
+	};
+
+	struct PrimitiveVertex2D
+	{
+		glm::vec2 Position;
+	};
+
+	struct TextureVertex2D
+	{
+		glm::vec2 Position;
+		glm::vec2 TexCoord;
 	};
 
 	Ref<Shader> MeshPrimitives::s_PrimitiveShader = nullptr;
@@ -26,6 +35,12 @@ namespace Tigraf
 	{
 		glm::mat4 idn = glm::mat4(1.0f);
 		return MeshPrimitives::Plane(idn);
+	}
+
+	Ref<Mesh> MeshPrimitives::Plane2D()
+	{
+		glm::mat4 idn = glm::mat4(1.0f);
+		return MeshPrimitives::Plane2D(idn);
 	}
 
 	Ref<Mesh> MeshPrimitives::Cube(const glm::mat4& initialTransform)
@@ -93,6 +108,44 @@ namespace Tigraf
 
 		Ref<VertexBuffer> vertexBuffer = VertexBuffer::create(4, 12, vertices.data(), 0);
 		vertexBuffer->pushVertexAttribute(VertexAttributeType::FLOAT3);
+
+		std::vector<uint32_t> indices =
+		{
+			0,2,1,
+			2,3,1
+		};
+
+		Ref<IndexBuffer> indexBuffer = IndexBuffer::create(indices, 0);
+
+		return createRef<Mesh>(vertexBuffer, indexBuffer, s_PrimitiveShader);
+	}
+
+
+
+	Ref<Mesh> MeshPrimitives::Plane2D(const glm::mat4& initialTransform)
+	{
+
+		std::vector<TextureVertex2D> vertices =
+		{
+			{{ -0.5f, -0.5f	}, {0.0f, 0.0f} },
+			{{ -0.5f, 0.5f } , {0.0f, 1.0f} },
+			{{  0.5f, -0.5f} , {1.0f, 0.0f} },
+			{{  0.5f, 0.5f } , {1.0f, 1.0f} }
+		};
+
+		for(int index = 0; index < vertices.size(); index++)
+		{
+			vertices[index].Position = glm::vec2(initialTransform * glm::vec4(vertices[index].Position, 1.0f, 1.0f));
+		};
+
+		for(auto& vertex : vertices)
+		{
+			CORE_TRACE(std::format("UV {0} {1}", vertex.TexCoord.x, vertex.TexCoord.y));
+		}
+
+		Ref<VertexBuffer> vertexBuffer = VertexBuffer::create(4, 16, vertices.data(), 0);
+		vertexBuffer->pushVertexAttribute(VertexAttributeType::FLOAT2);
+		vertexBuffer->pushVertexAttribute(VertexAttributeType::FLOAT2);
 
 		std::vector<uint32_t> indices =
 		{

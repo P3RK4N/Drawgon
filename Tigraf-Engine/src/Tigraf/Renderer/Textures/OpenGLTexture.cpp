@@ -6,46 +6,133 @@
 
 namespace Tigraf
 {
-	GLuint textureFormatToOpenGL(TextureFormat textureType)
+	GLuint textureFormatToOpenGLDataFormat(TextureFormat textureFormat)
 	{
-		switch(textureType)
+		switch(textureFormat)
 		{
-		case TextureFormat::R:
+		case TextureFormat::R8:
 			return GL_RED;
-		case TextureFormat::RG:
+		case TextureFormat::RG8:
 			return GL_RG;
-		case TextureFormat::RGB:
+		case TextureFormat::RGB8:
 			return GL_RGB;
-		case TextureFormat::RGBA:
+		case TextureFormat::RGBA8:
 			return GL_RGBA;
-		case TextureFormat::RI:
+
+		case TextureFormat::R8I:
 			return GL_RED_INTEGER;
-		case TextureFormat::DepthStencil:
+		case TextureFormat::RG8I:
+			return GL_RG_INTEGER;
+		case TextureFormat::RGB8I:
+			return GL_RGB_INTEGER;
+		case TextureFormat::RGBA8I:
+			return GL_RGBA_INTEGER;
+
+		case TextureFormat::R32F:
+			return GL_RED;
+		case TextureFormat::RG32F:
+			return GL_RG;
+		case TextureFormat::RGB32F:
+			return GL_RGB;
+		case TextureFormat::RGBA32F:
+			return GL_RGBA;
+
+		case TextureFormat::R32I:
+			return GL_RED_INTEGER;
+		case TextureFormat::RG32I:
+			return GL_RG_INTEGER;
+		case TextureFormat::RGB32I:
+			return GL_RGB_INTEGER;
+		case TextureFormat::RGBA32I:
+			return GL_RGBA_INTEGER;
+
+		case TextureFormat::DEPTH24STENCIL8:
 			return GL_DEPTH_STENCIL;
 		}
 
 		TIGRAF_ASSERT(0, "Invalid Texture Format");
 	}
 
-	GLuint OpenGLDataFormatToInternal(GLuint dataFormat)
+	GLuint textureFormatToOpenGLInternalFormat(TextureFormat textureFormat)
 	{
-		switch(dataFormat)
+		switch(textureFormat)
 		{
-		case GL_RED:
+		case TextureFormat::R8:
 			return GL_R8;
-		case GL_RG:
+		case TextureFormat::RG8:
 			return GL_RG8;
-		case GL_RGB:
+		case TextureFormat::RGB8:
 			return GL_RGB8;
-		case GL_RGBA:
+		case TextureFormat::RGBA8:
 			return GL_RGBA8;
-		case GL_RED_INTEGER:
+
+		case TextureFormat::R8I:
+			return GL_R8I;
+		case TextureFormat::RG8I:
+			return GL_RG8I;
+		case TextureFormat::RGB8I:
+			return GL_RGB8I;
+		case TextureFormat::RGBA8I:
+			return GL_RGBA8I;
+
+		case TextureFormat::R32F:
+			return GL_R32F;
+		case TextureFormat::RG32F:
+			return GL_RG32F;
+		case TextureFormat::RGB32F:
+			return GL_RGB32F;
+		case TextureFormat::RGBA32F:
+			return GL_RGBA32F;
+
+		case TextureFormat::R32I:
 			return GL_R32I;
-		case GL_DEPTH_STENCIL:
+		case TextureFormat::RG32I:
+			return GL_RG32I;
+		case TextureFormat::RGB32I:
+			return GL_RGB32I;
+		case TextureFormat::RGBA32I:
+			return GL_RGBA32I;
+
+		case TextureFormat::DEPTH24STENCIL8:
 			return GL_DEPTH24_STENCIL8;
 		}
 
-		TIGRAF_ASSERT(0, "Invalid Data Format");
+		TIGRAF_ASSERT(0, "Invalid Texture Format");
+	}
+
+	GLuint textureFormatToComponentType(TextureFormat textureFormat)
+	{
+		switch(textureFormat)
+		{
+		case TextureFormat::R8:
+		case TextureFormat::RG8:
+		case TextureFormat::RGB8:
+		case TextureFormat::RGBA8:
+			return GL_UNSIGNED_BYTE;
+
+		case TextureFormat::R8I:
+		case TextureFormat::RG8I:
+		case TextureFormat::RGB8I:
+		case TextureFormat::RGBA8I:
+			return GL_BYTE;
+
+		case TextureFormat::R32I:
+		case TextureFormat::RG32I:
+		case TextureFormat::RGB32I:
+		case TextureFormat::RGBA32I:
+			return GL_INT;
+
+		case TextureFormat::R32F:
+		case TextureFormat::RG32F:
+		case TextureFormat::RGB32F:
+		case TextureFormat::RGBA32F:
+			return GL_FLOAT;
+
+		case TextureFormat::DEPTH24STENCIL8:
+			return GL_UNSIGNED_INT_24_8;
+		}
+
+		TIGRAF_ASSERT(0, "Invalid Texture Format");
 	}
 
 	OpenGLTexture2D::OpenGLTexture2D(const char* filePath)
@@ -63,13 +150,13 @@ namespace Tigraf
 		{
 			internalFormat = GL_RGB8;
 			dataFormat = GL_RGB;
-			m_TextureFormat = TextureFormat::RGB;
+			m_TextureFormat = TextureFormat::RGB8;
 		}
 		else
 		{
 			internalFormat = GL_RGBA8;
 			dataFormat = GL_RGBA;
-			m_TextureFormat = TextureFormat::RGBA;
+			m_TextureFormat = TextureFormat::RGBA8;
 		}
 
 		glTextureStorage2D(m_TextureID, 1, internalFormat, m_Width, m_Height);
@@ -79,13 +166,13 @@ namespace Tigraf
 		
 		glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
+		
 		glTextureSubImage2D(m_TextureID, 0, 0, 0, m_Width, m_Height, dataFormat, GL_UNSIGNED_BYTE, data);
 
 		stbi_image_free(data);
 
-		m_TextureHandle = glad_glGetTextureHandleARB(m_TextureID);
-	
+		m_TextureHandle = glGetTextureHandleARB(m_TextureID);
+		
 		//TODO(P3RK4N): Remove
 		glMakeTextureHandleResidentARB(m_TextureHandle);
 	}
@@ -94,9 +181,10 @@ namespace Tigraf
 	{
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_TextureID);
 
-		GLenum internalFormat, dataFormat;
-		dataFormat = textureFormatToOpenGL(textureFormat);
-		internalFormat = OpenGLDataFormatToInternal(dataFormat);
+		GLenum internalFormat, dataFormat, componentType;
+		dataFormat = textureFormatToOpenGLDataFormat(textureFormat);
+		internalFormat = textureFormatToOpenGLInternalFormat(textureFormat);
+		componentType = textureFormatToComponentType(textureFormat);
 
 		m_Width = width;
 		m_Height = height;
@@ -110,9 +198,9 @@ namespace Tigraf
 		glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-		if(textureData) glTextureSubImage2D(m_TextureID, 0, 0, 0, width, height, dataFormat, GL_UNSIGNED_BYTE, textureData);
+		if(textureData) glTextureSubImage2D(m_TextureID, 0, 0, 0, width, height, dataFormat, componentType, textureData);
 
-		m_TextureHandle = glad_glGetTextureHandleARB(m_TextureID);
+		m_TextureHandle = glGetTextureHandleARB(m_TextureID);
 
 		//TODO(P3RK4N): Remove
 		glMakeTextureHandleResidentARB(m_TextureHandle);
@@ -143,13 +231,13 @@ namespace Tigraf
 				{
 					internalFormat = GL_RGB8;
 					dataFormat = GL_RGB;
-					m_TextureFormat = TextureFormat::RGB;
+					m_TextureFormat = TextureFormat::RGB8;
 				}
 				else
 				{
 					internalFormat = GL_RGBA8;
 					dataFormat = GL_RGBA;
-					m_TextureFormat = TextureFormat::RGBA;
+					m_TextureFormat = TextureFormat::RGBA8;
 				}
 				glTextureStorage2D(m_TextureID, 1, internalFormat, m_Width, m_Height);
 			}
@@ -165,7 +253,7 @@ namespace Tigraf
 		glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
-		m_TextureHandle = glad_glGetTextureHandleARB(m_TextureID);
+		m_TextureHandle = glGetTextureHandleARB(m_TextureID);
 	
 		//TODO(P3RK4N): Remove
 		glMakeTextureHandleResidentARB(m_TextureHandle);
@@ -174,5 +262,33 @@ namespace Tigraf
 	OpenGLTextureCube::~OpenGLTextureCube()
 	{
 		glDeleteTextures(1, &m_TextureID);
+	}
+
+	OpenGLRWTexture2D::OpenGLRWTexture2D(TextureFormat textureFormat, uint32_t width, uint32_t height, const void* textureData)
+	{
+		glCreateTextures(GL_TEXTURE_2D, 1, &m_TextureID);
+
+		GLenum internalFormat, dataFormat, componentType;
+
+		dataFormat = textureFormatToOpenGLDataFormat(textureFormat);
+		internalFormat = textureFormatToOpenGLInternalFormat(textureFormat);
+		componentType = textureFormatToComponentType(textureFormat);
+
+		m_Width = width;
+		m_Height = height;
+		m_TextureFormat = textureFormat;
+
+		glTextureStorage2D(m_TextureID, 1, internalFormat, m_Width, m_Height);
+		if(textureData) glTextureSubImage2D(m_TextureID, 0, 0, 0, width, height, dataFormat, componentType, textureData);
+
+		m_TextureHandle = glGetImageHandleARB(m_TextureID, 0, false, 0, internalFormat);
+		
+		//TODO: Remove
+		glMakeImageHandleResidentARB(m_TextureHandle, GL_READ_WRITE);
+	}
+
+	OpenGLRWTexture2D::~OpenGLRWTexture2D()
+	{
+
 	}
 }

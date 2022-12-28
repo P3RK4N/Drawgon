@@ -7,13 +7,27 @@ namespace Tigraf
 	{
 		None,
 
-		R,
-		RG,
-		RGB,
-		RGBA,
+		R8,				//Unsigned int 0-255	=> converted to 0.0f-1.0f in shader
+		RG8,
+		RGB8,
+		RGBA8,
 
-		RI,
-		DepthStencil
+		R8I,			//Signed int -128 - 127 => stays same in shader 
+		RG8I,
+		RGB8I,
+		RGBA8I,
+
+		R32F,			//Float					=> stays same in shader
+		RG32F,
+		RGB32F,
+		RGBA32F,
+
+		R32I,			//Int					=> stays same in shader
+		RG32I,
+		RGB32I,
+		RGBA32I,
+
+		DEPTH24STENCIL8		//Depth and stencil texture => ????????
 	};
 
 	class Texture
@@ -22,17 +36,17 @@ namespace Tigraf
 		virtual ~Texture() {}
 
 		uint64_t getTextureHandle() { return m_TextureHandle; }
+		TextureFormat getTextureFormat() { return m_TextureFormat; }
 
 	protected:
 		uint64_t m_TextureHandle = 0;
+		TextureFormat m_TextureFormat = TextureFormat::None;
 	};
 
 	class Texture2D : public Texture
 	{
 	public:
 		virtual ~Texture2D() {}
-
-		TextureFormat getTextureFormat() { return m_TextureFormat; }
 
 	public:
 		static Ref<Texture2D> create(const char* filePath);
@@ -41,7 +55,19 @@ namespace Tigraf
 	protected:
 		int m_Width = 0;
 		int m_Height = 0;
-		TextureFormat m_TextureFormat = TextureFormat::None;
+	};
+
+	class RWTexture2D : public Texture
+	{
+	public:
+		virtual ~RWTexture2D() {}
+
+	public:
+		static Ref<RWTexture2D> create(TextureFormat textureFormat, uint32_t width, uint32_t height, const void* textureData);
+
+	protected:
+		int m_Width = 0;
+		int m_Height = 0;
 	};
 
 	class TextureCube : public Texture
@@ -65,7 +91,6 @@ namespace Tigraf
 		//Of each side
 		int m_Width = 0;
 		int m_Height = 0;
-		TextureFormat m_TextureFormat = TextureFormat::None;
 	};
 }
 

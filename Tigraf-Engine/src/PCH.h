@@ -15,6 +15,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <filesystem>
+#include <stddef.h>s
 
 //Platform
 #ifdef TIGRAF_WINDOWS

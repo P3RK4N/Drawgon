@@ -35,4 +35,16 @@ namespace Tigraf
 	private:
 
 	};
+
+	class OpenGLRWTexture2D : public RWTexture2D
+	{
+	public:
+		OpenGLRWTexture2D(TextureFormat textureFormat, uint32_t width, uint32_t height, const void* textureData);
+		virtual ~OpenGLRWTexture2D();
+
+		const GLuint getTextureID() { return m_TextureID; }
+
+	protected:
+		GLuint m_TextureID = 0;
+	};
 }

@@ -20,7 +20,7 @@ namespace Tigraf
 	void OpenGLFramebuffer::attachColorTexture(TextureFormat colorFormat)
 	{
 		CORE_TRACE((int)colorFormat);
-		TIGRAF_ASSERT(colorFormat == TextureFormat::RGBA, "Tigraf currently does not support this framebuffer color format!");
+		TIGRAF_ASSERT(colorFormat == TextureFormat::RGBA8, "Tigraf currently does not support this framebuffer color format!");
 
 		Ref<Texture2D> colorTexture = Texture2D::create(colorFormat, m_Width, m_Height, nullptr);
 		GLuint textureID = reinterpret_cast<OpenGLTexture2D*>(colorTexture.get())->getTextureID();
@@ -32,7 +32,7 @@ namespace Tigraf
 
 	void OpenGLFramebuffer::attachDepthStencilTexture(TextureFormat depthStencilFormat)
 	{
-		TIGRAF_ASSERT(depthStencilFormat == TextureFormat::DepthStencil, "Tigraf currently does not support this framebuffer depth stencil format!");
+		TIGRAF_ASSERT(depthStencilFormat == TextureFormat::DEPTH24STENCIL8, "Tigraf currently does not support this framebuffer depth stencil format!");
 		TIGRAF_ASSERT(!m_DepthStencilTexture, "Depth stencil texture already attached!");
 
 		Ref<Texture2D> depthStencilTexture = Texture2D::create(depthStencilFormat, m_Width, m_Height, nullptr);
@@ -71,7 +71,7 @@ namespace Tigraf
 			attachDepthStencilTexture(depthStencilFormat);
 		}
 
-		CORE_TRACE(std::format("Framebuffer initialized: {}", (int)(glCheckNamedFramebufferStatus(m_FramebufferID, GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE)));
+		CORE_TRACE(std::format("Framebuffer initialized: {0}", (int)(glCheckNamedFramebufferStatus(m_FramebufferID, GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE)));
 	}
 
 	void OpenGLFramebuffer::resize(uint32_t width, uint32_t height)
@@ -96,21 +96,32 @@ namespace Tigraf
 
 		switch(format)
 		{
-		case TextureFormat::R:
+		case TextureFormat::R8:
 			glClearTexImage(textureID, 0, GL_RED, GL_FLOAT, &s_ClearColor1f);
 			return;
-		case TextureFormat::RG:
+		case TextureFormat::RG8:
 			glClearTexImage(textureID, 0, GL_RG, GL_FLOAT, &s_ClearColor2f);
 			return;
-		case TextureFormat::RGB:
+		case TextureFormat::RGB8:
 			glClearTexImage(textureID, 0, GL_RGB, GL_FLOAT, &s_ClearColor3f);
 			return;
-		case TextureFormat::RGBA:
+		case TextureFormat::RGBA8:
 			glClearTexImage(textureID, 0, GL_RGBA, GL_FLOAT, &s_ClearColor4f);
 			return;
-		case TextureFormat::RI:
+
+		case TextureFormat::R8I:
 			glClearTexImage(textureID, 0, GL_RED_INTEGER, GL_INT, &s_ClearColor1i);
 			return;
+		case TextureFormat::RG8I:
+			glClearTexImage(textureID, 0, GL_RED_INTEGER, GL_INT, &s_ClearColor2i);
+			return;
+		case TextureFormat::RGB8I:
+			glClearTexImage(textureID, 0, GL_RED_INTEGER, GL_INT, &s_ClearColor3i);
+			return;
+		case TextureFormat::RGBA8I:
+			glClearTexImage(textureID, 0, GL_RED_INTEGER, GL_INT, &s_ClearColor4i);
+			return;
+
 		}
 
 		TIGRAF_ASSERT(0, "Invalid texture format!");

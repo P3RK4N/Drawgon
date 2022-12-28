@@ -14,6 +14,9 @@ namespace Tigraf
 		static Ref<Mesh> Plane();
 		static Ref<Mesh> Plane(const glm::mat4& initialTransform);
 
+		static Ref<Mesh> Plane2D();
+		static Ref<Mesh> Plane2D(const glm::mat4& initialTransform);
+
 		static Ref<Mesh> Cube();
 		static Ref<Mesh> Cube(const glm::mat4& initialTransform);
 

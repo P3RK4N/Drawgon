@@ -11,8 +11,8 @@ namespace Tigraf
 	}
 
 	float		Framebuffer::s_ClearColor1f = { 1.0f };
-	glm::vec2	Framebuffer::s_ClearColor2f = { 1.0f, 1.0f };
-	glm::vec3	Framebuffer::s_ClearColor3f = { 1.0f, 1.0f, 1.0f };
+	glm::vec2	Framebuffer::s_ClearColor2f = { 0.3f, 1.0f };
+	glm::vec3	Framebuffer::s_ClearColor3f = { 0.4f, 0.7f, 0.2f };
 	glm::vec4	Framebuffer::s_ClearColor4f = { 0.1f, 1.0f, 0.1f, 1.0f };
 	int			Framebuffer::s_ClearColor1i = { -1 };
 	glm::ivec2	Framebuffer::s_ClearColor2i = { -1, -1 };
