@@ -1,0 +1,3 @@
+[submodule "vendor/Tigraf-Core"]
+	path = vendor/Tigraf-Core
+	url = https://github.com/P3RK4N/Tigraf-Core
