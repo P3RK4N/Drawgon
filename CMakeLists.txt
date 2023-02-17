@@ -27,22 +27,15 @@ set_target_properties(
          VS_DEBUGGER_WORKING_DIRECTORY "${Drawgon_SOURCE_DIR}/resources"
 )
 
-file(
-   GLOB_RECURSE 
-      sources src/*.cpp src/*.h src/*.glsl src/*.jpg src/*.png
-)
-
-file(
-   GLOB_RECURSE 
-      resources resources/*.glsl resources/*.jpg resources/*.png
-)
+file(GLOB_RECURSE sources src/*.*)
+file(GLOB_RECURSE resources resources/*.*)
 
 drawgon_group_sources(resources "${Drawgon_SOURCE_DIR}/resources" "Resources")
 drawgon_group_sources(sources "${Drawgon_SOURCE_DIR}/src" "Source")
 
 target_sources(
    "${target_name}"
-   PRIVATE "${sources}"
+   PRIVATE "${sources};${resources}"
 )
    
 target_include_directories(
