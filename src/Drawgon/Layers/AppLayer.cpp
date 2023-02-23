@@ -67,6 +67,7 @@ namespace Tigraf
 		frameData.FrameTime = ts.m_FrameTime;
 		UPDATE_PER_FRAME_BUFFER(frameData, 0, sizeof(PerFrameData));
 
+		ON_GUI_RENDER();	//TODO: Maybe put at the end of onDraw()
 	}
 
 	void AppLayer::onDraw()
@@ -99,6 +100,16 @@ namespace Tigraf
 		m_EditorCamera->setAspectRatio(1.0f * data->width / data->height);
 		m_EditorCamera->recalculateViewProjection();
 
-		return false; 
+		return false;
 	}
+
+	DEFINE_ON_GUI_RENDER
+	({
+		TRACE("GUI Render!");
+		
+		ImGui::NewFrame();
+
+		ImGui::Begin("Ante");
+		ImGui::End();
+	})
 }
