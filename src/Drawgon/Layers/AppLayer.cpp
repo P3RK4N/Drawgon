@@ -18,6 +18,8 @@ namespace Tigraf
 
 	void AppLayer::init()
 	{
+		ImGui_ImplSDL3_InitForOpenGL((SDL_Window*)Application::s_Instance->getWindow()->getNativeHandle(), Application::s_Instance->getWindow()->getNativeContext());
+
 		//FRAMEBUFFER FRAME
 		glm::mat4 transform =  glm::scale(glm::vec3(2.0f, 2.0f, 2.0f));
 		m_FramebufferFrameMesh = MeshPrimitives::Plane(transform);

@@ -14,12 +14,33 @@
 
 #else
 
+	//ImGui
 	#include <imgui.h>
+	
+	//Platform Backend
+	#include <backends/imgui_impl_sdl3.h>
 
-	#define GUI_INIT()								\
-		ImGui::SyleColorsDark();					\
-		ImGuiContext* c = ImGui::CreateContext();	\
-		ImGui::SetCurrentContext(c);
+	//Renderer backends
+	#include <backends/imgui_impl_opengl3.h>
+	//TODO: Add more!
+
+	#define GUI_INIT()																	\
+		ImGui::CreateContext();															\
+		ImGui::StyleColorsDark();														\
+		ImGui_ImplOpenGL3_Init();														\
+		ImGui_ImplSDL3_InitForOpenGL													\
+		(																				\
+			(SDL_Window*)Application::s_Instance->getWindow()->getNativeHandle(), 		\
+			Application::s_Instance->getWindow()->getNativeContext()					\
+		);																				\
+		Application::s_Instance->getWindow()->setNativeEventCallback					\
+		(																				\
+			[](void* e)																	\
+			{																			\
+				ImGui_ImplSDL3_ProcessEvent(e);											\
+				return false;															\
+			}																			\
+		)
 
 	#define DECLARE_ON_GUI_RENDER					\
 		private:									\
