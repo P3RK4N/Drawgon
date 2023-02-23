@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.25)
 include("cmake/Drawgon_Utils.cmake")
 
+#TODO: Add Dist Configuration
+
 #############################################################################
 #PROJECT INIT ###############################################################
 #############################################################################
@@ -10,7 +12,7 @@ set(BUILD_SHARED_LIBS OFF)
 
 project(Drawgon VERSION 0.1.0 LANGUAGES C CXX)
 
-set(target_name "Drawgon-Console")
+set(target_name "Drawgon")
 set(cxx_version 20)
 
 
@@ -47,11 +49,16 @@ target_include_directories(
 #Dependencies ###############################################################
 #############################################################################
 
+#Tigraf-Core
 add_subdirectory(vendor/Tigraf-Core)
+
+#imgui,...
+add_subdirectory(vendor)
 
 target_link_libraries(
    "${target_name}"
-   PRIVATE Tigraf-Core
+      PRIVATE Tigraf-Core
+      PRIVATE imgui
 )
 
 #############################################################################
