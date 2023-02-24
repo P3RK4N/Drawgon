@@ -34,6 +34,8 @@
 		ImGui::CreateContext();															\
 		ImGuiIO& io = ImGui::GetIO(); (void)io;											\
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;							\
+		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;								\
+		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;								\
 		ImGui::StyleColorsDark();														\
 		ImGui_ImplSDL3_InitForOpenGL													\
 		(																				\
@@ -66,8 +68,18 @@
         ImGui::NewFrame();
 
 	#define GUI_RENDER_END()															\
+		ImGuiIO& io = ImGui::GetIO();													\
+		auto&[x,y] = Application::s_Instance->getWindow()->getSize();					\
+		io.DisplaySize = ImVec2((float)x, (float)y);									\
 		ImGui::Render();																\
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());							
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());							\
+		if(io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)							\
+		{																				\
+			ImGui::UpdatePlatformWindows();												\
+			ImGui::RenderPlatformWindowsDefault();										\
+			Application::s_Instance->getWindow()->makeCurrent();						\
+		}
+		
 
 	#define ON_GUI_SHUTDOWN()															\
 		ImGui_ImplOpenGL3_Shutdown();													\

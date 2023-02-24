@@ -35,7 +35,7 @@ namespace Tigraf
 		m_CubemapMesh->setShader(Shader::create("shaders\\CubemapShader.glsl"));
 
 		//EDITOR_CAMERA
-		auto[x, y] = Application::s_Instance->getWindow()->getSize();
+		auto&[x, y] = Application::s_Instance->getWindow()->getSize();
 		m_EditorCamera = createRef<EditorCamera>(1.0f * x / y, 0.1f, 1000.0f);
 
 		//TEXTURES
@@ -43,7 +43,7 @@ namespace Tigraf
 		SET_TEXTURE_HANDLE(m_CubemapTexture->getTextureHandle(), TEXTURE_CUBE_0);
 
 		//FRAMEBUFFER
-		auto [width, height] = Application::s_Instance->getWindow()->getSize();
+		auto&[width, height] = Application::s_Instance->getWindow()->getSize();
 		m_Framebuffer = Framebuffer::create(width, height);
 		m_Framebuffer->attachColorTexture(TextureFormat::RGBA8);
 		m_Framebuffer->attachDepthStencilTexture(TextureFormat::DEPTH24STENCIL8);
@@ -56,7 +56,7 @@ namespace Tigraf
 	{
 		m_EditorCamera->onUpdate(ts);
 
-		auto [w, h] = Application::s_Instance->getWindow()->getSize();
+		auto&[w, h] = Application::s_Instance->getWindow()->getSize();
 		if(w != m_Framebuffer->getWidth() || h != m_Framebuffer->getHeight())
 		{
 			m_Framebuffer->resize(w, h);
@@ -68,12 +68,12 @@ namespace Tigraf
 		frameData.TotalTime = ts.m_TotalTime;
 		frameData.FrameTime = ts.m_FrameTime;
 		UPDATE_PER_FRAME_BUFFER(frameData, 0, sizeof(PerFrameData));
-
-		ON_GUI_RENDER();	//TODO: Maybe put at the end of onDraw()
 	}
 
 	void AppLayer::onDraw()
 	{
+		ON_GUI_RENDER();
+
 		m_Framebuffer->bind();
 		{
 			m_CubemapMesh->drawTrianglesIndexed();
@@ -81,7 +81,7 @@ namespace Tigraf
 		}
 		m_Framebuffer->unbind();
 
-		m_FramebufferFrameMesh->drawTrianglesIndexed();
+		//m_FramebufferFrameMesh->drawTrianglesIndexed();
 	}
 
 	void AppLayer::shutdown()
@@ -112,12 +112,6 @@ namespace Tigraf
 		GUI_RENDER_BEGIN();
 
 		ImGui::ShowDemoWindow(&showDemo);
-
-		ImGui::Begin("Ante");
-
-		ImGui::Text("Ivan ipak");
-
-		ImGui::End();
 
 		GUI_RENDER_END();
 	)
