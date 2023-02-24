@@ -18,7 +18,7 @@ namespace Tigraf
 
 	void AppLayer::init()
 	{
-		ImGui_ImplSDL3_InitForOpenGL((SDL_Window*)Application::s_Instance->getWindow()->getNativeHandle(), Application::s_Instance->getWindow()->getNativeContext());
+		ON_GUI_INIT();
 
 		//FRAMEBUFFER FRAME
 		glm::mat4 transform =  glm::scale(glm::vec3(2.0f, 2.0f, 2.0f));
@@ -86,7 +86,7 @@ namespace Tigraf
 
 	void AppLayer::shutdown()
 	{
-	
+		ON_GUI_SHUTDOWN();
 	}
 
 	bool AppLayer::onEvent(Event& event)
@@ -105,13 +105,20 @@ namespace Tigraf
 		return false;
 	}
 
+	static bool showDemo = true;
+
 	DEFINE_ON_GUI_RENDER
-	({
-		TRACE("GUI Render!");
-		
-		ImGui::NewFrame();
+	(
+		GUI_RENDER_BEGIN();
+
+		ImGui::ShowDemoWindow(&showDemo);
 
 		ImGui::Begin("Ante");
+
+		ImGui::Text("Ivan ipak");
+
 		ImGui::End();
-	})
+
+		GUI_RENDER_END();
+	)
 }

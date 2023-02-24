@@ -8,6 +8,7 @@ target_sources(
          "${Drawgon_SOURCE_DIR}/vendor/imgui/imgui_draw.cpp"
          "${Drawgon_SOURCE_DIR}/vendor/imgui/imgui_widgets.cpp"
          "${Drawgon_SOURCE_DIR}/vendor/imgui/imgui_tables.cpp"
+         "${Drawgon_SOURCE_DIR}/vendor/imgui/imgui_demo.cpp"    #TODO: Remove
          
          #Backends
          "${Drawgon_SOURCE_DIR}/vendor/imgui/backends/imgui_impl_sdl3.cpp"
