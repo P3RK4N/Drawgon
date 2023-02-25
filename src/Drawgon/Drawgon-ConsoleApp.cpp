@@ -7,5 +7,5 @@ using namespace Tigraf;
 //Add layers to Application
 void STARTUP(std::vector<Layer*>& layers)
 {
-	layers.push_back(new AppLayer());
+	layers.push_back(new Drawgon::AppLayer());
 }

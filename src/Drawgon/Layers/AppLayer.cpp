@@ -1,6 +1,7 @@
 #include "AppLayer.h"
 
-namespace Tigraf
+
+namespace Drawgon
 {
 	struct PerFrameData
 	{
@@ -8,6 +9,7 @@ namespace Tigraf
 		glm::vec3 CameraWorldPosition{};
 		float TotalTime;
 		float FrameTime;
+		uint32_t SkyboxSlot;
 	} frameData{};
 
 	struct PerModelData
@@ -40,7 +42,7 @@ namespace Tigraf
 
 		//TEXTURES
 		m_CubemapTexture = TextureCube::create("textures\\cubemaps\\skybox\\skybox", "jpg");
-		SET_TEXTURE_HANDLE(m_CubemapTexture->getTextureHandle(), TEXTURE_CUBE_0);
+		SetTextureHandle(m_CubemapTexture, TextureCubeSlot::TEXTURE_CUBE_0);
 
 		//FRAMEBUFFER
 		auto&[width, height] = Application::s_Instance->getWindow()->getSize();
@@ -48,7 +50,7 @@ namespace Tigraf
 		m_Framebuffer->attachColorTexture(TextureFormat::RGBA8);
 		m_Framebuffer->attachDepthStencilTexture(TextureFormat::DEPTH24STENCIL8);
 		m_Framebuffer->invalidate();
-		SET_TEXTURE_HANDLE(m_Framebuffer->getColorTexture(0)->getTextureHandle(), TEXTURE_2D_0);
+		SetTextureHandle(m_Framebuffer->getColorTexture(0), Texture2DSlot::TEXTURE_2D_0);
 
 	}
 
@@ -60,14 +62,14 @@ namespace Tigraf
 		if(w != m_Framebuffer->getWidth() || h != m_Framebuffer->getHeight())
 		{
 			m_Framebuffer->resize(w, h);
-			SET_TEXTURE_HANDLE(m_Framebuffer->getColorTexture(0)->getTextureHandle(), TEXTURE_2D_0);
+			SetTextureHandle(m_Framebuffer->getColorTexture(0), Texture2DSlot::TEXTURE_2D_0);
 		}
 
 		frameData.CameraWorldPosition = m_EditorCamera->getPosition();
 		frameData.CameraViewProjection = m_EditorCamera->getViewProjection();
 		frameData.TotalTime = ts.m_TotalTime;
 		frameData.FrameTime = ts.m_FrameTime;
-		UPDATE_PER_FRAME_BUFFER(frameData, 0, sizeof(PerFrameData));
+		UpdatePerFrameBuffer(&frameData, 0, sizeof(PerFrameData));
 	}
 
 	void AppLayer::onDraw()

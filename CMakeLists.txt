@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.25)
 include("cmake/Drawgon_Utils.cmake")
 
-#TODO: Add Dist Configuration
+#TODO: Add Dist Configuration UPDATE #1: Maybe just macro?
 
 #############################################################################
 #PROJECT INIT ###############################################################

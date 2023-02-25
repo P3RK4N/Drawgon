@@ -6,7 +6,9 @@
 
 #include "Drawgon/GUI/GUI.h"
 
-namespace Tigraf
+using namespace Tigraf;
+
+namespace Drawgon	
 {
 	class AppLayer : public Layer
 	{
