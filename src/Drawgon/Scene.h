@@ -1,4 +1,5 @@
 #pragma once
+#include "Drawgon/SceneData.h"
 
 #include <Tigraf/Tigraf.h>
 
@@ -26,12 +27,14 @@ namespace Drawgon
 
 		/**
 			Sets index of an cubemap texture which will be used
-			\param textureCubeSlot is the slot which will shader sample cubemap from
+			@param textureCubeSlot is the slot which will shader sample cubemap from
 		*/
 		void setSkyboxIndex(TextureCubeSlot textureCubeSlot);
 		const int getSkyboxIndex() { return m_SkyboxIndex; }
 
 	protected:
+
+		SceneData m_SceneData{};
 
 		Ref<Framebuffer> m_SceneFramebuffer = nullptr;
 

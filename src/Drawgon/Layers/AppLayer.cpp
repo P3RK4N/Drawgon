@@ -69,12 +69,13 @@ namespace Drawgon
 		frameData.CameraViewProjection = m_EditorCamera->getViewProjection();
 		frameData.TotalTime = ts.m_TotalTime;
 		frameData.FrameTime = ts.m_FrameTime;
+		frameData.SkyboxSlot = 0;
 		UpdatePerFrameBuffer(&frameData, 0, sizeof(PerFrameData));
 	}
 
 	void AppLayer::onDraw()
 	{
-		ON_GUI_RENDER();
+		//ON_GUI_RENDER();
 
 		m_Framebuffer->bind();
 		{
@@ -83,7 +84,7 @@ namespace Drawgon
 		}
 		m_Framebuffer->unbind();
 
-		//m_FramebufferFrameMesh->drawTrianglesIndexed();
+		m_FramebufferFrameMesh->drawTrianglesIndexed();
 	}
 
 	void AppLayer::shutdown()

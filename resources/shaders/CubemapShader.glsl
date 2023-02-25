@@ -11,6 +11,7 @@ layout(std140, binding = 1) uniform PerFrameBuffer
 	vec3 CameraWorldPosition;
 	float TotalTime;
 	float FrameTime;
+	uint SkyboxSlot;
 };
 
 layout(std140, binding = 2) uniform PerModelBuffer
@@ -40,11 +41,20 @@ layout(std140, binding = 0) uniform TextureBuffer
 	samplerCube texturesCube[20];
 };
 
+layout(std140, binding = 1) uniform PerFrameBuffer
+{
+	mat4 VP;
+	vec3 CameraWorldPosition;
+	float TotalTime;
+	float FrameTime;
+	uint SkyboxSlot;
+};
+
 in vec3 ObjectPositionPS;
 
 out vec4 FragColor;
 
 void main()
 {
-	FragColor = texture(texturesCube[0], ObjectPositionPS);
+	FragColor = texture(texturesCube[SkyboxSlot], ObjectPositionPS);
 }
