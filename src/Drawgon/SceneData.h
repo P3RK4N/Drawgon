@@ -11,7 +11,7 @@ public:
 		glm::vec3 CameraWorldPosition{};
 		float TotalTime;
 		float FrameTime;
-		uint32_t SkyboxSlot;
+		uint32_t SkyboxIndex;
 	};
 
 	struct PerModelData
