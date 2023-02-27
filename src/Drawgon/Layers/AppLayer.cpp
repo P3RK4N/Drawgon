@@ -43,10 +43,10 @@ namespace Drawgon
 
 	void AppLayer::onDraw()
 	{
-		//ON_GUI_RENDER();
+		ON_GUI_RENDER(this);
 
 		m_CurrentScene->onDraw();
-		m_FramebufferFrameMesh->drawTrianglesIndexed();
+		//m_FramebufferFrameMesh->drawTrianglesIndexed();
 	}
 
 	void AppLayer::shutdown()
@@ -63,17 +63,19 @@ namespace Drawgon
 
 	static bool showDemo = true;
 
-	DEFINE_ON_GUI_RENDER
-	(
+#ifndef DRAWGON_EXPORT
+
+	void AppLayer::onGuiRender()
+	{
 		GUI_RENDER_BEGIN();
 
 		ImGui::ShowDemoWindow(&showDemo);
 
-		ImGui::Begin("Scene");
-		{
-		}
-		ImGui::End();
+		ON_GUI_RENDER(m_CurrentScene);
 
 		GUI_RENDER_END();
-	)
+	}
+
+#endif
+
 }

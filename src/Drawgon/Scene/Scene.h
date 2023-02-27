@@ -1,5 +1,9 @@
 #pragma once
-#include "Drawgon/SceneData.h"
+#include "SceneDefines.h"
+#include "Drawgon/GUI/GUI_GeneralDefines.h"
+
+#include "Drawgon/Scene/SceneData.h"
+#include "Drawgon/Scene/SceneCamera.h"
 
 #include <Tigraf/Tigraf.h>
 
@@ -7,8 +11,19 @@ using namespace Tigraf;
 
 namespace Drawgon
 {
+	enum class SceneMode : uint16_t
+	{
+		Edit = 0,
+		Play = 1,
+		Pause = 2,
+	};
+
 	class Scene
 	{
+		DECLARE_ON_GUI_RENDER
+
+		friend class AppLayer;
+
 	public:
 
 		Scene();
@@ -38,17 +53,15 @@ namespace Drawgon
 	protected:
 
 		Ref<Framebuffer> m_SceneFramebuffer = nullptr;
-		Ref<EditorCamera> m_SceneCamera = nullptr;
+		Ref<SceneCamera> m_SceneCamera = nullptr;
 
 		SceneData m_SceneData{};
+		SceneMode m_SceneMode = DRAWGON_DEFAULT_SCENE_MODE;
 
 		Ref<Mesh> m_SceneSkybox = nullptr;
 		Ref<Mesh> m_SceneGrid = nullptr;
 
 	private:
-
-		EVENT(onResize);
-		//TODO: Key, Button, Focus... events
 
 	};
 }

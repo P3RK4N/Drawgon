@@ -1,22 +1,16 @@
 #pragma once
 
-#ifdef DRAWGON_DIST
+#ifdef DRAWGON_EXPORT
 
 	#define ON_GUI_INIT()
 	#define ON_GUI_SHUTDOWN()
 
-	#define DECLARE_ON_GUI_RENDER
-	#define DEFINE_ON_GUI_RENDER()
-	#define ON_GUI_RENDER()
 	#define GUI_RENDER_BEGIN()
 	#define GUI_RENDER_END()
 
 #else
 
-	//ImGui
-	#include <imgui.h>
-	
-	//#define IMGUI_IMPL_OPENGL_LOADER_CUSTOM
+	#include <Drawgon/GUI/GUI_GeneralDefines.h>
 
 	//Platform Backend
 	#include <backends/imgui_impl_sdl3.h>
@@ -32,6 +26,7 @@
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;							\
 		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;								\
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;								\
+		io.ConfigWindowsMoveFromTitleBarOnly = true;									\
 		ImGui::StyleColorsDark();														\
 		ImGui_ImplSDL3_InitForOpenGL													\
 		(																				\
@@ -44,24 +39,17 @@
 			[](void* e)																	\
 			{																			\
 				ImGui_ImplSDL3_ProcessEvent((SDL_Event*)e);								\
+				ImGuiIO& io = ImGui::GetIO();											\
+				if(io.WantCaptureMouse) TRACE("Wants mouse!");							\
 				return false;															\
 			}																			\
 		)
 
-	#define DECLARE_ON_GUI_RENDER														\
-		private:																		\
-			void onGuiRender();		
-
-	#define DEFINE_ON_GUI_RENDER(func_body)												\
-		void AppLayer::onGuiRender() { func_body }
-
-	#define ON_GUI_RENDER()																\
-		onGuiRender()
-
 	#define GUI_RENDER_BEGIN()															\
 		ImGui_ImplOpenGL3_NewFrame();													\
         ImGui_ImplSDL3_NewFrame();														\
-        ImGui::NewFrame();
+        ImGui::NewFrame();																\
+		ImGui::DockSpaceOverViewport(nullptr, ImGuiDockNodeFlags_PassthruCentralNode);
 
 	#define GUI_RENDER_END()															\
 		ImGuiIO& io = ImGui::GetIO();													\

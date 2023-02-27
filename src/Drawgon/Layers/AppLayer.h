@@ -1,11 +1,11 @@
 #pragma once
 
-//#define DRAWGON_DIST
+//#define DRAWGON_EXPORT //TODO: Put at precompile state
 
 #include <Tigraf/Tigraf.h>
 
-#include "Drawgon/GUI/GUI.h"
-#include "Drawgon/Scene.h"
+#include "Drawgon/GUI/GUI_LayerDefines.h"
+#include "Drawgon/Scene/Scene.h"
 
 using namespace Tigraf;
 

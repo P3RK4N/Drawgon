@@ -1,23 +1,12 @@
 #include "Scene.h"
 
-
-#define DRAWGON_SCENE_FRAMEBUFFER_CHECK()														\
-{																								\
-	auto&[w, h] = Application::s_Instance->getWindow()->getSize();								\
-	if(w != m_SceneFramebuffer->getWidth() || h != m_SceneFramebuffer->getHeight())				\
-	{																							\
-		m_SceneFramebuffer->resize(w, h);														\
-		SetTextureHandle(m_SceneFramebuffer->getColorTexture(0), Texture2DSlot::TEXTURE_2D_0);	\
-	}																							\
-}
-
 namespace Drawgon
 {
 	Scene::Scene()
 	{
 		auto& [x, y] = Application::s_Instance->getWindow()->getSize();
 
-		m_SceneCamera = createRef<EditorCamera>(1.0f * x / y, 0.1f, 1000.0f);
+		m_SceneCamera = createRef<SceneCamera>(1.0f * x / y, 0.1f, 1000.0f);
 
 		m_SceneFramebuffer = Framebuffer::create(x, y);
 		m_SceneFramebuffer->attachColorTexture(TextureFormat::RGBA8);
@@ -76,16 +65,16 @@ namespace Drawgon
 
 	bool Scene::onEvent(Event& e)
 	{
-		DISPATCH(EVENT_TYPE::RESIZE, e, [this](void* eventData)
-		{
-			ResizeData data = *(ResizeData*)eventData;
-			m_SceneFramebuffer->resize(data.width, data.height);
-			SetTextureHandle(m_SceneFramebuffer->getColorTexture(0), Texture2DSlot::TEXTURE_2D_0);
-			m_SceneCamera->setAspectRatio(1.0f * data.width / data.height);
-			m_SceneCamera->recalculateViewProjection();
+		//DISPATCH(EVENT_TYPE::RESIZE, e, [this](void* eventData)
+		//{
+		//	ResizeData data = *(ResizeData*)eventData;
+		//	m_SceneFramebuffer->resize(data.width, data.height);
+		//	SetTextureHandle(m_SceneFramebuffer->getColorTexture(0), Texture2DSlot::TEXTURE_2D_0);
+		//	m_SceneCamera->setAspectRatio(1.0f * data.width / data.height);
+		//	m_SceneCamera->recalculateViewProjection();
 
-			return false;
-		});
+		//	return false;
+		//});
 
 		return false;
 	}
@@ -110,4 +99,35 @@ namespace Drawgon
 		TIGRAF_ASSERT(skyboxIndex >= TEXTURE_CUBE_COUNT, "Invalid skybox index!");
 		m_SceneData.m_PerFrameData.SkyboxIndex = skyboxIndex;
 	}
+
+#ifndef DRAWGON_EXPORT
+
+	void Scene::onGuiRender()
+	{
+		ImGui::Begin("Scene", nullptr, 0 & ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoResize);
+		
+			auto [texX,texY] = this->getColors()->getSize();
+			auto [winX, winY] = ImGui::GetContentRegionAvail();	//TODO: Make sure imgui viewports work while main window is minimized
+
+			if(winX != 0.0f && winY != 0.0f && (texX != winX || texY != winY)) 
+			{
+				m_SceneFramebuffer->resize(winX, winY);
+				m_SceneCamera->setAspectRatio(winX / winY);
+				m_SceneCamera->recalculateViewProjection();
+				TRACE("Changed Scene Window!");
+			}
+			
+			ImGui::Image
+			(
+				(void*)*(uint32_t*)this->getColors()->getNativeTextureID(),
+				ImVec2(winX, winY),
+				ImVec2(0,1),
+				ImVec2(1,0)
+			);
+		
+		ImGui::End();
+	}
+
+#endif
+
 }
