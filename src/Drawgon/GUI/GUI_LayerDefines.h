@@ -2,11 +2,11 @@
 
 #ifdef DRAWGON_EXPORT
 
-	#define ON_GUI_INIT()
-	#define ON_GUI_SHUTDOWN()
+	#define DRAWGON_ON_GUI_INIT()
+	#define DRAWGON_ON_GUI_SHUTDOWN()
 
-	#define GUI_RENDER_BEGIN()
-	#define GUI_RENDER_END()
+	#define DRAWGON_GUI_RENDER_BEGIN()
+	#define DRAWGON_GUI_RENDER_END()
 
 #else
 
@@ -19,7 +19,7 @@
 	#include <backends/imgui_impl_opengl3.h>
 	//TODO: Add more!
 
-	#define ON_GUI_INIT()																\
+	#define DRAWGON_ON_GUI_INIT()														\
 		IMGUI_CHECKVERSION();															\
 		ImGui::CreateContext();															\
 		ImGuiIO& io = ImGui::GetIO(); (void)io;											\
@@ -40,18 +40,17 @@
 			{																			\
 				ImGui_ImplSDL3_ProcessEvent((SDL_Event*)e);								\
 				ImGuiIO& io = ImGui::GetIO();											\
-				if(io.WantCaptureMouse) TRACE("Wants mouse!");							\
-				return false;															\
+				return io.WantCaptureMouse;																		\
 			}																			\
 		)
 
-	#define GUI_RENDER_BEGIN()															\
+	#define DRAWGON_GUI_RENDER_BEGIN()													\
 		ImGui_ImplOpenGL3_NewFrame();													\
         ImGui_ImplSDL3_NewFrame();														\
         ImGui::NewFrame();																\
 		ImGui::DockSpaceOverViewport(nullptr, ImGuiDockNodeFlags_PassthruCentralNode);
 
-	#define GUI_RENDER_END()															\
+	#define DRAWGON_GUI_RENDER_END()													\
 		ImGuiIO& io = ImGui::GetIO();													\
 		auto&[x,y] = Application::s_Instance->getWindow()->getSize();					\
 		io.DisplaySize = ImVec2((float)x, (float)y);									\
@@ -65,7 +64,7 @@
 		}
 		
 
-	#define ON_GUI_SHUTDOWN()															\
+	#define DRAWGON_ON_GUI_SHUTDOWN()													\
 		ImGui_ImplOpenGL3_Shutdown();													\
 		ImGui_ImplSDL3_Shutdown();														\
 		ImGui::DestroyContext();					

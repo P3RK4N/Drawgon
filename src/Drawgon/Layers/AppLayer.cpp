@@ -20,7 +20,7 @@ namespace Drawgon
 
 	void AppLayer::init()
 	{
-		ON_GUI_INIT();
+		DRAWGON_ON_GUI_INIT();
 
 		//FRAMEBUFFER FRAME
 		glm::mat4 transform =  glm::scale(glm::vec3(2.0f, 2.0f, 2.0f));
@@ -43,7 +43,7 @@ namespace Drawgon
 
 	void AppLayer::onDraw()
 	{
-		ON_GUI_RENDER(this);
+		DRAWGON_ON_GUI_RENDER(this);
 
 		m_CurrentScene->onDraw();
 		//m_FramebufferFrameMesh->drawTrianglesIndexed();
@@ -51,7 +51,7 @@ namespace Drawgon
 
 	void AppLayer::shutdown()
 	{
-		ON_GUI_SHUTDOWN();
+		DRAWGON_ON_GUI_SHUTDOWN();
 	}
 
 	bool AppLayer::onEvent(Event& event)
@@ -67,13 +67,13 @@ namespace Drawgon
 
 	void AppLayer::onGuiRender()
 	{
-		GUI_RENDER_BEGIN();
+		DRAWGON_GUI_RENDER_BEGIN();
 
 		ImGui::ShowDemoWindow(&showDemo);
 
-		ON_GUI_RENDER(m_CurrentScene);
+		DRAWGON_ON_GUI_RENDER(m_CurrentScene);
 
-		GUI_RENDER_END();
+		DRAWGON_GUI_RENDER_END();
 	}
 
 #endif

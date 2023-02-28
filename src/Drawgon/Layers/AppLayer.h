@@ -13,8 +13,8 @@ namespace Drawgon
 {
 	class AppLayer : public Layer
 	{
-		DECLARE_LAYER
-		DECLARE_ON_GUI_RENDER
+		TIGRAF_DECLARE_LAYER
+		DRAWGON_DECLARE_ON_GUI_RENDER
 
 	public:
 		AppLayer() {}

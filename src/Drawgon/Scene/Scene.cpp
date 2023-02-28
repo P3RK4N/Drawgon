@@ -6,8 +6,6 @@ namespace Drawgon
 	{
 		auto& [x, y] = Application::s_Instance->getWindow()->getSize();
 
-		m_SceneCamera = createRef<SceneCamera>(1.0f * x / y, 0.1f, 1000.0f);
-
 		m_SceneFramebuffer = Framebuffer::create(x, y);
 		m_SceneFramebuffer->attachColorTexture(TextureFormat::RGBA8);
 		m_SceneFramebuffer->attachDepthStencilTexture(TextureFormat::DEPTH24STENCIL8);
@@ -43,7 +41,7 @@ namespace Drawgon
 
 	void Scene::onUpdate(const TimeStep& ts)
 	{
-		m_SceneCamera->onUpdate(ts);
+		DRAWGON_UPDATE_SCENE_CAMERA(ts);
 
 		m_SceneData.m_PerFrameData.CameraViewProjection = m_SceneCamera->getViewProjection();
 		m_SceneData.m_PerFrameData.CameraWorldPosition = m_SceneCamera->getPosition();
@@ -65,16 +63,6 @@ namespace Drawgon
 
 	bool Scene::onEvent(Event& e)
 	{
-		//DISPATCH(EVENT_TYPE::RESIZE, e, [this](void* eventData)
-		//{
-		//	ResizeData data = *(ResizeData*)eventData;
-		//	m_SceneFramebuffer->resize(data.width, data.height);
-		//	SetTextureHandle(m_SceneFramebuffer->getColorTexture(0), Texture2DSlot::TEXTURE_2D_0);
-		//	m_SceneCamera->setAspectRatio(1.0f * data.width / data.height);
-		//	m_SceneCamera->recalculateViewProjection();
-
-		//	return false;
-		//});
 
 		return false;
 	}
@@ -104,19 +92,34 @@ namespace Drawgon
 
 	void Scene::onGuiRender()
 	{
-		ImGui::Begin("Scene", nullptr, 0 & ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoResize);
-		
+		ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0.0f);
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0.0f,0.0f});
+		ImGui::Begin("Scene", nullptr, ImGuiWindowFlags_NoDecoration);
+		ImGui::PopStyleVar(2);
+
+			//Resizing framebuffer ################################
 			auto [texX,texY] = this->getColors()->getSize();
 			auto [winX, winY] = ImGui::GetContentRegionAvail();	//TODO: Make sure imgui viewports work while main window is minimized
-
-			if(winX != 0.0f && winY != 0.0f && (texX != winX || texY != winY)) 
+			
+			if(ImGui::IsMouseReleased(ImGuiMouseButton_Left) && winX != 0.0f && winY != 0.0f && (texX != winX || texY != winY) || ImGui::GetFrameCount() == 2) //Window is somehow different on a frame before 2
 			{
 				m_SceneFramebuffer->resize(winX, winY);
 				m_SceneCamera->setAspectRatio(winX / winY);
 				m_SceneCamera->recalculateViewProjection();
-				TRACE("Changed Scene Window!");
 			}
-			
+			//#####################################################
+		
+			//Enabling SceneCamera movement #######################
+			if(ImGui::IsMouseClicked(ImGuiMouseButton_Left) && ImGui::IsWindowHovered())
+			{
+				m_SceneCamera->setInteractable(true);
+			}
+			else if(ImGui::IsMouseReleased(ImGuiMouseButton_Left))
+			{
+				m_SceneCamera->setInteractable(false);
+			}
+			//#####################################################
+
 			ImGui::Image
 			(
 				(void*)*(uint32_t*)this->getColors()->getNativeTextureID(),
@@ -126,7 +129,7 @@ namespace Drawgon
 			);
 		
 		ImGui::End();
-	}
+  	}
 
 #endif
 

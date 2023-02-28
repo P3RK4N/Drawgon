@@ -20,7 +20,8 @@ namespace Drawgon
 
 	class Scene
 	{
-		DECLARE_ON_GUI_RENDER
+		DRAWGON_DECLARE_ON_GUI_RENDER
+		DRAWGON_SCENE_CAMERA
 
 		friend class AppLayer;
 
@@ -53,7 +54,6 @@ namespace Drawgon
 	protected:
 
 		Ref<Framebuffer> m_SceneFramebuffer = nullptr;
-		Ref<SceneCamera> m_SceneCamera = nullptr;
 
 		SceneData m_SceneData{};
 		SceneMode m_SceneMode = DRAWGON_DEFAULT_SCENE_MODE;

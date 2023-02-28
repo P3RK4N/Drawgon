@@ -16,10 +16,22 @@ namespace Tigraf
 	)
 		: Camera(ProjectionType::PERSPECTIVE, aspectRatio, nearPlane, farPlane, position, forward, up, FOV)
 	{
-		auto[x, y] = sdlInput::getCursorPos();
-		m_CursorX = x;
-		m_CursorY = y;
+		recalculateView();
+		recalculateProjection();
+	}
 
+	SceneCamera::SceneCamera
+	(
+		std::pair<int, int> windowSize, 
+		float nearPlane, 
+		float farPlane, 
+		const glm::vec3& position,
+		const glm::vec3& forward,
+		const glm::vec3& up,
+		float FOV
+	)
+		: Camera(ProjectionType::PERSPECTIVE, 1.0f * windowSize.first / windowSize.second, nearPlane, farPlane, position, forward, up, FOV)
+	{
 		recalculateView();
 		recalculateProjection();
 	}
@@ -31,6 +43,8 @@ namespace Tigraf
 
 	void SceneCamera::onUpdate(const TimeStep& ts)
 	{
+		if(!m_Interactable) return;
+
 		updateTransform(ts);
 
 		recalculateView();
@@ -52,11 +66,7 @@ namespace Tigraf
 		if(sdlInput::isKeyDown(TIGRAF_KEY_SPACE)) m_Position += upOffset;
 		if(sdlInput::isKeyDown(TIGRAF_KEY_LSHIFT)) m_Position -= upOffset;
 
-		auto [x, y] = sdlInput::getCursorPos();
-		int dx = x - m_CursorX;
-		int dy = y - m_CursorY;
-		m_CursorX = x;
-		m_CursorY = y;
+		auto& [dx, dy] = sdlInput::getCursorRelPos();
 
 		if(sdlInput::isMouseButtonDown(TIGRAF_MOUSE_BUTTON_LEFT))
 		{
