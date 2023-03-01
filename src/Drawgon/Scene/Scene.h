@@ -21,6 +21,7 @@ namespace Drawgon
 	class Scene
 	{
 		DRAWGON_DECLARE_ON_GUI_RENDER
+		DRAWGON_DECLARE_DOCKSPACE_ID
 		DRAWGON_SCENE_CAMERA
 
 		friend class AppLayer;

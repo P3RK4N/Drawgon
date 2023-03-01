@@ -7,6 +7,8 @@
 
 	#define DRAWGON_GUI_RENDER_BEGIN()
 	#define DRAWGON_GUI_RENDER_END()
+	
+	#define DRAWGON_DECLARE_MAIN_DOCKSPACE_ID
 
 #else
 
@@ -40,7 +42,7 @@
 			{																			\
 				ImGui_ImplSDL3_ProcessEvent((SDL_Event*)e);								\
 				ImGuiIO& io = ImGui::GetIO();											\
-				return io.WantCaptureMouse;																		\
+				return io.WantCaptureMouse;												\
 			}																			\
 		)
 
@@ -48,7 +50,8 @@
 		ImGui_ImplOpenGL3_NewFrame();													\
         ImGui_ImplSDL3_NewFrame();														\
         ImGui::NewFrame();																\
-		ImGui::DockSpaceOverViewport(nullptr, ImGuiDockNodeFlags_PassthruCentralNode);
+		ImGuiDockNodeFlags flags = ImGuiDockNodeFlags_PassthruCentralNode;				\
+		AppLayer::s_DockspaceID = ImGui::DockSpaceOverViewport(nullptr, flags);
 
 	#define DRAWGON_GUI_RENDER_END()													\
 		ImGuiIO& io = ImGui::GetIO();													\
@@ -68,5 +71,6 @@
 		ImGui_ImplOpenGL3_Shutdown();													\
 		ImGui_ImplSDL3_Shutdown();														\
 		ImGui::DestroyContext();					
+
 
 #endif

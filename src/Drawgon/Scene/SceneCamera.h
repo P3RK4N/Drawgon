@@ -41,6 +41,6 @@ namespace Tigraf
 		float m_MoveSpeed = 10.0f;
 		float m_RotateSpeed = 20.0f;
 
-		bool m_Interactable = true;
+		bool m_Interactable = false;
 	};
 }

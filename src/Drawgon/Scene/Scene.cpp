@@ -1,5 +1,7 @@
 #include "Scene.h"
 
+#include "Drawgon/Layers/AppLayer.h"
+
 namespace Drawgon
 {
 	Scene::Scene()
@@ -90,6 +92,8 @@ namespace Drawgon
 
 #ifndef DRAWGON_EXPORT
 
+	ImGuiID Scene::s_DockspaceID = 0;
+
 	void Scene::onGuiRender()
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0.0f);
@@ -101,11 +105,12 @@ namespace Drawgon
 			auto [texX,texY] = this->getColors()->getSize();
 			auto [winX, winY] = ImGui::GetContentRegionAvail();	//TODO: Make sure imgui viewports work while main window is minimized
 			
-			if(ImGui::IsMouseReleased(ImGuiMouseButton_Left) && winX != 0.0f && winY != 0.0f && (texX != winX || texY != winY) || ImGui::GetFrameCount() == 2) //Window is somehow different on a frame before 2
+			if(!ImGui::IsMouseDown(ImGuiMouseButton_Left) && winX != 0.0f && winY != 0.0f && (texX != winX || texY != winY) || ImGui::GetFrameCount() == 2) //Window is somehow different on a frame before 2
 			{
 				m_SceneFramebuffer->resize(winX, winY);
 				m_SceneCamera->setAspectRatio(winX / winY);
 				m_SceneCamera->recalculateViewProjection();
+				TRACE("Scene Resize");
 			}
 			//#####################################################
 		

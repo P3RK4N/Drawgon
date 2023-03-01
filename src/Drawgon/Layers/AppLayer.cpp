@@ -65,9 +65,25 @@ namespace Drawgon
 
 #ifndef DRAWGON_EXPORT
 
+	ImGuiID AppLayer::s_DockspaceID = 0;
+
 	void AppLayer::onGuiRender()
 	{
 		DRAWGON_GUI_RENDER_BEGIN();
+
+		ImGui::BeginMainMenuBar();
+		{
+			if(ImGui::BeginMenu("Application"))
+			{
+				if(ImGui::MenuItem("Exit"))
+				{
+					Application::s_Instance->exit();
+				}
+
+				ImGui::EndMenu();
+			}
+		}
+		ImGui::EndMainMenuBar();
 
 		ImGui::ShowDemoWindow(&showDemo);
 
