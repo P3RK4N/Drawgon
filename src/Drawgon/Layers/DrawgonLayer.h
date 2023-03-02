@@ -4,22 +4,23 @@
 
 #include <Tigraf/Tigraf.h>
 
-#include "Drawgon/GUI/GUI_LayerDefines.h"
+#include "Drawgon/GUI/GUI_DrawgonDefines.h"
 #include "Drawgon/Scene/Scene.h"
 
 using namespace Tigraf;
 
 namespace Drawgon	
 {
-	class AppLayer : public Layer
+	class DrawgonLayer : public Layer
 	{
 		TIGRAF_DECLARE_LAYER
 		DRAWGON_DECLARE_ON_GUI_RENDER
 		DRAWGON_DECLARE_DOCKSPACE_ID
+		DRAWGON_CONSOLE
 
 	public:
-		AppLayer() {}			//TODO: Make this accesible only to startup class
-		~AppLayer() {}
+		DrawgonLayer() {}			//TODO: Make this accesible only to startup class. UPDATE: Why?
+		~DrawgonLayer() {}
 
 	private:
 

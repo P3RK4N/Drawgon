@@ -22,9 +22,11 @@ namespace Drawgon
 	{
 		DRAWGON_DECLARE_ON_GUI_RENDER
 		DRAWGON_DECLARE_DOCKSPACE_ID
+		DRAWGON_WINDOW_VISIBILITY(true)
+
 		DRAWGON_SCENE_CAMERA
 
-		friend class AppLayer;
+		friend class DrawgonLayer;
 
 	public:
 

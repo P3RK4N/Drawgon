@@ -1,6 +1,6 @@
 #include "Scene.h"
 
-#include "Drawgon/Layers/AppLayer.h"
+#include "Drawgon/Layers/DrawgonLayer.h"
 
 namespace Drawgon
 {
@@ -96,6 +96,8 @@ namespace Drawgon
 
 	void Scene::onGuiRender()
 	{
+		if(!m_Visible) return;			//TODO: This variable needs persistence
+
 		ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0.0f);
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0.0f,0.0f});
 		ImGui::Begin("Scene", nullptr, ImGuiWindowFlags_NoDecoration);

@@ -51,7 +51,7 @@
         ImGui_ImplSDL3_NewFrame();														\
         ImGui::NewFrame();																\
 		ImGuiDockNodeFlags flags = ImGuiDockNodeFlags_PassthruCentralNode;				\
-		AppLayer::s_DockspaceID = ImGui::DockSpaceOverViewport(nullptr, flags);
+		DrawgonLayer::s_DockspaceID = ImGui::DockSpaceOverViewport(nullptr, flags);
 
 	#define DRAWGON_GUI_RENDER_END()													\
 		ImGuiIO& io = ImGui::GetIO();													\
@@ -72,5 +72,38 @@
 		ImGui_ImplSDL3_Shutdown();														\
 		ImGui::DestroyContext();					
 
+#endif
+
+
+//Console Window
+
+#ifdef DRAWGON_EXPORT
+
+	#define DRAWGON_CONSOLE
+
+#else
+
+	#include "Drawgon/Console/Console.h"
+
+	#define DRAWGON_CONSOLE									\
+		public:												\
+			Ref<Console> m_Console = createRef<Console>();
+
+#endif
+
+//Main Menu Bar
+
+#ifdef DRAWGON_EXPORT
+
+	#define DRAWGON_WINDOW_CHECKBOX(window)
+
+#else
+
+	#define	DRAWGON_WINDOW_CHECKBOX(window, name)				\
+		{														\
+				bool visible = window->isVisible();				\
+				ImGui::Checkbox(name, &visible);				\
+				window->setVisible(visible);					\
+		}
 
 #endif

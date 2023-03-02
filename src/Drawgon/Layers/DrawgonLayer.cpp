@@ -1,4 +1,4 @@
-#include "AppLayer.h"
+#include "DrawgonLayer.h"
 
 
 namespace Drawgon
@@ -18,7 +18,7 @@ namespace Drawgon
 		glm::mat4 MVP{};
 	} modelData{};
 
-	void AppLayer::init()
+	void DrawgonLayer::init()
 	{
 		DRAWGON_ON_GUI_INIT();
 
@@ -36,12 +36,12 @@ namespace Drawgon
 		SetTextureHandle(m_CurrentScene->getColors(), Texture2DSlot::TEXTURE_2D_0);
 	}
 
-	void AppLayer::onUpdate(const TimeStep& ts)
+	void DrawgonLayer::onUpdate(const TimeStep& ts)
 	{
 		m_CurrentScene->onUpdate(ts);
 	}
 
-	void AppLayer::onDraw()
+	void DrawgonLayer::onDraw()
 	{
 		DRAWGON_ON_GUI_RENDER(this);
 
@@ -49,12 +49,12 @@ namespace Drawgon
 		//m_FramebufferFrameMesh->drawTrianglesIndexed();
 	}
 
-	void AppLayer::shutdown()
+	void DrawgonLayer::shutdown()
 	{
 		DRAWGON_ON_GUI_SHUTDOWN();
 	}
 
-	bool AppLayer::onEvent(Event& event)
+	bool DrawgonLayer::onEvent(Event& event)
 	{
 		if(m_CurrentScene->onEvent(event)) return true;
 
@@ -65,9 +65,9 @@ namespace Drawgon
 
 #ifndef DRAWGON_EXPORT
 
-	ImGuiID AppLayer::s_DockspaceID = 0;
+	ImGuiID DrawgonLayer::s_DockspaceID = 0;
 
-	void AppLayer::onGuiRender()
+	void DrawgonLayer::onGuiRender()
 	{
 		DRAWGON_GUI_RENDER_BEGIN();
 
@@ -82,12 +82,21 @@ namespace Drawgon
 
 				ImGui::EndMenu();
 			}
+
+			if(ImGui::BeginMenu("View"))
+			{
+				DRAWGON_WINDOW_CHECKBOX(m_CurrentScene, "Scene");
+				DRAWGON_WINDOW_CHECKBOX(m_Console, "Console");
+
+				ImGui::EndMenu();
+			}
 		}
 		ImGui::EndMainMenuBar();
 
 		ImGui::ShowDemoWindow(&showDemo);
 
 		DRAWGON_ON_GUI_RENDER(m_CurrentScene);
+		DRAWGON_ON_GUI_RENDER(m_Console);
 
 		DRAWGON_GUI_RENDER_END();
 	}

@@ -9,14 +9,18 @@ include("cmake/Drawgon_Utils.cmake")
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(BUILD_SHARED_LIBS OFF)
+set(DRAWGON_DISABLE_CONSOLE ON)
+
+if(DRAWGON_DISABLE_CONSOLE)
+   set(DRAWGON_WIN32 "WIN32")
+endif()
 
 project(Drawgon VERSION 0.1.0 LANGUAGES C CXX)
 
 set(target_name "Drawgon")
 set(cxx_version 20)
 
-
-add_executable("${target_name}")
+add_executable("${target_name}" "${DRAWGON_WIN32}")
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT "${target_name}")
 
@@ -50,15 +54,17 @@ target_include_directories(
 #############################################################################
 
 #Tigraf-Core
+set(TIGRAF_DISABLE_CONSOLE "${DRAWGON_DISABLE_CONSOLE}")
 add_subdirectory(vendor/Tigraf-Core)
 
-#imgui,...
+#imgui,ImTerm
 add_subdirectory(vendor)
 
 target_link_libraries(
    "${target_name}"
       PRIVATE Tigraf-Core
       PRIVATE imgui
+      # PRIVATE ImTerm
 )
 
 #############################################################################
