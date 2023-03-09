@@ -83,6 +83,58 @@ namespace Drawgon
 				ImGui::EndMenu();
 			}
 
+			if(ImGui::BeginMenu("Project"))
+			{
+				if(ImGui::MenuItem("Load..."))
+				{
+					std::string currentDirectory = std::filesystem::current_path().string();
+					const char* currentDirectory_chr = currentDirectory.c_str();
+					
+					char* projectDirectory_chr = new char[256];
+					auto res = NFD_PickFolder(currentDirectory_chr, (nfdchar_t**)&projectDirectory_chr);
+
+					TIGRAF_ASSERT(res != NFD_ERROR, "Error while creating New Project!");
+
+					if(res == NFD_OKAY)
+					{
+						std::string projectDirectory{ projectDirectory_chr };
+
+						m_Project = Project::loadProject(projectDirectory);
+
+						TRACE("Project Loaded at: {}", projectDirectory);
+					}
+					else TRACE("Project loading cancelled!");
+
+					delete[] projectDirectory_chr;
+				}
+
+				//TODO: Maybe open a project creation window
+				if(ImGui::MenuItem("Create..."))
+				{
+					std::string currentDirectory = std::filesystem::current_path().string();
+					const char* currentDirectory_chr = currentDirectory.c_str();
+					
+					char* projectDirectory_chr = new char[256];
+					auto res = NFD_PickFolder(currentDirectory_chr, (nfdchar_t**)&projectDirectory_chr);
+
+					TIGRAF_ASSERT(res != NFD_ERROR, "Error while creating New Project!");
+
+					if(res == NFD_OKAY)
+					{
+						std::string projectDirectory{ projectDirectory_chr };
+
+						m_Project = Project::createProject("New Project", projectDirectory);
+
+						TRACE("Project created at: {}", projectDirectory);
+					}
+					else TRACE("Project creation cancelled!");
+
+					delete[] projectDirectory_chr;
+				}
+
+				ImGui::EndMenu();
+			}
+
 			if(ImGui::BeginMenu("View"))
 			{
 				DRAWGON_WINDOW_CHECKBOX(m_CurrentScene, "Scene");

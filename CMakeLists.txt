@@ -57,14 +57,19 @@ target_include_directories(
 set(TIGRAF_DISABLE_CONSOLE "${DRAWGON_DISABLE_CONSOLE}")
 add_subdirectory(vendor/Tigraf-Core)
 
-#imgui,ImTerm
+#YAML-CPP
+set(YAML_BUILD_SHARED_LIBS OFF)
+add_subdirectory(vendor/yaml)
+
+#imgui, nfd, ...
 add_subdirectory(vendor)
 
 target_link_libraries(
    "${target_name}"
       PRIVATE Tigraf-Core
       PRIVATE imgui
-      # PRIVATE ImTerm
+      PRIVATE yaml-cpp
+      PRIVATE nfd
 )
 
 #############################################################################

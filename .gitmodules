@@ -5,3 +5,9 @@
 	path = vendor/imgui
 	url = https://github.com/ocornut/imgui
 	branch = docking
+[submodule "vendor/yaml"]
+	path = vendor/yaml
+	url = https://github.com/jbeder/yaml-cpp
+[submodule "vendor/nfd"]
+	path = vendor/nfd
+	url = https://github.com/mlabbe/nativefiledialog

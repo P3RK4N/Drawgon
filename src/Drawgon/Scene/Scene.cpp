@@ -100,7 +100,7 @@ namespace Drawgon
 
 		ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0.0f);
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0.0f,0.0f});
-		ImGui::Begin("Scene", nullptr, ImGuiWindowFlags_NoDecoration);
+		ImGui::Begin("Scene", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 		ImGui::PopStyleVar(2);
 
 			//Resizing framebuffer ################################

@@ -1,8 +1,14 @@
 #pragma once
+#include <Tigraf/Tigraf.h>
 
 //#define DRAWGON_EXPORT //TODO: Put at precompile state
 
-#include <Tigraf/Tigraf.h>
+#ifndef DRAWGON_EXPORT
+
+#include "nfd.h"
+#include "Drawgon/Project/Project.h"
+
+#endif
 
 #include "Drawgon/GUI/GUI_DrawgonDefines.h"
 #include "Drawgon/Scene/Scene.h"
@@ -17,6 +23,7 @@ namespace Drawgon
 		DRAWGON_DECLARE_ON_GUI_RENDER
 		DRAWGON_DECLARE_DOCKSPACE_ID
 		DRAWGON_CONSOLE
+		DRAWGON_DECLARE_PROJECT
 
 	public:
 		DrawgonLayer() {}			//TODO: Make this accesible only to startup class. UPDATE: Why?
