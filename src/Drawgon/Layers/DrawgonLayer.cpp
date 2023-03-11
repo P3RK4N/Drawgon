@@ -122,6 +122,12 @@ namespace Drawgon
 
 	void DrawgonLayer::onGuiRender()
 	{
+		if(m_Project.getName().empty())
+		{
+			//TODO: Force creation/loading of project
+			return;
+		}
+
 		if(m_ShouldReloadGUI)
 		{
 			m_ShouldReloadGUI = false;

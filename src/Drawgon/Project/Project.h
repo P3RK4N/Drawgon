@@ -11,14 +11,13 @@
 		void loadProjectFD();	\
 		void createProjectFD();	
 
+//TODO: Project in export will be opened without file dialog. It will be opened from relative addressing. DO IT
 namespace Drawgon
 {
 	class Project
 	{
 	public:
 		Project() = default;
-
-		void saveProject();
 
 		const std::string& getName() { return m_Name; }
 		const void setName(const std::string& name) { m_Name = name; }

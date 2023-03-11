@@ -5,16 +5,13 @@
 #include <fstream>
 
 #ifdef TIGRAF_WINDOWS
-#include <Windows.h>
+	#include <Windows.h>
 #endif
 
 namespace fs = std::filesystem;
 
 namespace Drawgon
 {
-	void Project::saveProject()
-	{
-	}
 	bool Project::isProject(const std::filesystem::path& projectPath)
 	{
 		return std::filesystem::exists(projectPath / Project::s_ProjectFilePathRel);
@@ -66,7 +63,7 @@ namespace Drawgon
 
 	void Project::save()
 	{
-		TIGRAF_ASSERT(!m_Name.empty(), "Cannot save empty project!");
+		TIGRAF_ASSERT(exists(), "Cannot save empty project!");
 
 		YAML::Emitter out;
 
