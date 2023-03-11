@@ -31,12 +31,7 @@ namespace Drawgon
 		m_SceneGrid->setShader(Shader::create("shaders\\GridShader.glsl"));
 	}
 
-	Scene::Scene(const std::filesystem::path& filepath)
-	{
-		//TODO: Implement
-	}
-
-	Scene::Scene(const std::filesystem::path& fileDir, const char* filename)
+	Scene::Scene(const std::string& sceneName)
 	{
 		//TODO: Implement
 	}

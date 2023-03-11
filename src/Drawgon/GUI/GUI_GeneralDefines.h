@@ -4,6 +4,7 @@
 	
 	#define DRAWGON_DECLARE_ON_GUI_RENDER
 	#define DRAWGON_ON_GUI_RENDER()
+	#define DRAWGON_WINDOW_VISIBILITY(defaultVisibility)
 
 #else
 

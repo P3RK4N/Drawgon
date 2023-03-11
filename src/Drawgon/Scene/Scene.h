@@ -31,8 +31,7 @@ namespace Drawgon
 	public:
 
 		Scene();
-		Scene(const std::filesystem::path& filepath);
-		Scene(const std::filesystem::path& fileDir, const char* filename);
+		Scene(const std::string& sceneName);
 
 		~Scene() {}
 
@@ -57,6 +56,8 @@ namespace Drawgon
 	protected:
 
 		Ref<Framebuffer> m_SceneFramebuffer = nullptr;
+
+		std::string m_Name{};
 
 		SceneData m_SceneData{};
 		SceneMode m_SceneMode = DRAWGON_DEFAULT_SCENE_MODE;

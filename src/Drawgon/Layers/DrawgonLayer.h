@@ -21,6 +21,7 @@ namespace Drawgon
 	{
 		TIGRAF_DECLARE_LAYER
 		DRAWGON_DECLARE_ON_GUI_RENDER
+		DRAWGON_DECLARE_RELOAD_GUI
 		DRAWGON_DECLARE_DOCKSPACE_ID
 		DRAWGON_CONSOLE
 		DRAWGON_DECLARE_PROJECT
@@ -31,9 +32,10 @@ namespace Drawgon
 
 	private:
 
-		Ref<Scene> m_CurrentScene = nullptr;
+		Ref<Scene> m_CurrentScene = DRAWGON_CURRENT_SCENE;
 
 		Ref<Mesh> m_FramebufferFrameMesh = nullptr;
 		Ref<TextureCube> m_CubemapTexture = nullptr;
+
 	};
 }

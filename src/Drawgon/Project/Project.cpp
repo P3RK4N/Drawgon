@@ -29,8 +29,8 @@ namespace Drawgon
 		drawgonProj.close();
 
 		Project p;
-		p.m_ProjectPath = projectPath;
-		p.m_ProjectName = node["ProjectName"].as<std::string>();
+		p.m_Path = projectPath;
+		p.m_Name = node["ProjectName"].as<std::string>();
 
 		return p;
 	}
@@ -64,6 +64,28 @@ namespace Drawgon
 		return loadProject(projectPath);
 	}
 
+	void Project::save()
+	{
+		TIGRAF_ASSERT(!m_Name.empty(), "Cannot save empty project!");
+
+		YAML::Emitter out;
+
+		out << YAML::BeginMap;
+		{
+			out << YAML::Key << "ProjectName" << YAML::Value << m_Name;
+		}
+		out << YAML::EndMap;
+
+		const auto& fullPath = m_Path / s_ProjectFilePathRel;
+
+		std::ofstream fout(fullPath, std::ios::out | std::ios::trunc);
+		fout << out.c_str();
+		fout.close();
+
+		TRACE("Project {} saved successfuly!", m_Name);
+	}
+
 	const std::filesystem::path Project::s_ProjectFilePathRel = std::filesystem::path(".drawgon") / std::filesystem::path("drawgon.proj");
 	const std::filesystem::path Project::s_ProjectScenesPathRel = std::filesystem::path(".drawgon") / std::filesystem::path("scenes");
+	const std::filesystem::path Project::s_ProjectGUILayoutPathRel = std::filesystem::path(".drawgon") / std::filesystem::path("imgui.ini");
 }
