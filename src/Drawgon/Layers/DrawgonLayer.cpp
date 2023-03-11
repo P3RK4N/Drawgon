@@ -7,13 +7,10 @@ namespace Drawgon
 		DRAWGON_ON_GUI_INIT();
 
 		//FRAMEBUFFER FRAME
-		glm::mat4 transform =  glm::scale(glm::vec3(2.0f, 2.0f, 2.0f));
-		m_FramebufferFrameMesh = MeshPrimitives::Plane(transform);
-		m_FramebufferFrameMesh->setShader(Shader::create("shaders\\FramebufferShader.glsl"));
-
-		//TEXTURES
-		m_CubemapTexture = TextureCube::create("textures\\cubemaps\\skybox\\skybox", "jpg");
-		SetTextureHandle(m_CubemapTexture, TextureCubeSlot::TEXTURE_CUBE_0);
+		//glm::mat4 transform =  glm::scale(glm::vec3(2.0f, 2.0f, 2.0f));
+		//m_FramebufferFrameMesh = MeshPrimitives::Plane(transform);
+		//m_FramebufferFrameMesh->setShader(Shader::create("shaders\\FramebufferShader.glsl"));
+		Renderer::s_RendererAPI->setClearColor({ 0.3f, 0.3f, 0.4f, 1.0f });
 
 		m_CurrentScene = createRef<Scene>();
 		SetTextureHandle(m_CurrentScene->getColors(), Texture2DSlot::TEXTURE_2D_0);
@@ -46,14 +43,7 @@ namespace Drawgon
 
 	static bool showDemo = true;
 
-#ifndef DRAWGON_EXPORT
-
-	static bool Renaming = false;
-	static char RenameBuffer[128] = "";
-
-	ImGuiID DrawgonLayer::s_DockspaceID = 0;
-
-	void DrawgonLayer::loadProjectFD()
+	void DrawgonLayer::loadProjectFromDisk()
 	{
 		std::string currentDirectory = std::filesystem::current_path().string();
 		const char* currentDirectory_chr = currentDirectory.c_str();
@@ -81,7 +71,7 @@ namespace Drawgon
 		delete[] projectDirectory_chr;
 	}
 
-	void DrawgonLayer::createProjectFD()
+	void DrawgonLayer::createProjectOnDisk()
 	{
 		std::string currentDirectory = std::filesystem::current_path().string();
 		const char* currentDirectory_chr = currentDirectory.c_str();
@@ -114,6 +104,13 @@ namespace Drawgon
 		delete[] projectDirectory_chr;
 	}
 
+
+#ifndef DRAWGON_EXPORT
+
+	//TODO: Remove this temporary trash
+	static bool Renaming = false;
+	static char RenameBuffer[128] = "";
+
 	void DrawgonLayer::reloadGUI()
 	{
 		DRAWGON_ON_GUI_SHUTDOWN();
@@ -122,12 +119,6 @@ namespace Drawgon
 
 	void DrawgonLayer::onGuiRender()
 	{
-		if(m_Project.getName().empty())
-		{
-			//TODO: Force creation/loading of project
-			return;
-		}
-
 		if(m_ShouldReloadGUI)
 		{
 			m_ShouldReloadGUI = false;
@@ -179,22 +170,24 @@ namespace Drawgon
 				//Loading project
 				if(ImGui::MenuItem("Load..."))
 				{
-					loadProjectFD();
+					loadProjectFromDisk();
 				}
 
 				//TODO: Maybe open a project creation window
 				if(ImGui::MenuItem("Create..."))
 				{
-					createProjectFD();
+					createProjectOnDisk();
 				}
 
 				ImGui::EndMenu();
 			}
 
-			if(ImGui::BeginMenu("View"))
+			
+			if(m_Project.exists() && ImGui::BeginMenu("View"))
 			{
-				DRAWGON_WINDOW_CHECKBOX(m_CurrentScene, "Scene");
-				DRAWGON_WINDOW_CHECKBOX(m_Console, "Console");
+				//TODO: Expand
+				ImGui::Checkbox("Scene", &m_Project.m_EditorSettings.SceneEnabled);
+				ImGui::Checkbox("Console", &m_Project.m_EditorSettings.ConsoleEnabled);
 
 				ImGui::EndMenu();
 			}
@@ -202,31 +195,34 @@ namespace Drawgon
 
 		ImGui::EndMainMenuBar();
 
-		if(Renaming) ImGui::OpenPopup("Rename Project", ImGuiPopupFlags_NoOpenOverExistingPopup);
-
-		if(ImGui::BeginPopup("Rename Project"))
+		if(m_Project.exists())
 		{
-			if(ImGui::InputText("New Project Name", RenameBuffer, 128, ImGuiInputTextFlags_EnterReturnsTrue))
+			if(Renaming) ImGui::OpenPopup("Rename Project", ImGuiPopupFlags_NoOpenOverExistingPopup);
+
+			if(ImGui::BeginPopup("Rename Project"))
 			{
-				if(RenameBuffer[0])
+				if(ImGui::InputText("New Project Name", RenameBuffer, 128, ImGuiInputTextFlags_EnterReturnsTrue))
 				{
-					m_Project.setName(RenameBuffer);
-					TRACE("Renamed project to {}", RenameBuffer);
+					if(RenameBuffer[0])
+					{
+						m_Project.setName(RenameBuffer);
+						TRACE("Renamed project to {}", RenameBuffer);
+					}
+					else
+					{
+						WARN("Cannot rename project to empty name!");
+					}
+					Renaming = false;
+					ImGui::CloseCurrentPopup();
 				}
-				else
-				{
-					WARN("Cannot rename project to empty name!");
-				}
-				Renaming = false;
-				ImGui::CloseCurrentPopup();
+				ImGui::EndPopup();
 			}
-			ImGui::EndPopup();
+
+			ImGui::ShowDemoWindow(&showDemo);
+
+			if(m_Project.m_EditorSettings.SceneEnabled) DRAWGON_ON_GUI_RENDER(m_CurrentScene);
+			if(m_Project.m_EditorSettings.ConsoleEnabled) DRAWGON_ON_GUI_RENDER(m_Console);
 		}
-
-		ImGui::ShowDemoWindow(&showDemo);
-
-		DRAWGON_ON_GUI_RENDER(m_CurrentScene);
-		DRAWGON_ON_GUI_RENDER(m_Console);
 
 		DRAWGON_GUI_RENDER_END();
 	}

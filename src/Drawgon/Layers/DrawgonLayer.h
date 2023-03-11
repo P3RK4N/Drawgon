@@ -6,11 +6,11 @@
 #ifndef DRAWGON_EXPORT
 
 #include "nfd.h"
-#include "Drawgon/Project/Project.h"
 
 #endif
 
 #include "Drawgon/GUI/GUI_DrawgonDefines.h"
+#include "Drawgon/Project/Project.h"
 #include "Drawgon/Scene/Scene.h"
 
 using namespace Tigraf;
@@ -22,20 +22,22 @@ namespace Drawgon
 		TIGRAF_DECLARE_LAYER
 		DRAWGON_DECLARE_ON_GUI_RENDER
 		DRAWGON_DECLARE_RELOAD_GUI
-		DRAWGON_DECLARE_DOCKSPACE_ID
+		
 		DRAWGON_CONSOLE
-		DRAWGON_DECLARE_PROJECT
 
 	public:
 		DrawgonLayer() {}			//TODO: Make this accesible only to startup class. UPDATE: Why?
 		~DrawgonLayer() {}
 
 	private:
+		Project m_Project			= {};
+		Ref<Scene> m_CurrentScene	= DRAWGON_CURRENT_SCENE;
 
-		Ref<Scene> m_CurrentScene = DRAWGON_CURRENT_SCENE;
+		//Ref<Mesh> m_FramebufferFrameMesh = nullptr;
 
-		Ref<Mesh> m_FramebufferFrameMesh = nullptr;
-		Ref<TextureCube> m_CubemapTexture = nullptr;
-
+	private:
+		void loadProjectFromDisk();
+		//TODO: loadProjectFromDisk2 -> binary exported data
+		void createProjectOnDisk();
 	};
 }

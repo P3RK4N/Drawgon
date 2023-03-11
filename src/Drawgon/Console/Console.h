@@ -12,8 +12,6 @@ namespace Drawgon
     class Console
 	{
         DRAWGON_DECLARE_ON_GUI_RENDER
-        DRAWGON_DECLARE_DOCKSPACE_ID
-        DRAWGON_WINDOW_VISIBILITY(true)
 
         friend class DrawgonLayer;
 

@@ -10,7 +10,6 @@
 	#define DRAWGON_GUI_RENDER_BEGIN()
 	#define DRAWGON_GUI_RENDER_END()
 	
-	#define DRAWGON_DECLARE_MAIN_DOCKSPACE_ID
 	#define DRAWGON_DECLARE_RELOAD_GUI
 
 #else
@@ -59,7 +58,7 @@
         ImGui_ImplSDL3_NewFrame();																					\
         ImGui::NewFrame();																							\
 		ImGuiDockNodeFlags flags = ImGuiDockNodeFlags_PassthruCentralNode;											\
-		DrawgonLayer::s_DockspaceID = ImGui::DockSpaceOverViewport(nullptr, flags);
+		ImGui::DockSpaceOverViewport(nullptr, flags);
 
 	#define DRAWGON_GUI_RENDER_END()																					\
 		{																												\
@@ -85,7 +84,7 @@
 		private:																										\
 			bool m_ShouldReloadGUI = false;																				\
 			std::filesystem::path m_GUIFilePath = "imgui.ini";															\
-			void reloadGUI();
+			void reloadGUI();										
 
 #endif //DRAWGON GUI MACROS
 
@@ -104,21 +103,7 @@
 
 #endif //CONSOLE WINDOW MACROS
 
-#ifdef DRAWGON_EXPORT //MAIN MENU BAR MACROS
-
-	#define DRAWGON_WINDOW_CHECKBOX(window)
-
-#else
-
-	#define	DRAWGON_WINDOW_CHECKBOX(window, name)				\
-		{														\
-				bool visible = window->isVisible();				\
-				ImGui::Checkbox(name, &visible);				\
-				window->setVisible(visible);					\
-		}
-
-#endif //MAIN MENU BAR MACROS
-
+//TODO: This is ugly
 #ifdef DRAWGON_EXPORT //CURRENT SCENE MACROS
 
 	//TODO: Needs precompiled version

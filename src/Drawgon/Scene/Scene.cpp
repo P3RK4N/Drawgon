@@ -29,6 +29,9 @@ namespace Drawgon
 
 		m_SceneSkybox->setShader(Shader::create("shaders\\CubemapShader.glsl"));
 		m_SceneGrid->setShader(Shader::create("shaders\\GridShader.glsl"));
+
+		m_CubemapTexture = TextureCube::create("textures\\cubemaps\\skybox\\skybox", "jpg");
+		SetTextureHandle(m_CubemapTexture, TextureCubeSlot::TEXTURE_CUBE_0);
 	}
 
 	Scene::Scene(const std::string& sceneName)
@@ -87,12 +90,8 @@ namespace Drawgon
 
 #ifndef DRAWGON_EXPORT
 
-	ImGuiID Scene::s_DockspaceID = 0;
-
 	void Scene::onGuiRender()
 	{
-		if(!m_Visible) return;			//TODO: This variable needs persistence
-
 		ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0.0f);
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0.0f,0.0f});
 		ImGui::Begin("Scene", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
@@ -112,11 +111,11 @@ namespace Drawgon
 			//#####################################################
 		
 			//Enabling SceneCamera movement #######################
-			if(ImGui::IsMouseClicked(ImGuiMouseButton_Left) && ImGui::IsWindowHovered())
+			if(ImGui::IsWindowFocused())
 			{
 				m_SceneCamera->setInteractable(true);
 			}
-			else if(ImGui::IsMouseReleased(ImGuiMouseButton_Left))
+			else
 			{
 				m_SceneCamera->setInteractable(false);
 			}
