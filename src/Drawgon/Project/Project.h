@@ -15,10 +15,11 @@ namespace Drawgon
 	public:
 		Project() = default;
 
+	public:
 		const std::string&				getName()							{ return  m_ProjectSettings.Name; }
 		const void						setName(const std::string& name)	{ m_ProjectSettings.Name = name; }
 		const std::filesystem::path&	getDirectory()						{ return m_ProjectSettings.Directory; }
-		const std::filesystem::path		getGUILayoutFilePath()				{ return m_ProjectSettings.Directory / Project::s_ProjectGUILayoutPathRel; }
+		const std::string&				getGUILayoutFilePath()				{ return m_EditorSettings.GUILayoutFilePath; }
 		const bool						exists()							{ return !m_ProjectSettings.Name.empty(); }
 
 		ProjectSettings m_ProjectSettings	= {};
@@ -34,6 +35,5 @@ namespace Drawgon
 		static const std::filesystem::path s_ProjectFilePathRel;
 		static const std::filesystem::path s_ProjectScenesPathRel;
 		static const std::filesystem::path s_ProjectGUILayoutPathRel;
-
 	};
 }

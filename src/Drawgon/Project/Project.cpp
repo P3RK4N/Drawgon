@@ -38,6 +38,7 @@ namespace Drawgon
 		p.m_EditorSettings.ObjectPropertiesEnabled	= node["EditorSettings"]["ObjectPropertiesEnabled"].as<bool>();
 		p.m_EditorSettings.FileBrowserEnabled		= node["EditorSettings"]["FileBrowserEnabled"].as<bool>();
 		p.m_EditorSettings.CurrentScene				= node["EditorSettings"]["CurrentScene"].as<std::string>();
+		p.m_EditorSettings.GUILayoutFilePath		= node["EditorSettings"]["GUILayoutFilePath"].as<std::string>();
 
 		return p;
 	}
@@ -48,7 +49,9 @@ namespace Drawgon
 
 		Project p;
 		p.m_ProjectSettings.Name = projectName;
-		p.m_ProjectSettings.Directory = projectPath;
+		p.m_ProjectSettings.Directory = projectPath.string();
+
+		p.m_EditorSettings.GUILayoutFilePath = (projectPath / Project::s_ProjectGUILayoutPathRel).string();
 
 		YAML::Emitter out;
 
@@ -57,7 +60,7 @@ namespace Drawgon
 			out << YAML::Key << "ProjectSettings" << YAML::Value << YAML::BeginMap;
 			{
 				out << YAML::Key << "Name" << YAML::Value << p.m_ProjectSettings.Name;
-				out << YAML::Key << "Directory" << YAML::Value << p.m_ProjectSettings.Directory.string();
+				out << YAML::Key << "Directory" << YAML::Value << p.m_ProjectSettings.Directory;
 				out << YAML::Key << "StartingScene" << YAML::Value << p.m_ProjectSettings.StartingScene;
 				out << YAML::Key << "Scenes" << YAML::Value << p.m_ProjectSettings.Scenes;
 			}
@@ -71,6 +74,7 @@ namespace Drawgon
 				out << YAML::Key << "ObjectPropertiesEnabled" << YAML::Value << p.m_EditorSettings.ObjectPropertiesEnabled;
 				out << YAML::Key << "FileBrowserEnabled" << YAML::Value << p.m_EditorSettings.FileBrowserEnabled;
 				out << YAML::Key << "CurrentScene" << YAML::Value << p.m_EditorSettings.CurrentScene;
+				out << YAML::Key << "GUILayoutFilePath" << YAML::Value << p.m_EditorSettings.GUILayoutFilePath;
 			}
 			out << YAML::EndMap;
 		}
@@ -104,7 +108,7 @@ namespace Drawgon
 			out << YAML::Key << "ProjectSettings" << YAML::Value << YAML::BeginMap;
 			{
 				out << YAML::Key << "Name" << YAML::Value << m_ProjectSettings.Name;
-				out << YAML::Key << "Directory" << YAML::Value << m_ProjectSettings.Directory.string();
+				out << YAML::Key << "Directory" << YAML::Value << m_ProjectSettings.Directory;
 				out << YAML::Key << "StartingScene" << YAML::Value << m_ProjectSettings.StartingScene;
 				out << YAML::Key << "Scenes" << YAML::Value << m_ProjectSettings.Scenes;
 			}
@@ -118,6 +122,7 @@ namespace Drawgon
 				out << YAML::Key << "ObjectPropertiesEnabled" << YAML::Value << m_EditorSettings.ObjectPropertiesEnabled;
 				out << YAML::Key << "FileBrowserEnabled" << YAML::Value << m_EditorSettings.FileBrowserEnabled;
 				out << YAML::Key << "CurrentScene" << YAML::Value << m_EditorSettings.CurrentScene;
+				out << YAML::Key << "GUILayoutFilePath" << YAML::Value << m_EditorSettings.GUILayoutFilePath;
 			}
 			out << YAML::EndMap;
 		}

@@ -23,19 +23,24 @@ namespace Drawgon
 		DRAWGON_DECLARE_ON_GUI_RENDER
 		DRAWGON_DECLARE_RELOAD_GUI
 		
-		DRAWGON_CONSOLE
+		DRAWGON_DECLARE_CONSOLE
+		DRAWGON_DECLARE_FILE_BROWSER
 
 	public:
 		DrawgonLayer() {}			//TODO: Make this accesible only to startup class. UPDATE: Why?
 		~DrawgonLayer() {}
 
+	public:
+		static DrawgonLayer* s_DrawgonLayer;
+
 	private:
 		Project m_Project			= {};
-		Ref<Scene> m_CurrentScene	= DRAWGON_CURRENT_SCENE;
+		Ref<Scene> m_CurrentScene	= nullptr;
 
 		//Ref<Mesh> m_FramebufferFrameMesh = nullptr;
 
 	private:
+		//TODO: Move nfd to project?
 		void loadProjectFromDisk();
 		//TODO: loadProjectFromDisk2 -> binary exported data
 		void createProjectOnDisk();

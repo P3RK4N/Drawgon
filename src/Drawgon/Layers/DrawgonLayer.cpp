@@ -2,11 +2,16 @@
 
 namespace Drawgon
 {
+	DrawgonLayer* DrawgonLayer::s_DrawgonLayer = nullptr;
+
 	void DrawgonLayer::init()
 	{
 		DRAWGON_ON_GUI_INIT();
+		DRAWGON_ON_CONSOLE_INIT();
+		DRAWGON_ON_FILE_BROWSER_INIT();
+		//TODO: Make same with scene but different depending on export?
 
-		//FRAMEBUFFER FRAME
+		//FRAMEBUFFER FRAME MESH
 		//glm::mat4 transform =  glm::scale(glm::vec3(2.0f, 2.0f, 2.0f));
 		//m_FramebufferFrameMesh = MeshPrimitives::Plane(transform);
 		//m_FramebufferFrameMesh->setShader(Shader::create("shaders\\FramebufferShader.glsl"));
@@ -61,8 +66,7 @@ namespace Drawgon
 			m_Project = Project::loadProject(projectDirectory);
 
 			//Switching GUI state to saved state of loaded project
-			m_GUIFilePath = m_Project.getGUILayoutFilePath().string().c_str();
-			m_ShouldReloadGUI = true;
+			m_ShouldReloadGUI = true; //TODO: Need to hide in export
 
 			TRACE("Project {} Loaded at: {}", m_Project.getName(), projectDirectory);
 		}
@@ -78,7 +82,7 @@ namespace Drawgon
 					
 		char* projectDirectory_chr = new char[256];
 		auto res = NFD_PickFolder(currentDirectory_chr, (nfdchar_t**)&projectDirectory_chr);
-
+		
 		TIGRAF_ASSERT(res != NFD_ERROR, "Error while creating New Project!");
 
 		if(res == NFD_OKAY)
@@ -89,8 +93,7 @@ namespace Drawgon
 			m_Project = Project::createProject("New Project", projectDirectory);
 
 			//Switching GUI state to saved state of loaded project
-			m_GUIFilePath = m_Project.getGUILayoutFilePath().string().c_str();
-			m_ShouldReloadGUI = true;
+			m_ShouldReloadGUI = true; //TODO: Need to hide in export
 
 			//Copying default gui settings
 			const auto& defaultGuiSrc = Application::s_Instance->getWorkingDirectory() / "settings" / "default.ini";
@@ -114,7 +117,7 @@ namespace Drawgon
 	void DrawgonLayer::reloadGUI()
 	{
 		DRAWGON_ON_GUI_SHUTDOWN();
-		DRAWGON_ON_GUI_INIT_CUSTOM(m_GUIFilePath.string().c_str());
+		DRAWGON_ON_GUI_INIT_CUSTOM(m_Project.getGUILayoutFilePath().c_str());
 	}
 
 	void DrawgonLayer::onGuiRender()
@@ -188,11 +191,11 @@ namespace Drawgon
 				//TODO: Expand
 				ImGui::Checkbox("Scene", &m_Project.m_EditorSettings.SceneEnabled);
 				ImGui::Checkbox("Console", &m_Project.m_EditorSettings.ConsoleEnabled);
-
+				ImGui::Checkbox("File Browser", &m_Project.m_EditorSettings.FileBrowserEnabled);
+				
 				ImGui::EndMenu();
 			}
 		}
-
 		ImGui::EndMainMenuBar();
 
 		if(m_Project.exists())
@@ -220,8 +223,11 @@ namespace Drawgon
 
 			ImGui::ShowDemoWindow(&showDemo);
 
-			if(m_Project.m_EditorSettings.SceneEnabled) DRAWGON_ON_GUI_RENDER(m_CurrentScene);
-			if(m_Project.m_EditorSettings.ConsoleEnabled) DRAWGON_ON_GUI_RENDER(m_Console);
+			if(m_Project.m_EditorSettings.SceneEnabled)			DRAWGON_ON_GUI_RENDER(m_CurrentScene);
+			if(m_Project.m_EditorSettings.ConsoleEnabled)		DRAWGON_ON_GUI_RENDER(m_Console);
+			if(m_Project.m_EditorSettings.FileBrowserEnabled)	DRAWGON_ON_GUI_RENDER(m_FileBrowser);
+
+			
 		}
 
 		DRAWGON_GUI_RENDER_END();

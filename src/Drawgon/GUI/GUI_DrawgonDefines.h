@@ -29,8 +29,9 @@
 		{																												\
 			IMGUI_CHECKVERSION();																						\
 			ImGui::CreateContext();																						\
+			ImGuiIO& io = ImGui::GetIO();																				\
 			ImGui::LoadIniSettingsFromDisk(filePath);																	\
-			ImGuiIO& io = ImGui::GetIO(); (void)io;																		\
+			io.IniFilename = filePath;																					\
 			io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;														\
 			io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;															\
 			io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;															\
@@ -83,36 +84,38 @@
 	#define DRAWGON_DECLARE_RELOAD_GUI																					\
 		private:																										\
 			bool m_ShouldReloadGUI = false;																				\
-			std::filesystem::path m_GUIFilePath = "imgui.ini";															\
 			void reloadGUI();										
 
 #endif //DRAWGON GUI MACROS
 
 
-#ifdef DRAWGON_EXPORT //CONSOLE WINDOW MACROS
+#ifdef DRAWGON_EXPORT //WINDOW MACROS
 
-	#define DRAWGON_CONSOLE
+	#define DRAWGON_DECLARE_CONSOLE
+	#define DRAWGON_ON_CONSOLE_INIT()
+
+	#define DRAWGON_DECLARE_FILE_BROWSER
+	#define DRAWGON_ON_FILE_BROWSER_INIT()
 
 #else
 
 	#include "Drawgon/Console/Console.h"
+	#include "Drawgon/Browser/FileBrowser.h"
 
-	#define DRAWGON_CONSOLE									\
-		public:												\
-			Ref<Console> m_Console = createRef<Console>();
+	#define DRAWGON_DECLARE_CONSOLE										\
+		friend class Console;											\
+		public:															\
+			Ref<Console> m_Console = nullptr;
 
-#endif //CONSOLE WINDOW MACROS
+	#define DRAWGON_ON_CONSOLE_INIT()									\
+		m_Console = createRef<Console>();
 
-//TODO: This is ugly
-#ifdef DRAWGON_EXPORT //CURRENT SCENE MACROS
+	#define DRAWGON_DECLARE_FILE_BROWSER								\
+		friend class FileBrowser;										\
+		private:														\
+			Ref<FileBrowser> m_FileBrowser = nullptr;
 
-	//TODO: Needs precompiled version
-	//#define  DRAWGON_STARTING_SCENE 
-	//This takes the value from precompiled macro 
-	#define DRAWGON_CURRENT_SCENE DRAWGON_STARTING_SCENE
+	#define DRAWGON_ON_FILE_BROWSER_INIT()								\
+		m_FileBrowser = createRef<FileBrowser>();
 
-#else
-
-	#define DRAWGON_CURRENT_SCENE nullptr
-
-#endif //CURRENT SCENE MACROS
+#endif //WINDOW MACROS

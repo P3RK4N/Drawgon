@@ -1,3 +1,7 @@
+#pragma once
+
+#ifndef DRAWGON_EXPORT
+
 #include "Drawgon/GUI/GUI_GeneralDefines.h"
 
 #include <Tigraf/Tigraf.h>
@@ -22,3 +26,5 @@ namespace Drawgon
         Ref<drawgon_console_sink_mt> m_ConsoleSink = createRef<drawgon_console_sink_mt>(100);
 	};
 }
+
+#endif
