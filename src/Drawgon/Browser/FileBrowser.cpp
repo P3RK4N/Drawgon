@@ -26,18 +26,33 @@ namespace Drawgon
 			if(m_CurrentDirectory.empty()) 
 				m_CurrentDirectory = DrawgonLayer::s_DrawgonLayer->m_Project.m_ProjectSettings.Directory;
 
+			std::vector<fs::directory_entry> entries;
+
 			for(const auto& entry : fs::directory_iterator(m_CurrentDirectory))
+				if(entry.path().filename() != ".drawgon") entries.emplace_back(entry);
+
+			const auto& [x, y] = ImGui::GetContentRegionAvail();
+			constexpr int FILE_WIDTH = 80;
+			int width = x / (FILE_WIDTH + ImGui::GetStyle().FramePadding.x + ImGui::GetStyle().ItemSpacing.x);
+
+			if(ImGui::BeginTable("File Browser", width, ImGuiTableFlags_SizingFixedSame))
 			{
-				if(entry.path().filename() == ".drawgon") continue;
-				else if(entry.is_directory())
+				ImGui::TableSetupColumn("File Browser", 0, 55);
+				//for(const auto& entry : entries)
+				for(int i = 0; i < 29; i++)
 				{
-					ImGui::ImageButton((void*)*(uint32_t*)m_FolderTexture->getNativeTextureID(), ImVec2(50U, 50U), ImVec2(0, 1), ImVec2(1, 0));
+					ImGui::TableNextColumn();
+					
+					ImGui::BeginGroup();
+						ImGui::ImageButton("Button", 0, { FILE_WIDTH,FILE_WIDTH });
+						if(ImGui::IsItemHovered()) ImGui::TextColored({ 0.3, 0.7, 0.2, 1.0 }, "Ivan %d", i);
+						else ImGui::Text("Ivan %d", i);
+					ImGui::EndGroup();
 				}
-				else
-				{
-					ImGui::ImageButton((void*)*(uint32_t*)m_FileTexture->getNativeTextureID(), ImVec2(50U, 50U), ImVec2(0, 1), ImVec2(1, 0));
-				}
+
+				ImGui::EndTable();
 			}
+
 		}
 		ImGui::End();
 	}
