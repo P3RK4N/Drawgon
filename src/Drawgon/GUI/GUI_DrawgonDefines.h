@@ -47,12 +47,13 @@
 			(																											\
 				[](void* e)																								\
 				{																										\
-					ImGui_ImplSDL3_ProcessEvent((SDL_Event*)e);															\
-					ImGuiIO& io = ImGui::GetIO();																		\
-					return io.WantCaptureMouse;																			\
+					return ImGui_ImplSDL3_ProcessEvent((SDL_Event*)e);													\
+					/* ImGuiIO& io = ImGui::GetIO();				*/													\
+					/* return io.WantCaptureMouse;					*/													\
 				}																										\
 			);																											\
 		}
+//TODO: Handle drag drop event somehow up there
 
 	#define DRAWGON_GUI_RENDER_BEGIN()																				\
 		ImGui_ImplOpenGL3_NewFrame();																				\

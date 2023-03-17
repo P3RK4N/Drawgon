@@ -21,11 +21,19 @@ namespace Drawgon
 		FileBrowser();
 
 	private:
+		//TODO: Serialize?
 		std::filesystem::path m_CurrentDirectory = {};
+		std::filesystem::path m_RootDirectory = {};
 
 		Ref<Texture2D> m_FolderTexture = nullptr;
 		Ref<Texture2D> m_FileTexture = nullptr;
 		//Ref<Texture2D> m_PNGTexture = nullptr;
+
+		float m_ImageWidth = 80.0f;
+		float m_ColumnWidth = 80.0f;
+
+	private:
+		static const int s_FilenameWidth;
 	};
 }
 
