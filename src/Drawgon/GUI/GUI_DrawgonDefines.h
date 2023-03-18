@@ -115,7 +115,7 @@
 	#define DRAWGON_DECLARE_FILE_BROWSER								\
 		friend class FileBrowser;										\
 		private:														\
-			Ref<FileBrowser> m_FileBrowser = nullptr;
+			Ref<FileBrowser> m_FileBrowser = nullptr;					
 
 	#define DRAWGON_ON_FILE_BROWSER_INIT()								\
 		m_FileBrowser = createRef<FileBrowser>();

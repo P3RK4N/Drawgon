@@ -43,6 +43,11 @@ namespace Drawgon
 	{
 		if(m_CurrentScene->onEvent(event)) return true;
 
+#ifndef DRAWGON_EXPORT
+		if(m_FileBrowser->onEvent(event)) return true;
+		//TODO: Do this with other gui parts?
+#endif
+
 		return false;
 	}
 
@@ -212,11 +217,9 @@ namespace Drawgon
 					{
 						m_Project.setName(RenameBuffer);
 						TRACE("Renamed project to {}", RenameBuffer);
-					}
-					else
-					{
-						WARN("Cannot rename project to empty name!");
-					}
+					} 
+					else WARN("Cannot rename project to empty name!");
+
 					Renaming = false;
 					ImGui::CloseCurrentPopup();
 				}

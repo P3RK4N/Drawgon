@@ -18,6 +18,14 @@ namespace Drawgon
 		m_FileTexture = Texture2D::create("textures\\gui\\file.png");
 	}
 
+	bool FileBrowser::onEvent(Event& ev)
+	{
+		static const auto& onFileDrop = [this](void* eventData) { m_ExternalPayloadPath = ((FileData*)eventData)->filePath; return true; };
+
+		DISPATCH(EVENT_TYPE::FILE_DROP, ev, onFileDrop);
+		return false;
+	}
+
 	void FileBrowser::onGuiRender()
 	{
 		TIGRAF_ASSERT(!m_CurrentDirectory.empty(), "Current path not set!");
@@ -102,18 +110,17 @@ namespace Drawgon
 				ImGui::EndTable();
 			}
 
-			if(ImGui::BeginDragDropTarget())
+			//TODO: Make onEvent in filebrowser and move it from drawgon layer?
+			if(!m_ExternalPayloadPath.empty() && m_ExternalPayloadPath.parent_path() != m_CurrentDirectory)
 			{
-				if(const auto pl = ImGui::AcceptDragDropPayload("", ImGuiDragDropFlags_SourceExtern))
-				{
-					TRACE("Payload prihvacen");
-				}
-
-				ImGui::EndDragDropTarget();
+				const auto& sourceName = m_ExternalPayloadPath.filename();
+				fs::copy(m_ExternalPayloadPath, m_CurrentDirectory / sourceName);
+				TRACE("{} copied here!", m_ExternalPayloadPath);
+				m_ExternalPayloadPath.clear();
 			}
 		}
 		ImGui::End();
 	}
-}
+}	//Namespace Drawgon
 
 #endif

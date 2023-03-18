@@ -21,6 +21,9 @@ namespace Drawgon
 		FileBrowser();
 
 		void setRootDirectory(const std::filesystem::path& rootDir) { m_CurrentDirectory = m_RootDirectory = rootDir; }
+		void setExternalPayloadPath(const char* filePath) { m_ExternalPayloadPath = filePath; }
+
+		bool onEvent(Event& ev);
 
 	private:
 		//TODO: Serialize?
@@ -33,6 +36,8 @@ namespace Drawgon
 
 		float m_ImageWidth = 80.0f;
 		float m_ColumnWidth = 80.0f;
+
+		std::filesystem::path m_ExternalPayloadPath = {};
 
 	private:
 		static const int s_FilenameWidth;
