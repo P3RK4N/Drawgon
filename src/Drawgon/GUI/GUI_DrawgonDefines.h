@@ -30,6 +30,7 @@
 			IMGUI_CHECKVERSION();																						\
 			ImGui::CreateContext();																						\
 			ImGuiIO& io = ImGui::GetIO();																				\
+			ImGui::GetStyle().WindowMinSize.x = 250.0f;																	\
 			ImGui::LoadIniSettingsFromDisk(filePath);																	\
 			io.IniFilename = filePath;																					\
 			io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;														\

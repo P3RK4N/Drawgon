@@ -20,13 +20,13 @@ namespace Drawgon
 
 	void FileBrowser::onGuiRender()
 	{
+		TIGRAF_ASSERT(!m_CurrentDirectory.empty(), "Current path not set!");
+		TIGRAF_ASSERT(!m_RootDirectory.empty(), "Root path not set!");
+
+		const std::string& relPath = fs::relative("." / m_CurrentDirectory, m_RootDirectory).string();
+
 		ImGui::Begin("File System", nullptr, 0);
 		{
-			if(m_CurrentDirectory.empty()) 
-				m_RootDirectory = m_CurrentDirectory = DrawgonLayer::s_DrawgonLayer->m_Project.m_ProjectSettings.Directory;
-
-			const std::string& relPath = fs::relative("." / m_CurrentDirectory, m_RootDirectory).string();
-
 			if(relPath != ".")
 			{
 				if(ImGui::Button("<-")) m_CurrentDirectory = m_CurrentDirectory.parent_path();

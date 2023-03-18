@@ -67,6 +67,7 @@ namespace Drawgon
 
 			//Switching GUI state to saved state of loaded project
 			m_ShouldReloadGUI = true; //TODO: Need to hide in export
+			m_FileBrowser->setRootDirectory(projectDirectory); //TODO: Also need to hide
 
 			TRACE("Project {} Loaded at: {}", m_Project.getName(), projectDirectory);
 		}
@@ -94,6 +95,7 @@ namespace Drawgon
 
 			//Switching GUI state to saved state of loaded project
 			m_ShouldReloadGUI = true; //TODO: Need to hide in export
+			m_FileBrowser->setRootDirectory(projectDirectory); //TODO: Also need to hide
 
 			//Copying default gui settings
 			const auto& defaultGuiSrc = Application::s_Instance->getWorkingDirectory() / "settings" / "default.ini";

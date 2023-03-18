@@ -20,6 +20,8 @@ namespace Drawgon
 	public:
 		FileBrowser();
 
+		void setRootDirectory(const std::filesystem::path& rootDir) { m_CurrentDirectory = m_RootDirectory = rootDir; }
+
 	private:
 		//TODO: Serialize?
 		std::filesystem::path m_CurrentDirectory = {};
