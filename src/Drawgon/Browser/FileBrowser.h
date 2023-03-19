@@ -38,7 +38,13 @@ namespace Drawgon
 		float m_ColumnWidth = 80.0f;
 
 		std::filesystem::path m_ExternalPayloadPath = {};
+		std::filesystem::directory_entry m_ActiveEntry = {};
 
+	private:
+		void openItem(const std::filesystem::directory_entry& entry);
+		void deleteItem(const std::filesystem::directory_entry& entry);
+
+		void deletePrompt() {} //TODO: Implement
 	private:
 		static const int s_FilenameWidth;
 	};

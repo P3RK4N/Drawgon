@@ -19,6 +19,8 @@ namespace Drawgon
 
 		m_CurrentScene = createRef<Scene>();
 		SetTextureHandle(m_CurrentScene->getColors(), Texture2DSlot::TEXTURE_2D_0);
+
+		loadProjectFromDisk();
 	}
 
 	void DrawgonLayer::onUpdate(const TimeStep& ts)

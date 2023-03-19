@@ -9,7 +9,7 @@
 
 using namespace Tigraf;
 
-//TODO: Make some or all event logging a lower tier (from trace to debug) and hide it in editor
+//TODO: Make some or all event logging a lower tier (from trace to debug) and hide it in editor | UPDATE1: Dont forget This!
 
 namespace Drawgon
 {
