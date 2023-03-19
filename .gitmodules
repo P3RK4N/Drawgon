@@ -11,3 +11,6 @@
 [submodule "vendor/nfd"]
 	path = vendor/nfd
 	url = https://github.com/mlabbe/nativefiledialog
+[submodule "vendor/entt"]
+	path = vendor/entt
+	url = https://github.com/skypjack/entt

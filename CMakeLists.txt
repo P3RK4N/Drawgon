@@ -61,6 +61,9 @@ add_subdirectory(vendor/Tigraf-Core)
 set(YAML_BUILD_SHARED_LIBS OFF)
 add_subdirectory(vendor/yaml)
 
+#EnTT
+add_subdirectory(vendor/entt)
+
 #imgui, nfd, ...
 add_subdirectory(vendor)
 
@@ -70,6 +73,7 @@ target_link_libraries(
       PRIVATE imgui
       PRIVATE yaml-cpp
       PRIVATE nfd
+      PRIVATE EnTT::EnTT
 )
 
 #############################################################################
